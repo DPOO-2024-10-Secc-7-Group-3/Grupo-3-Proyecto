@@ -19,4 +19,10 @@ public class Administrador extends Usuario {
 	public void setInventario(Inventario inventario) {
 		this.inventario = inventario;
 	}
+	
+	public Usuario crearUsuario(String nLogin, String nPassword, String nNombre, int nTelefono, String nTipo) {
+		
+		Usuario newUser = Usuario(String nLogin, String nPassword, String nNombre, int nTelefono, String nTipo);
+		return null;
+	}
 }

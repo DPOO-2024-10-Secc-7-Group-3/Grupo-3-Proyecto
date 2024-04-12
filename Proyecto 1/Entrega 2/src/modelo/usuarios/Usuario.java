@@ -13,6 +13,10 @@ public abstract class Usuario {
 	protected int telefono;
 	protected String tipo;
 	protected static HashMap<String, Usuario> logins = new HashMap<String, Usuario>();
+	public static final String CLIENTE = "cliente";
+	public static final String ADMIN = "administrador";
+	public static final String CAJERO = "cajero";
+	public static final String OPERADOR = "operador";
 
 	public Usuario(String login, String password, String nombre, int telefono, String tipo) {
 		this.login = login;

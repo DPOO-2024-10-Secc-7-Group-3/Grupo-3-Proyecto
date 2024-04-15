@@ -1,7 +1,12 @@
 package modelo.usuarios;
 
+import java.util.ArrayList;
+
 import exceptions.UserDuplicatedException;
 import modelo.Inventario;
+import modelo.piezas.Pieza;
+import modelo.ventas.Pago;
+import modelo.ventas.Subasta;
 
 public class Administrador extends Usuario {
 
@@ -32,19 +37,31 @@ public class Administrador extends Usuario {
 		{
 			Usuario newCliente;
 			if(nTipo.equals(Usuario.CLIENTE)){
-				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo);
+				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Pieza>(),new ArrayList<Pieza>(),new ArrayList<Pieza>());
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){
-				 newCliente = new Operador(nLogin, nPassword,nNombre,nTelefono,nTipo);
+				 newCliente = new Operador(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Subasta>());
 			}	
 			else if(nTipo.equals(Usuario.CAJERO)){
-				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo);
+				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>());
 			}	
 			else {
-				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo);
+				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<Pieza>(),new ArrayList<Pieza>()));
 			}	
 			
 			logins.put(nLogin,newCliente);
+		}
+	}
+	
+	public boolean estaDuplicado(String login)
+	{
+		if(Usuario.logins.containsKey(login))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	

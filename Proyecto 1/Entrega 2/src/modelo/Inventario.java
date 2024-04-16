@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import exceptions.PiezaNoExistenteException;
 import exceptions.VentaNoFijaException;
@@ -8,27 +9,27 @@ import modelo.piezas.Pieza;
 
 public class Inventario {
 
-	private ArrayList<Pieza> exhibidas;
-	private ArrayList<Pieza> almacenadas;
+	private HashMap<String,Pieza> exhibidas;
+	private HashMap<String,Pieza> almacenadas;
 
-	public Inventario(ArrayList<Pieza> exhibidas, ArrayList<Pieza> almacenadas) {
+	public Inventario(HashMap<String,Pieza> exhibidas, HashMap<String,Pieza> almacenadas) {
 		this.exhibidas = exhibidas;
 		this.almacenadas = almacenadas;
 	}
 
-	public ArrayList<Pieza> getExhibidas() {
+	public HashMap<String,Pieza> getExhibidas() {
 		return exhibidas;
 	}
 
-	public void setExhibidas(ArrayList<Pieza> exhibidas) {
+	public void setExhibidas(HashMap<String,Pieza> exhibidas) {
 		this.exhibidas = exhibidas;
 	}
 
-	public ArrayList<Pieza> getAlmacenadas() {
+	public HashMap<String,Pieza> getAlmacenadas() {
 		return almacenadas;
 	}
 
-	public void setAlmacenadas(ArrayList<Pieza> almacenadas) {
+	public void setAlmacenadas(HashMap<String,Pieza> almacenadas) {
 		this.almacenadas = almacenadas;
 	}
 	
@@ -36,91 +37,68 @@ public class Inventario {
 	{
 		if(exhibir)
 		{
-			exhibidas.add(nPieza);
+			exhibidas.put(nPieza.getTitulo(),nPieza);
 		}
 		else
 		{
-			almacenadas.add(nPieza);
+			almacenadas.put(nPieza.getTitulo(),nPieza);
 		}
 	}
 	
 	public Pieza sacarPieza(String titulo) throws PiezaNoExistenteException
 	{
-		boolean sacar = false;
-		Pieza nPieza = null;
+		Pieza nPieza = exhibidas.remove(titulo);
 		
-		for (int i = 0; i<exhibidas.size() && !(sacar); i++)
+		if (nPieza == null)
 		{
-			if (exhibidas.get(i).getTitulo().equals(titulo))
+			nPieza = almacenadas.remove(titulo);
+			
+			if (nPieza == null)
 			{
-				sacar = true;
-				exhibidas.remove(i);
-				nPieza =  exhibidas.get(i);
+				throw new PiezaNoExistenteException(titulo);
 			}
 		}
 		
-		if (!sacar)
-		{
-			for (int i = 0; i<almacenadas.size() && !(sacar); i++)
-			{
-				if (almacenadas.get(i).getTitulo().equals(titulo))
-				{
-					sacar = true;
-					almacenadas.remove(i);
-					nPieza = almacenadas.get(i);
-				}
-			}
-		}
-		
-		if (!sacar)
-		{
-			throw new PiezaNoExistenteException(titulo);
-		}
-		else
-		{
-			return nPieza;
-		}
+		return nPieza;
 	}
 	
 	public Pieza bloquear (String titulo) throws VentaNoFijaException, PiezaNoExistenteException
 	{
-		boolean encontrado = false;
-		Pieza nPieza = null;
 		
-		for (int i = 0; i<exhibidas.size() && !(encontrado); i++)
+		Pieza nPieza = exhibidas.get(titulo);
+		
+		if (nPieza == null)
 		{
-			if (exhibidas.get(i).getTitulo().equals(titulo))
+			nPieza = almacenadas.get(titulo);
+			
+			if (nPieza == null)
 			{
-				encontrado = true;
-				nPieza =  exhibidas.get(i);
+				throw new PiezaNoExistenteException(titulo);
 			}
-		}
-		
-		if (!encontrado)
-		{
-			for (int i = 0; i<almacenadas.size() && !(encontrado); i++)
+			else
 			{
-				if (almacenadas.get(i).getTitulo().equals(titulo))
+				if (!nPieza.getDisponibilidad().equals(Pieza.VENTA))
 				{
-					encontrado = true;
-					nPieza = almacenadas.get(i);
+					throw new VentaNoFijaException(titulo);
+				}
+				else
+				{
+					nPieza.setBloqueada(true);
+					almacenadas.put(titulo, nPieza);
+					return nPieza;
 				}
 			}
 		}
-		
-		if (!encontrado)
-		{
-			throw new PiezaNoExistenteException(titulo);
-		}
 		else
 		{
-			if (!nPieza.getDisponibilidad().equals("venta"))
+			if (!nPieza.getDisponibilidad().equals(Pieza.VENTA))
 			{
 				throw new VentaNoFijaException(titulo);
 			}
 			else
 			{
 				nPieza.setBloqueada(true);
+				exhibidas.put(titulo, nPieza);
 				return nPieza;
 			}
 		}
@@ -128,27 +106,18 @@ public class Inventario {
 	
 	public void desBloquear (Pieza pieza)
 	{
-		boolean encontrado = false;
+		Pieza nPieza = exhibidas.get(pieza.getTitulo());
 		
-		for (int i = 0; i<exhibidas.size() && !(encontrado); i++)
+		if (nPieza == null)
 		{
-			if (exhibidas.get(i).equals(pieza))
-			{
-				encontrado = true;
-				exhibidas.get(i).setBloqueada(false);;
-			}
+			nPieza = almacenadas.get(pieza.getTitulo());
+			nPieza.setBloqueada(false);
+			almacenadas.put(nPieza.getTitulo(), nPieza);
 		}
-		
-		if (!encontrado)
+		else
 		{
-			for (int i = 0; i<almacenadas.size() && !(encontrado); i++)
-			{
-				if (almacenadas.get(i).equals(pieza))
-				{
-					encontrado = true;
-					almacenadas.get(i).setBloqueada(false);;
-				}
-			}
+			nPieza.setBloqueada(false);
+			exhibidas.put(nPieza.getTitulo(), nPieza);
 		}
 	}
 	

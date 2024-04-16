@@ -17,6 +17,11 @@ public abstract class Pieza {
 	protected int valorInicial;
 	protected ArrayList<Cliente> propietarios;
 	protected int precio;
+	public static final String EXHIBIDA = "exhibida";
+	public static final String ALMACENADA = "almacenada";
+	public static final String FUERA = "fuera";
+	public static final String SUBASTA = "subasta";
+	public static final String VENTA = "venta";
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
 			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario) {

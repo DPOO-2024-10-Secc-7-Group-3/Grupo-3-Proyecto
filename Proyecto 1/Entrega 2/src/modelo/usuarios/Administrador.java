@@ -1,6 +1,7 @@
 package modelo.usuarios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import exceptions.PiezaNoExistenteException;
 import exceptions.UserDuplicatedException;
@@ -40,7 +41,7 @@ public class Administrador extends Usuario {
 		{
 			Usuario newCliente;
 			if(nTipo.equals(Usuario.CLIENTE)){
-				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Pieza>(),new ArrayList<Pieza>(),new ArrayList<Pieza>(),this);
+				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new HashMap<String,Pieza>(),new HashMap<String,Pieza>(),new HashMap<String,Pieza>(),this);
 				 clientes.add((Cliente)newCliente);
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){
@@ -50,7 +51,7 @@ public class Administrador extends Usuario {
 				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>());
 			}	
 			else {
-				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<Pieza>(),new ArrayList<Pieza>()), new ArrayList<Cliente>());
+				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new HashMap<String,Pieza>(),new HashMap<String,Pieza>()), new ArrayList<Cliente>());
 			}	
 			
 			logins.put(nLogin,newCliente);
@@ -72,6 +73,13 @@ public class Administrador extends Usuario {
 	public void agregarPieza(Pieza nPieza, boolean exhibir)
 	{
 		inventario.agregarPieza(nPieza,exhibir);
+		
+		ArrayList<Cliente> propietarios = nPieza.getPropietarios();
+		
+		for (Cliente propietario:propietarios)
+		{
+			propietario.setActual(nPieza);
+		}
 	}
 	
 	public void devolverPieza(String titulo) throws PiezaNoExistenteException
@@ -80,11 +88,13 @@ public class Administrador extends Usuario {
 		{
 			Pieza pieza = inventario.sacarPieza(titulo);
 			
+			pieza.setEstado(Pieza.FUERA);
+			
 			ArrayList<Cliente> propietarios = pieza.getPropietarios();
 			
 			for (Cliente cliente:propietarios)
 			{
-				cliente.devolverPieza(pieza);
+				cliente.setActual(pieza);
 			}
 		}
 		catch (PiezaNoExistenteException e)

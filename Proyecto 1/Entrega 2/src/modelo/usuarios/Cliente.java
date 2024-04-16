@@ -1,6 +1,7 @@
 package modelo.usuarios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import exceptions.OfertaInvalidaException;
 import exceptions.PiezaNoExistenteException;
@@ -8,14 +9,14 @@ import modelo.piezas.Pieza;
 
 public class Cliente extends Usuario {
 	
-	private ArrayList<Pieza> actuales;
-	private ArrayList<Pieza> antiguas;
-	private ArrayList<Pieza> compras;
+	private HashMap<String,Pieza> actuales;
+	private HashMap<String,Pieza> antiguas;
+	private HashMap<String,Pieza> compras;
 	private Administrador admin;
 	private int valorMaximo;
 
 	public Cliente(String login, String password, String nombre, int telefono, String tipo,
-			ArrayList<Pieza>actuales, ArrayList<Pieza>antiguas,ArrayList<Pieza>compras, Administrador admin) {
+			HashMap<String,Pieza>actuales, HashMap<String,Pieza>antiguas,HashMap<String,Pieza>compras, Administrador admin) {
 		super(login, password, nombre, telefono, tipo);
 		this.actuales = actuales;
 		this.antiguas = antiguas;
@@ -23,40 +24,48 @@ public class Cliente extends Usuario {
 		this.admin = admin;
 	}
 
-	public ArrayList<Pieza> getActuales() {
+	public HashMap<String,Pieza> getActuales() {
 		return actuales;
 	}
 
-	public void setActuales(ArrayList<Pieza> actuales) {
+	public void setActuales(HashMap<String,Pieza> actuales) {
 		this.actuales = actuales;
 	}
 
-	public ArrayList<Pieza> getAntiguas() {
+	public HashMap<String,Pieza> getAntiguas() {
 		return antiguas;
 	}
 
-	public void setAntiguas(ArrayList<Pieza> antiguas) {
+	public void setAntiguas(HashMap<String,Pieza> antiguas) {
 		this.antiguas = antiguas;
 	}
 
-	public ArrayList<Pieza> getCompras() {
+	public HashMap<String,Pieza> getCompras() {
 		return compras;
 	}
 
-	public void setCompras(ArrayList<Pieza> compras) {
+	public void setCompras(HashMap<String,Pieza> compras) {
 		this.compras = compras;
+	}
+	
+	public void setActual(Pieza nPieza)
+	{
+		actuales.put(nPieza.getTitulo(), nPieza);
+	}
+	
+	public void setAntiguas(Pieza nPieza)
+	{
+		antiguas.put(nPieza.getTitulo(), nPieza);
+	}
+	
+	public void setCompras(Pieza nPieza)
+	{
+		compras.put(nPieza.getTitulo(), nPieza);
 	}
 
 	public void entregarPieza(String titulo, boolean exhibir, boolean subasta) throws PiezaNoExistenteException
 	{
-		Pieza ePieza = null;
-		for (Pieza nPieza:actuales)
-		{
-			if (nPieza.getTitulo().equals(titulo))
-			{
-				ePieza = nPieza;
-			}
-		}
+		Pieza ePieza = actuales.get(titulo);
 		
 		if (ePieza == null)
 		{
@@ -66,24 +75,24 @@ public class Cliente extends Usuario {
 		{
 			if (subasta)
 			{
-				ePieza.setDisponibilidad("subasta");
+				ePieza.setDisponibilidad(Pieza.SUBASTA);
 			}
 			else
 			{
-				ePieza.setDisponibilidad("venta");
+				ePieza.setDisponibilidad(Pieza.VENTA);
 			}
-			admin.agregarPieza(ePieza,exhibir);
-		}
-	}
-	
-	public void devolverPieza(Pieza pieza)
-	{
-		for (Pieza nPieza:actuales)
-		{
-			if (nPieza.equals(pieza))
+			
+			if (exhibir)
 			{
-				nPieza.setDisponibilidad("devuelta");
+				ePieza.setEstado(Pieza.EXHIBIDA);
 			}
+			else
+			{
+				ePieza.setEstado(Pieza.ALMACENADA);
+			}
+			
+			admin.agregarPieza(ePieza,exhibir);
+			
 		}
 	}
 	
@@ -96,7 +105,7 @@ public class Cliente extends Usuario {
 			if (verificado)
 			{
 				Pieza nueva = admin.venderPieza(encontrada);
-				compras.add(nueva);
+				compras.put(nueva.getTitulo(),nueva);
 			}
 		}
 		catch (Exception e)
@@ -132,13 +141,7 @@ public class Cliente extends Usuario {
 	
 	public void piezaVendida(Pieza nPieza)
 	{
-		for (int i = 0; i<actuales.size();i++)
-		{
-			if (actuales.get(i).equals(nPieza))
-			{
-				Pieza vendida = actuales.remove(i);
-				antiguas.add(vendida);
-			}
-		}
+		Pieza vendida = actuales.remove(nPieza.getTitulo());
+		antiguas.put(vendida.getTitulo(), vendida);
 	}
 }

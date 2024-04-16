@@ -1,6 +1,6 @@
 package modelo.piezas;
 
-import modelo.usuarios.Propietario;
+import modelo.usuarios.Cliente;
 
 public class Imagen extends Pieza {
 
@@ -10,7 +10,7 @@ public class Imagen extends Pieza {
 	private String tipo; 
 
 	public Imagen(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Propietario propietario,
+			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			double ancho, double alto, int resolucion, String tipo) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

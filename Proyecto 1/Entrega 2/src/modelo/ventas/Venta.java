@@ -1,16 +1,16 @@
 package modelo.ventas;
 
 import modelo.piezas.Pieza;
-import modelo.usuarios.Comprador;
+import modelo.usuarios.Cliente;
 
 public abstract class Venta {
 
 	private int precioVenta;
-	private Comprador comprador;
+	private Cliente comprador;
 	private Pieza pieza;
 	private Pago pago;
 	
-	public Venta(int precioVenta, Comprador comprador, Pieza pieza, Pago pago) {
+	public Venta(int precioVenta, Cliente comprador, Pieza pieza, Pago pago) {
 		this.precioVenta = precioVenta;
 		this.comprador = comprador;
 		this.pieza = pieza;
@@ -25,11 +25,11 @@ public abstract class Venta {
 		this.precioVenta = precioVenta;
 	}
 
-	public Comprador getComprador() {
+	public Cliente getComprador() {
 		return comprador;
 	}
 
-	public void setComprador(Comprador comprador) {
+	public void setComprador(Cliente comprador) {
 		this.comprador = comprador;
 	}
 

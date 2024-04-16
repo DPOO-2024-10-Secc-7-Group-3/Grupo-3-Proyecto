@@ -2,6 +2,7 @@ package modelo.usuarios;
 
 import java.util.ArrayList;
 
+import exceptions.PiezaNoExistenteException;
 import exceptions.UserDuplicatedException;
 import modelo.Inventario;
 import modelo.piezas.Pieza;
@@ -11,11 +12,13 @@ import modelo.ventas.Subasta;
 public class Administrador extends Usuario {
 
 	private Inventario inventario;
+	private ArrayList<Cliente> clientes;
 
 	public Administrador(String login, String password, String nombre, int telefono, String tipo,
-			Inventario inventario) {
+			Inventario inventario,ArrayList<Cliente> clientes) {
 		super(login, password, nombre, telefono, tipo);
 		this.inventario = inventario;
+		this.clientes = clientes;
 	}
 
 	public Inventario getInventario() {
@@ -37,7 +40,8 @@ public class Administrador extends Usuario {
 		{
 			Usuario newCliente;
 			if(nTipo.equals(Usuario.CLIENTE)){
-				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Pieza>(),new ArrayList<Pieza>(),new ArrayList<Pieza>());
+				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Pieza>(),new ArrayList<Pieza>(),new ArrayList<Pieza>(),this);
+				 clientes.add((Cliente)newCliente);
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){
 				 newCliente = new Operador(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Subasta>());
@@ -46,7 +50,7 @@ public class Administrador extends Usuario {
 				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>());
 			}	
 			else {
-				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<Pieza>(),new ArrayList<Pieza>()));
+				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<Pieza>(),new ArrayList<Pieza>()), new ArrayList<Cliente>());
 			}	
 			
 			logins.put(nLogin,newCliente);
@@ -65,4 +69,84 @@ public class Administrador extends Usuario {
 		}
 	}
 	
+	public void agregarPieza(Pieza nPieza, boolean exhibir)
+	{
+		inventario.agregarPieza(nPieza,exhibir);
+	}
+	
+	public void devolverPieza(String titulo) throws PiezaNoExistenteException
+	{
+		try
+		{
+			Pieza pieza = inventario.sacarPieza(titulo);
+			
+			ArrayList<Cliente> propietarios = pieza.getPropietarios();
+			
+			for (Cliente cliente:propietarios)
+			{
+				cliente.devolverPieza(pieza);
+			}
+		}
+		catch (PiezaNoExistenteException e)
+		{
+			throw e;
+		}
+	}
+	
+	public Pieza nuevaOferta(String titulo) throws Exception
+	{
+		try
+		{
+			return inventario.bloquear(titulo);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public boolean verificar(Pieza encontrada, int valorMaximo)
+	{
+		if (encontrada.getPrecio()>valorMaximo)
+		{
+			inventario.desBloquear(encontrada);
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public Pieza venderPieza(Pieza encontrada)
+	{
+		try
+		{
+			Pieza nPieza = inventario.sacarPieza(encontrada.getTitulo());
+			ArrayList<Cliente> propietarios = nPieza.getPropietarios();
+			
+			for (Cliente propietario:propietarios)
+			{
+				propietario.piezaVendida(nPieza);
+			}
+			
+			return nPieza;
+		}
+		catch (PiezaNoExistenteException e)
+		{
+			return null;
+		}
+	}
+	
+	public Pieza obtenerPieza(String titulo) throws PiezaNoExistenteException
+	{
+		try
+		{
+			return inventario.buscarPieza(titulo);
+		}
+		catch (PiezaNoExistenteException e)
+		{
+			throw e;
+		}
+	}
 }

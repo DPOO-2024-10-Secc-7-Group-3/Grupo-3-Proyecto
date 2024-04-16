@@ -1,7 +1,8 @@
 package modelo.piezas;
 
 import java.util.ArrayList;
-import modelo.usuarios.Propietario;
+
+import modelo.usuarios.Cliente;
 
 public abstract class Pieza {
 
@@ -14,10 +15,11 @@ public abstract class Pieza {
 	protected boolean bloqueada;
 	protected int valorMinimo;
 	protected int valorInicial;
-	protected ArrayList<Propietario> propietarios;
+	protected ArrayList<Cliente> propietarios;
+	protected int precio;
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Propietario propietario) {
+			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -28,6 +30,14 @@ public abstract class Pieza {
 		this.valorMinimo = valorMinimo;
 		this.valorInicial = valorInicial;
 		this.propietarios.add(propietario);
+	}
+	
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
 	}
 
 	public String getTitulo() {
@@ -102,11 +112,11 @@ public abstract class Pieza {
 		this.valorInicial = valorInicial;
 	}
 
-	public ArrayList<Propietario> getPropietarios() {
+	public ArrayList<Cliente> getPropietarios() {
 		return propietarios;
 	}
 
-	public void setPropietarios(ArrayList<Propietario> propietarios) {
+	public void setPropietarios(ArrayList<Cliente> propietarios) {
 		this.propietarios = propietarios;
 	}
 }

@@ -2,7 +2,7 @@ package modelo.piezas;
 
 import java.util.ArrayList;
 
-import modelo.usuarios.Propietario;
+import modelo.usuarios.Cliente;
 
 public class Escultura extends Pieza {
 
@@ -13,7 +13,7 @@ public class Escultura extends Pieza {
 	private boolean electricidad;
 
 	public Escultura(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Propietario propietario,
+			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

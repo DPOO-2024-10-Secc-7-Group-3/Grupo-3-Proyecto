@@ -1,5 +1,7 @@
 package modelo.piezas;
 
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public class Video extends Pieza {
@@ -20,5 +22,14 @@ public class Video extends Pieza {
 
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
+	}
+
+	public JSONObject toJson() {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Agregar los atributos de la clase, incluyendo los de Pieza
+		jsonObject.put("duracion", this.duracion);
+		Pieza.agregarAtributos(jsonObject, this);
+		return jsonObject;
 	}
 }

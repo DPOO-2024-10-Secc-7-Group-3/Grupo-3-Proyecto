@@ -2,6 +2,9 @@ package modelo.piezas;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public class Escultura extends Pieza {
@@ -62,5 +65,20 @@ public class Escultura extends Pieza {
 
 	public void setElectricidad(boolean electricidad) {
 		this.electricidad = electricidad;
+	}
+
+	public JSONObject toJson() {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Volver los materiales en un JSONObject y ponerlas en el JSONObject principal
+		JSONArray jsonMateriales = new JSONArray(this.materiales);
+		jsonObject.put("materiales", jsonMateriales);
+		// Agregar los demas atributos de la clase, incluyendo los de Pieza
+		jsonObject.put("ancho", this.ancho);
+		jsonObject.put("alto", this.alto);
+		jsonObject.put("profundidad", this.profundidad);
+		jsonObject.put("electricidad", this.electricidad);
+		Pieza.agregarAtributos(jsonObject, this);
+		return jsonObject;
 	}
 }

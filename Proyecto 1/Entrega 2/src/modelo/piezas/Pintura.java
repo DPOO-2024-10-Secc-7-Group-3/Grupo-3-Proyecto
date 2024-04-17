@@ -1,5 +1,7 @@
 package modelo.piezas;
 
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public class Pintura extends Pieza {
@@ -40,5 +42,16 @@ public class Pintura extends Pieza {
 
 	public void setTextura(String textura) {
 		this.textura = textura;
+	}
+
+	public JSONObject toJson() {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Agregar los atributos de la clase, incluyendo los de Pieza
+		jsonObject.put("ancho", this.ancho);
+		jsonObject.put("alto", this.alto);
+		jsonObject.put("textura", this.textura);
+		Pieza.agregarAtributos(jsonObject, this);
+		return jsonObject;
 	}
 }

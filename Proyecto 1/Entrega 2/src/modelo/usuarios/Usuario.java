@@ -2,6 +2,8 @@ package modelo.usuarios;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 import exceptions.IncorrectPasswordException;
 import exceptions.UserNotFoundException;
 
@@ -65,19 +67,26 @@ public abstract class Usuario {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
-	public Usuario iniciarSesion(String nLogin, String nPassword) throws UserNotFoundException, IncorrectPasswordException {
+
+	public Usuario iniciarSesion(String nLogin, String nPassword)
+			throws UserNotFoundException, IncorrectPasswordException {
 		Usuario nUsuario = logins.get(nLogin);
-		if(nUsuario == null) {
+		if (nUsuario == null) {
 			throw new UserNotFoundException(nLogin);
+		} else {
+			if (nUsuario.password != nPassword) {
+				throw new IncorrectPasswordException(nPassword);
+			} else {
+				return nUsuario;
+			}
 		}
-		else {
-		if (nUsuario.password != nPassword) {
-			throw new IncorrectPasswordException(nPassword);
-		}
-		else{
-			return nUsuario;
-		}
-		}
+	}
+
+	public static void agregarAtributos(JSONObject jsonObject, Usuario usuario) {
+		jsonObject.put("login", usuario.getLogin());
+		jsonObject.put("password", usuario.getPassword());
+		jsonObject.put("nombre", usuario.getNombre());
+		jsonObject.put("telefono", usuario.getTelefono());
+		jsonObject.put("tipo", usuario.getTipo());
 	}
 }

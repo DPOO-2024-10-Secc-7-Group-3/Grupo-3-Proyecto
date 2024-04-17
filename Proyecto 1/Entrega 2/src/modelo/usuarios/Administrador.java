@@ -41,7 +41,7 @@ public class Administrador extends Usuario {
 		{
 			Usuario newCliente;
 			if(nTipo.equals(Usuario.CLIENTE)){
-				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new HashMap<String,Pieza>(),new HashMap<String,Pieza>(),new HashMap<String,Pieza>(),this);
+				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),this);
 				 clientes.add((Cliente)newCliente);
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){

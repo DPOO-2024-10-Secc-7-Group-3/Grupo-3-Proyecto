@@ -1,5 +1,7 @@
 package modelo.piezas;
 
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public class Imagen extends Pieza {
@@ -7,7 +9,7 @@ public class Imagen extends Pieza {
 	protected double ancho;
 	protected double alto;
 	protected int resolucion;
-	private String tipo; 
+	private String tipo;
 
 	public Imagen(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
 			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
@@ -50,5 +52,17 @@ public class Imagen extends Pieza {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public JSONObject toJson() {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Agregar los atributos de la clase, incluyendo los de Pieza
+		jsonObject.put("ancho", this.ancho);
+		jsonObject.put("alto", this.alto);
+		jsonObject.put("resolucion", this.resolucion);
+		jsonObject.put("tipo", this.tipo);
+		Pieza.agregarAtributos(jsonObject, this);
+		return jsonObject;
 	}
 }

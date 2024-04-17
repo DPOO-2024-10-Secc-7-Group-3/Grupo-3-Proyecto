@@ -2,6 +2,9 @@ package modelo.piezas;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public abstract class Pieza {
@@ -15,8 +18,8 @@ public abstract class Pieza {
 	protected boolean bloqueada;
 	protected int valorMinimo;
 	protected int valorInicial;
-	protected ArrayList<Cliente> propietarios;
 	protected int precio;
+	protected ArrayList<Cliente> propietarios;
 	public static final String EXHIBIDA = "exhibida";
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
@@ -36,7 +39,7 @@ public abstract class Pieza {
 		this.valorInicial = valorInicial;
 		this.propietarios.add(propietario);
 	}
-	
+
 	public int getPrecio() {
 		return precio;
 	}
@@ -124,4 +127,52 @@ public abstract class Pieza {
 	public void setPropietarios(ArrayList<Cliente> propietarios) {
 		this.propietarios = propietarios;
 	}
+
+	/*
+	public static JSONObject toJson(Pieza pieza) {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Agregar todos los atributos al JSONObject principal
+		jsonObject.put("titulo", pieza.getTitulo());
+		jsonObject.put("anio", pieza.getAnio());
+		jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
+		jsonObject.put("estado", pieza.getEstado());
+		jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
+		jsonObject.put("disponibilidad", pieza.getDisponibilidad());
+		jsonObject.put("bloqueada", pieza.isBloqueada());
+		jsonObject.put("valorMinimo", pieza.getValorMinimo());
+		jsonObject.put("valorInicial", pieza.getValorInicial());
+		jsonObject.put("precio", pieza.getPrecio());
+		JSONArray jsonPropietarios = new JSONArray();
+		for (Cliente propietario : pieza.getPropietarios()) {
+			JSONObject jsonCliente = Cliente.toJson(propietario);
+			jsonPropietarios.put(jsonCliente);
+		}
+		jsonObject.put("propietarios", jsonPropietarios);
+		agregarAtributos(jsonObject);
+		return jsonObject;
+	}
+	*/
+	
+	public static void agregarAtributos(JSONObject jsonObject, Pieza pieza) {
+		// Agregar todos los atributos al JSONObject principal
+		jsonObject.put("titulo", pieza.getTitulo());
+		jsonObject.put("anio", pieza.getAnio());
+		jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
+		jsonObject.put("estado", pieza.getEstado());
+		jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
+		jsonObject.put("disponibilidad", pieza.getDisponibilidad());
+		jsonObject.put("bloqueada", pieza.isBloqueada());
+		jsonObject.put("valorMinimo", pieza.getValorMinimo());
+		jsonObject.put("valorInicial", pieza.getValorInicial());
+		jsonObject.put("precio", pieza.getPrecio());
+		JSONArray jsonPropietarios = new JSONArray();
+		for (Cliente propietario : pieza.getPropietarios()) {
+			JSONObject jsonCliente = Cliente.toJson(propietario);
+			jsonPropietarios.put(jsonCliente);
+		}
+		jsonObject.put("propietarios", jsonPropietarios);
+	}
+	
+	public abstract JSONObject toJson(); 
 }

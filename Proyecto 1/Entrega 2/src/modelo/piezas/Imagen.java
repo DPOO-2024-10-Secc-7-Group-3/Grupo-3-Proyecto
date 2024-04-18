@@ -1,8 +1,11 @@
 package modelo.piezas;
 
+import java.time.LocalDate;
+
 import org.json.JSONObject;
 
 import modelo.usuarios.Cliente;
+import modelo.ventas.Venta;
 
 public class Imagen extends Pieza {
 
@@ -11,8 +14,8 @@ public class Imagen extends Pieza {
 	protected int resolucion;
 	private String tipo;
 
-	public Imagen(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
+	public Imagen(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			double ancho, double alto, int resolucion, String tipo) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

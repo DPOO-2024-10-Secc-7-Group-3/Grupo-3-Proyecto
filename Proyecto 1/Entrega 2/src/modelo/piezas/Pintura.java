@@ -1,8 +1,11 @@
 package modelo.piezas;
 
+import java.time.LocalDate;
+
 import org.json.JSONObject;
 
 import modelo.usuarios.Cliente;
+import modelo.ventas.Venta;
 
 public class Pintura extends Pieza {
 
@@ -10,8 +13,8 @@ public class Pintura extends Pieza {
 	private double alto;
 	private String textura;
 
-	public Pintura(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
+	public Pintura(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			double ancho, double alto, String textura) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

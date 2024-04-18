@@ -1,11 +1,13 @@
 package modelo.piezas;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import modelo.usuarios.Cliente;
+import modelo.ventas.Venta;
 
 public class Escultura extends Pieza {
 
@@ -15,8 +17,8 @@ public class Escultura extends Pieza {
 	private ArrayList<String> materiales;
 	private boolean electricidad;
 
-	public Escultura(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
+	public Escultura(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

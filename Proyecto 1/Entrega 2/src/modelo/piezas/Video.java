@@ -1,15 +1,18 @@
 package modelo.piezas;
 
+import java.time.LocalDate;
+
 import org.json.JSONObject;
 
 import modelo.usuarios.Cliente;
+import modelo.ventas.Venta;
 
 public class Video extends Pieza {
 
 	private int duracion;
 
-	public Video(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
+	public Video(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
 			int duracion) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
 				valorInicial, propietario);

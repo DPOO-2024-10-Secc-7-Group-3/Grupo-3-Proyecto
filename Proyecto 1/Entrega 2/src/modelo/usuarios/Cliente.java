@@ -1,5 +1,6 @@
 package modelo.usuarios;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -7,7 +8,14 @@ import org.json.JSONObject;
 import exceptions.OfertaInvalidaException;
 import exceptions.PiezaNoExistenteException;
 import modelo.Inventario;
+import modelo.piezas.Escultura;
+import modelo.piezas.Imagen;
 import modelo.piezas.Pieza;
+import modelo.piezas.Pintura;
+import modelo.piezas.Video;
+import modelo.ventas.Fija;
+import modelo.ventas.Subasta;
+import modelo.ventas.Venta;
 
 public class Cliente extends Usuario {
 
@@ -16,6 +24,7 @@ public class Cliente extends Usuario {
 	private ArrayList<String> compras;
 	private int valorMaximo;
 	private Administrador admin;
+	public static final int VERIFICACION = 123;
 
 	public Cliente(String login, String password, String nombre, int telefono, String tipo, ArrayList<String> actuales,
 			ArrayList<String> antiguas, ArrayList<String> compras, Administrador admin) {
@@ -77,60 +86,149 @@ public class Cliente extends Usuario {
 	public void setAdmin(Administrador admin) {
 		this.admin = admin;
 	}
-
-	public void entregarPieza(String titulo, boolean exhibir, boolean subasta) throws PiezaNoExistenteException {
-		Inventario inventario = admin.getInventario();
-		Pieza ePieza = inventario.buscarPieza(titulo);
-
-		if (subasta) {
-			ePieza.setDisponibilidad(Pieza.SUBASTA);
-		} else {
-			ePieza.setDisponibilidad(Pieza.VENTA);
-		}
-
-		if (exhibir) {
-			ePieza.setEstado(Pieza.EXHIBIDA);
-		} else {
-			ePieza.setEstado(Pieza.ALMACENADA);
-		}
-
-		admin.agregarPieza(ePieza, exhibir);
-
-	}
-
-	public void comprar(String titulo) throws Exception {
-		try {
-			Pieza encontrada = admin.nuevaOferta(titulo);
-			boolean verificado = admin.verificar(encontrada, this.valorMaximo);
-			if (verificado) {
-				Pieza nueva = admin.venderPieza(encontrada);
-				compras.add(nueva.getTitulo());
+	
+	public String buscarPieza(String titulo) throws Exception
+	{
+		boolean encontrado = false;
+		
+		for (int i = 0; i<actuales.size() && !encontrado; i++)
+		{
+			if (actuales.get(i).equals(titulo))
+			{
+				encontrado = true;
 			}
-		} catch (Exception e) {
-			throw e;
 		}
-	}
-
-	public void ofrecerSubasta(String titulo, int oferta) throws OfertaInvalidaException, PiezaNoExistenteException {
-		try {
-			Pieza nPieza = admin.obtenerPieza(titulo);
-
-			if (oferta > this.valorMaximo) {
-				throw new OfertaInvalidaException();
-			} else {
-				if (oferta < nPieza.getValorInicial()) {
-					throw new OfertaInvalidaException();
+		
+		if (encontrado)
+		{
+			return "actuales";
+		}
+		else
+		{
+			for (int i = 0; i<antiguas.size() && !encontrado; i++)
+			{
+				if (antiguas.get(i).equals(titulo))
+				{
+					encontrado = true;
 				}
 			}
-		} catch (PiezaNoExistenteException e) {
-			throw e;
+			
+			if (encontrado)
+			{
+				return "antiguas";
+			}
+			else
+			{
+				for (int i = 0; i<compras.size() && !encontrado; i++)
+				{
+					if (compras.get(i).equals(titulo))
+					{
+						encontrado = true;
+					}
+				}
+				
+				if(encontrado)
+				{
+					return "compras";
+				}
+				else
+				{
+					throw new Exception("La pieza "+titulo+" no está en las piezas del cliente "+this.getLogin()+".");
+				}
+			}
+		}
+	}
+	
+	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad) throws Exception
+	{
+		Escultura nueva = new Escultura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,profundidad,materiales,electricidad);
+		if (Pieza.piezas.containsKey(titulo))
+		{
+			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
+		}
+		else
+		{
+			Pieza.piezas.put(titulo, nueva);
+			actuales.add(titulo);
+		}
+	}
+	
+	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, int resolucion, String tipo) throws Exception
+	{
+		Imagen nueva = new Imagen(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,resolucion, tipo);
+		if (Pieza.piezas.containsKey(titulo))
+		{
+			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
+		}
+		else
+		{
+			Pieza.piezas.put(titulo, nueva);
+			actuales.add(titulo);
+		}
+	}
+	
+	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, String textura) throws Exception
+	{
+		Pintura nueva = new Pintura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,textura);
+		if (Pieza.piezas.containsKey(titulo))
+		{
+			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
+		}
+		else
+		{
+			Pieza.piezas.put(titulo, nueva);
+			actuales.add(titulo);
+		}
+	}
+	
+	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,int duracion) throws Exception
+	{
+		Video nueva = new Video(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,duracion);
+		if (Pieza.piezas.containsKey(titulo))
+		{
+			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
+		}
+		else
+		{
+			Pieza.piezas.put(titulo, nueva);
+			actuales.add(titulo);
+		}
+	}
+	
+	
+	public void entregarPieza(String titulo, boolean exhibir, boolean subasta, LocalDate tiempo) throws PiezaNoExistenteException, Exception {
+		
+		String lugar = buscarPieza(titulo);
+		
+		if (lugar.equals("actuales") || lugar.equals("compras"))
+		{
+			Pieza ePieza = Pieza.piezas.get(titulo);
+			
+			ePieza.setTiempoConsignacion(tiempo);
+			
+			if (subasta) {
+				ePieza.setDisponibilidad(new Subasta(-1,null,ePieza.getTitulo(),null,null));
+			} else {
+				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(),null,ePieza.getTitulo(),null));
+			}
+
+			if (exhibir) {
+				ePieza.setEstado(Pieza.EXHIBIDA);
+			} else {
+				ePieza.setEstado(Pieza.ALMACENADA);
+			}
+			
+			admin.agregarPieza(titulo, exhibir);
 		}
 	}
 
-	public void piezaVendida(Pieza nPieza) throws PiezaNoExistenteException {
-		Pieza vendida = admin.getInventario().buscarPieza(nPieza.getTitulo());
-		actuales.remove(nPieza.getTitulo());
-		antiguas.add(vendida.getTitulo());
+	public void comprar(String titulo, String metodoDePago) throws Exception {
+		admin.nuevaCompra(titulo, this, metodoDePago);
+	}
+	
+	public int darCodigo()
+	{
+		return VERIFICACION;
 	}
 
 	public int getPiezaIndex(String titulo, ArrayList<String> lista) {

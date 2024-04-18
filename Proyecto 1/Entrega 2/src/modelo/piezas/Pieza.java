@@ -1,11 +1,14 @@
 package modelo.piezas;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import modelo.usuarios.Cliente;
+import modelo.ventas.Venta;
 
 public abstract class Pieza {
 
@@ -13,8 +16,8 @@ public abstract class Pieza {
 	protected int anio;
 	protected String lugarCreacion;
 	protected String estado;
-	protected int tiempoConsignacion;
-	protected String disponibilidad;
+	protected LocalDate tiempoConsignacion;
+	protected Venta disponibilidad;
 	protected boolean bloqueada;
 	protected int valorMinimo;
 	protected int valorInicial;
@@ -23,11 +26,10 @@ public abstract class Pieza {
 	public static final String EXHIBIDA = "exhibida";
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
-	public static final String SUBASTA = "subasta";
-	public static final String VENTA = "venta";
+	public static HashMap<String,Pieza> piezas;
 
-	public Pieza(String titulo, int anio, String lugarCreacion, String estado, int tiempoConsignacion,
-			String disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario) {
+	public Pieza(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -80,19 +82,19 @@ public abstract class Pieza {
 		this.estado = estado;
 	}
 
-	public int getTiempoConsignacion() {
+	public LocalDate getTiempoConsignacion() {
 		return tiempoConsignacion;
 	}
 
-	public void setTiempoConsignacion(int tiempoConsignacion) {
+	public void setTiempoConsignacion(LocalDate tiempoConsignacion) {
 		this.tiempoConsignacion = tiempoConsignacion;
 	}
 
-	public String getDisponibilidad() {
+	public Venta getDisponibilidad() {
 		return disponibilidad;
 	}
 
-	public void setDisponibilidad(String disponibilidad) {
+	public void setDisponibilidad(Venta disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
 

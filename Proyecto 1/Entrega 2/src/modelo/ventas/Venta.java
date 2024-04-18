@@ -7,10 +7,10 @@ public abstract class Venta {
 
 	private int precioVenta;
 	private Cliente comprador;
-	private Pieza pieza;
+	private String pieza;
 	private Pago pago;
 	
-	public Venta(int precioVenta, Cliente comprador, Pieza pieza, Pago pago) {
+	public Venta(int precioVenta, Cliente comprador, String pieza, Pago pago) {
 		this.precioVenta = precioVenta;
 		this.comprador = comprador;
 		this.pieza = pieza;
@@ -33,11 +33,11 @@ public abstract class Venta {
 		this.comprador = comprador;
 	}
 
-	public Pieza getPieza() {
+	public String getPieza() {
 		return pieza;
 	}
 
-	public void setPieza(Pieza pieza) {
+	public void setPieza(String pieza) {
 		this.pieza = pieza;
 	}
 

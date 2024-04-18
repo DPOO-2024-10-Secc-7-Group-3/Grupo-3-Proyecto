@@ -1,5 +1,6 @@
 package modelo.usuarios;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,6 +8,7 @@ import exceptions.PiezaNoExistenteException;
 import exceptions.UserDuplicatedException;
 import modelo.Inventario;
 import modelo.piezas.Pieza;
+import modelo.ventas.Fija;
 import modelo.ventas.Pago;
 import modelo.ventas.Subasta;
 
@@ -14,6 +16,8 @@ public class Administrador extends Usuario {
 
 	private Inventario inventario;
 	private ArrayList<Cliente> clientes;
+	private ArrayList<Cajero> cajeros;
+	private ArrayList<Operador> operadores;
 
 	public Administrador(String login, String password, String nombre, int telefono, String tipo,
 			Inventario inventario,ArrayList<Cliente> clientes) {
@@ -46,12 +50,14 @@ public class Administrador extends Usuario {
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){
 				 newCliente = new Operador(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<Subasta>());
+				 operadores.add((Operador) newCliente);
 			}	
 			else if(nTipo.equals(Usuario.CAJERO)){
-				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>());
+				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>(), false);
+				 cajeros.add((Cajero) newCliente);
 			}	
 			else {
-				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new HashMap<String,Pieza>(),new HashMap<String,Pieza>()), new ArrayList<Cliente>());
+				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<String>(),new ArrayList<String>()), new ArrayList<Cliente>());
 			}	
 			
 			logins.put(nLogin,newCliente);
@@ -70,93 +76,103 @@ public class Administrador extends Usuario {
 		}
 	}
 	
-	public void agregarPieza(Pieza nPieza, boolean exhibir)
+	public void agregarPieza(String titulo, boolean exhibir)
 	{
-		inventario.agregarPieza(nPieza,exhibir);
+		inventario.agregarPieza(titulo,exhibir);
+	}
+	
+	public void devolverPieza(String titulo) throws PiezaNoExistenteException, Exception
+	{
+		inventario.buscarPieza(titulo); 
 		
-		ArrayList<Cliente> propietarios = nPieza.getPropietarios();
-		
-		for (Cliente propietario:propietarios)
+		if (LocalDate.now().isAfter(Pieza.piezas.get(titulo).getTiempoConsignacion()))
 		{
-			propietario.setActual(nPieza);
-		}
-	}
-	
-	public void devolverPieza(String titulo) throws PiezaNoExistenteException
-	{
-		try
-		{
-			Pieza pieza = inventario.sacarPieza(titulo);
-			
-			pieza.setEstado(Pieza.FUERA);
-			
-			ArrayList<Cliente> propietarios = pieza.getPropietarios();
-			
-			for (Cliente cliente:propietarios)
-			{
-				cliente.setActual(pieza);
-			}
-		}
-		catch (PiezaNoExistenteException e)
-		{
-			throw e;
-		}
-	}
-	
-	public Pieza nuevaOferta(String titulo) throws Exception
-	{
-		try
-		{
-			return inventario.bloquear(titulo);
-		}
-		catch (Exception e)
-		{
-			throw e;
-		}
-	}
-	
-	public boolean verificar(Pieza encontrada, int valorMaximo)
-	{
-		if (encontrada.getPrecio()>valorMaximo)
-		{
-			inventario.desBloquear(encontrada);
-			return false;
+			inventario.sacarPieza(titulo);
+			Pieza.piezas.get(titulo).setEstado(Pieza.FUERA);
+			Pieza.piezas.get(titulo).setDisponibilidad(null);
+			Pieza.piezas.get(titulo).setTiempoConsignacion(null);
 		}
 		else
 		{
-			return true;
+			throw new Exception ("La pieza "+titulo+" aún no ha terminado su tiempo de consignación.");
 		}
 	}
 	
-	public Pieza venderPieza(Pieza encontrada)
+	public void nuevaCompra (String titulo,Cliente cliente, String metodoDePago) throws Exception
 	{
-		try
+		inventario.buscarPieza(titulo);
+		
+		Pieza vPieza = Pieza.piezas.get(titulo);
+		vPieza.setBloqueada(true);
+		
+		boolean verificado = true;
+		
+		if (cliente.getCompras().size() == 0)
 		{
-			Pieza nPieza = inventario.sacarPieza(encontrada.getTitulo());
-			ArrayList<Cliente> propietarios = nPieza.getPropietarios();
-			
-			for (Cliente propietario:propietarios)
+			verificado = verificar(cliente);
+		}
+		
+		if (verificado)
+		{
+			boolean ocupado = true;
+			int i = 0;
+			Cajero cajero = null;
+			while (ocupado && i<cajeros.size())
 			{
-				propietario.piezaVendida(nPieza);
+				Cajero actual = cajeros.get(i);
+				if (!actual.isOcupado())
+				{
+					cajero = actual;
+				}
+				i++;
 			}
 			
-			return nPieza;
+			if (ocupado)
+			{
+				throw new Exception("No hay cajeros libres para hacer el pago ahora. Intente más tarde");
+			}
+			else
+			{
+				if(vPieza.getPrecio()>cliente.getValorMaximo())
+				{
+					throw new Exception("El cliente "+cliente.getLogin()+" debe ampliar su límite de compras.");
+				}
+				else
+				{
+					cajero.setOcupado(true);
+					Pago pago = cajero.nuevoPago(metodoDePago,Pieza.piezas.get(titulo).getPrecio());
+					cajero.setOcupado(false);
+					
+					inventario.sacarPieza(titulo);
+					vPieza.setBloqueada(false);
+					vPieza.setEstado(Pieza.FUERA);
+					ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
+					nuevos.add(cliente);
+					vPieza.setPropietarios(nuevos);
+					vPieza.setTiempoConsignacion(null);
+					cliente.getCompras().add(titulo);
+					
+					Fija nueva = new Fija(vPieza.getPrecio(),cliente,vPieza.getTitulo(),pago);
+					vPieza.setDisponibilidad(nueva);
+					
+					ArrayList<Cliente> propietarios = vPieza.getPropietarios();
+					for (Cliente propietario:propietarios)
+					{
+						propietario.getActuales().remove(titulo);
+						propietario.getAntiguas().add(titulo);
+					}
+				}
+			}
 		}
-		catch (PiezaNoExistenteException e)
+		else
 		{
-			return null;
+			throw new Exception ("Cliente "+cliente.getLogin() +" no verificado.");
 		}
+		
 	}
 	
-	public Pieza obtenerPieza(String titulo) throws PiezaNoExistenteException
+	public boolean verificar(Cliente cliente)
 	{
-		try
-		{
-			return inventario.buscarPieza(titulo);
-		}
-		catch (PiezaNoExistenteException e)
-		{
-			throw e;
-		}
+		return cliente.darCodigo() == 123;
 	}
 }

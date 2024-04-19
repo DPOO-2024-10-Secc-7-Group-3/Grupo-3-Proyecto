@@ -26,10 +26,10 @@ public abstract class Pieza {
 	public static final String EXHIBIDA = "exhibida";
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
-	public static HashMap<String,Pieza> piezas;
+	public static HashMap<String,Pieza> piezas = new HashMap<String, Pieza>();
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
-			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario) {
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,int precio) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -39,7 +39,8 @@ public abstract class Pieza {
 		this.bloqueada = bloqueada;
 		this.valorMinimo = valorMinimo;
 		this.valorInicial = valorInicial;
-		this.propietarios.add(propietario);
+		this.propietarios = propietarios;
+		this.precio = precio;
 	}
 
 	public int getPrecio() {

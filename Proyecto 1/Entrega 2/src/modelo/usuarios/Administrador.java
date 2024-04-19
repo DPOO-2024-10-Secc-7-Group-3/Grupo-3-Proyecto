@@ -20,10 +20,12 @@ public class Administrador extends Usuario {
 	private ArrayList<Operador> operadores;
 
 	public Administrador(String login, String password, String nombre, int telefono, String tipo,
-			Inventario inventario,ArrayList<Cliente> clientes) {
+			Inventario inventario,ArrayList<Cliente> clientes, ArrayList<Cajero> cajeros, ArrayList<Operador> operadores) {
 		super(login, password, nombre, telefono, tipo);
 		this.inventario = inventario;
 		this.clientes = clientes;
+		this.cajeros = cajeros;
+		this.operadores = operadores;
 	}
 
 	public Inventario getInventario() {
@@ -34,7 +36,7 @@ public class Administrador extends Usuario {
 		this.inventario = inventario;
 	}
 	
-	public void crearUsuario(String nLogin, String nPassword, String nNombre, int nTelefono, String nTipo) throws UserDuplicatedException
+	public void crearUsuario(String nLogin, String nPassword, String nNombre, int nTelefono, String nTipo) throws UserDuplicatedException, Exception
 	{
 		
 		if (estaDuplicado(nLogin))
@@ -45,7 +47,7 @@ public class Administrador extends Usuario {
 		{
 			Usuario newCliente;
 			if(nTipo.equals(Usuario.CLIENTE)){
-				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),this);
+				 newCliente = new Cliente(nLogin, nPassword,nNombre,nTelefono,nTipo,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),this,2000000);
 				 clientes.add((Cliente)newCliente);
 			}	
 			else if(nTipo.equals(Usuario.OPERADOR)){
@@ -56,9 +58,13 @@ public class Administrador extends Usuario {
 				 newCliente = new Cajero(nLogin, nPassword,nNombre,nTelefono,nTipo, new ArrayList<Pago>(), false);
 				 cajeros.add((Cajero) newCliente);
 			}	
-			else {
-				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<String>(),new ArrayList<String>()), new ArrayList<Cliente>());
+			else if(nTipo.equals(Usuario.ADMIN)){
+				 newCliente = new Administrador(nLogin, nPassword,nNombre,nTelefono,nTipo, new Inventario(new ArrayList<String>(),new ArrayList<String>()), new ArrayList<Cliente>(),new ArrayList<Cajero>(),new ArrayList<Operador>());
 			}	
+			else
+			{
+				throw new Exception("El rol no es permitido.");
+			}
 			
 			logins.put(nLogin,newCliente);
 		}
@@ -123,6 +129,7 @@ public class Administrador extends Usuario {
 				if (!actual.isOcupado())
 				{
 					cajero = actual;
+					ocupado = false;
 				}
 				i++;
 			}

@@ -27,12 +27,13 @@ public class Cliente extends Usuario {
 	public static final int VERIFICACION = 123;
 
 	public Cliente(String login, String password, String nombre, int telefono, String tipo, ArrayList<String> actuales,
-			ArrayList<String> antiguas, ArrayList<String> compras, Administrador admin) {
+			ArrayList<String> antiguas, ArrayList<String> compras, Administrador admin,int valorMaximo) {
 		super(login, password, nombre, telefono, tipo);
 		this.actuales = actuales;
 		this.antiguas = antiguas;
 		this.compras = compras;
 		this.admin = admin;
+		this.valorMaximo = valorMaximo;
 	}
 
 	public ArrayList<String> getActuales() {
@@ -139,9 +140,11 @@ public class Cliente extends Usuario {
 		}
 	}
 	
-	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad) throws Exception
+	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad, int precio) throws Exception
 	{
-		Escultura nueva = new Escultura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,profundidad,materiales,electricidad);
+		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+		propietarios.add(this);
+		Escultura nueva = new Escultura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,profundidad,materiales,electricidad,precio);
 		if (Pieza.piezas.containsKey(titulo))
 		{
 			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
@@ -153,9 +156,11 @@ public class Cliente extends Usuario {
 		}
 	}
 	
-	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, int resolucion, String tipo) throws Exception
+	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, int resolucion, String tipo,int precio) throws Exception
 	{
-		Imagen nueva = new Imagen(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,resolucion, tipo);
+		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+		propietarios.add(this);
+		Imagen nueva = new Imagen(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,resolucion, tipo,precio);
 		if (Pieza.piezas.containsKey(titulo))
 		{
 			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
@@ -167,9 +172,11 @@ public class Cliente extends Usuario {
 		}
 	}
 	
-	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, String textura) throws Exception
+	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, String textura, int precio) throws Exception
 	{
-		Pintura nueva = new Pintura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,ancho,alto,textura);
+		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+		propietarios.add(this);
+		Pintura nueva = new Pintura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,textura,precio);
 		if (Pieza.piezas.containsKey(titulo))
 		{
 			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
@@ -181,9 +188,11 @@ public class Cliente extends Usuario {
 		}
 	}
 	
-	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,int duracion) throws Exception
+	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,int duracion,int precio) throws Exception
 	{
-		Video nueva = new Video(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,this,duracion);
+		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+		propietarios.add(this);
+		Video nueva = new Video(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,duracion,precio);
 		if (Pieza.piezas.containsKey(titulo))
 		{
 			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");

@@ -1,6 +1,7 @@
 package modelo.piezas;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
@@ -15,10 +16,10 @@ public class Imagen extends Pieza {
 	private String tipo;
 
 	public Imagen(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
-			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
-			double ancho, double alto, int resolucion, String tipo) {
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
+			double ancho, double alto, int resolucion, String tipo,int precio) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
-				valorInicial, propietario);
+				valorInicial, propietarios,precio);
 		this.ancho = ancho;
 		this.alto = alto;
 		this.resolucion = resolucion;

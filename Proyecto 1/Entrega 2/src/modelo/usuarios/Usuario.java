@@ -14,7 +14,7 @@ public abstract class Usuario {
 	protected String nombre;
 	protected int telefono;
 	protected String tipo;
-	protected static HashMap<String, Usuario> logins = new HashMap<String, Usuario>();
+	public static HashMap<String, Usuario> logins = new HashMap<String, Usuario>();
 	public static final String CLIENTE = "cliente";
 	public static final String ADMIN = "administrador";
 	public static final String CAJERO = "cajero";
@@ -68,13 +68,13 @@ public abstract class Usuario {
 		this.tipo = tipo;
 	}
 
-	public Usuario iniciarSesion(String nLogin, String nPassword)
+	public static Usuario iniciarSesion(String nLogin, String nPassword)
 			throws UserNotFoundException, IncorrectPasswordException {
 		Usuario nUsuario = logins.get(nLogin);
 		if (nUsuario == null) {
 			throw new UserNotFoundException(nLogin);
 		} else {
-			if (nUsuario.password != nPassword) {
+			if (!nUsuario.password.equals(nPassword)) {
 				throw new IncorrectPasswordException(nPassword);
 			} else {
 				return nUsuario;

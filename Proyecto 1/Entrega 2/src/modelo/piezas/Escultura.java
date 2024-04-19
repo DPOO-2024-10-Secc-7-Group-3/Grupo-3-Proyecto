@@ -18,10 +18,10 @@ public class Escultura extends Pieza {
 	private boolean electricidad;
 
 	public Escultura(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
-			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
-			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad) {
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
+			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad, int precio) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
-				valorInicial, propietario);
+				valorInicial, propietarios, precio);
 		this.ancho = ancho;
 		this.alto = alto;
 		this.profundidad = profundidad;

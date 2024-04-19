@@ -1,6 +1,7 @@
 package modelo.piezas;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
@@ -12,10 +13,10 @@ public class Video extends Pieza {
 	private int duracion;
 
 	public Video(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
-			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, Cliente propietario,
-			int duracion) {
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
+			int duracion,int precio) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
-				valorInicial, propietario);
+				valorInicial, propietarios,precio);
 		this.duracion = duracion;
 	}
 

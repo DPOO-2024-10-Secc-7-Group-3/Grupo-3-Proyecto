@@ -16,6 +16,7 @@ public class CentralPersistencia {
 	}
 
 	private void guardarInventario(String nCarpeta, Inventario inventario) {
+		
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Volver las exhibidas en un JSONObject

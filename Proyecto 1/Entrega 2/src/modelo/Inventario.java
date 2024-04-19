@@ -79,6 +79,7 @@ public class Inventario {
 		}
 		else
 		{
+			int a = almacenadas.size();
 			for (int i = 0; i<almacenadas.size() && !encontrado; i++)
 			{
 				if (almacenadas.get(i).equals(titulo))

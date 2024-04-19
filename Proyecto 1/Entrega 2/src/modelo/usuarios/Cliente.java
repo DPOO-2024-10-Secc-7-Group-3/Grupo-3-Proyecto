@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import exceptions.OfertaInvalidaException;
 import exceptions.PiezaNoExistenteException;
-import modelo.Inventario;
 import modelo.piezas.Escultura;
 import modelo.piezas.Imagen;
 import modelo.piezas.Pieza;
@@ -15,7 +13,6 @@ import modelo.piezas.Pintura;
 import modelo.piezas.Video;
 import modelo.ventas.Fija;
 import modelo.ventas.Subasta;
-import modelo.ventas.Venta;
 
 public class Cliente extends Usuario {
 
@@ -27,7 +24,7 @@ public class Cliente extends Usuario {
 	public static final int VERIFICACION = 123;
 
 	public Cliente(String login, String password, String nombre, int telefono, String tipo, ArrayList<String> actuales,
-			ArrayList<String> antiguas, ArrayList<String> compras, Administrador admin,int valorMaximo) {
+			ArrayList<String> antiguas, ArrayList<String> compras, Administrador admin, int valorMaximo) {
 		super(login, password, nombre, telefono, tipo);
 		this.actuales = actuales;
 		this.antiguas = antiguas;
@@ -87,138 +84,115 @@ public class Cliente extends Usuario {
 	public void setAdmin(Administrador admin) {
 		this.admin = admin;
 	}
-	
-	public String buscarPieza(String titulo) throws Exception
-	{
+
+	public String buscarPieza(String titulo) throws Exception {
 		boolean encontrado = false;
-		
-		for (int i = 0; i<actuales.size() && !encontrado; i++)
-		{
-			if (actuales.get(i).equals(titulo))
-			{
+
+		for (int i = 0; i < actuales.size() && !encontrado; i++) {
+			if (actuales.get(i).equals(titulo)) {
 				encontrado = true;
 			}
 		}
-		
-		if (encontrado)
-		{
+
+		if (encontrado) {
 			return "actuales";
-		}
-		else
-		{
-			for (int i = 0; i<antiguas.size() && !encontrado; i++)
-			{
-				if (antiguas.get(i).equals(titulo))
-				{
+		} else {
+			for (int i = 0; i < antiguas.size() && !encontrado; i++) {
+				if (antiguas.get(i).equals(titulo)) {
 					encontrado = true;
 				}
 			}
-			
-			if (encontrado)
-			{
+
+			if (encontrado) {
 				return "antiguas";
-			}
-			else
-			{
-				for (int i = 0; i<compras.size() && !encontrado; i++)
-				{
-					if (compras.get(i).equals(titulo))
-					{
+			} else {
+				for (int i = 0; i < compras.size() && !encontrado; i++) {
+					if (compras.get(i).equals(titulo)) {
 						encontrado = true;
 					}
 				}
-				
-				if(encontrado)
-				{
+
+				if (encontrado) {
 					return "compras";
-				}
-				else
-				{
-					throw new Exception("La pieza "+titulo+" no está en las piezas del cliente "+this.getLogin()+".");
+				} else {
+					throw new Exception(
+							"La pieza " + titulo + " no está en las piezas del cliente " + this.getLogin() + ".");
 				}
 			}
 		}
 	}
-	
-	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad, int precio) throws Exception
-	{
+
+	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad,
+			int precio) throws Exception {
 		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 		propietarios.add(this);
-		Escultura nueva = new Escultura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,profundidad,materiales,electricidad,precio);
-		if (Pieza.piezas.containsKey(titulo))
-		{
-			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
-		}
-		else
-		{
+		Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+				valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio);
+		if (Pieza.piezas.containsKey(titulo)) {
+			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+		} else {
 			Pieza.piezas.put(titulo, nueva);
 			actuales.add(titulo);
 		}
 	}
-	
-	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, int resolucion, String tipo,int precio) throws Exception
-	{
+
+	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			double ancho, double alto, int resolucion, String tipo, int precio) throws Exception {
 		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 		propietarios.add(this);
-		Imagen nueva = new Imagen(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,resolucion, tipo,precio);
-		if (Pieza.piezas.containsKey(titulo))
-		{
-			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
-		}
-		else
-		{
+		Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+				valorInicial, propietarios, ancho, alto, resolucion, tipo, precio);
+		if (Pieza.piezas.containsKey(titulo)) {
+			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+		} else {
 			Pieza.piezas.put(titulo, nueva);
 			actuales.add(titulo);
 		}
 	}
-	
-	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial, double ancho, double alto, String textura, int precio) throws Exception
-	{
+
+	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			double ancho, double alto, String textura, int precio) throws Exception {
 		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 		propietarios.add(this);
-		Pintura nueva = new Pintura(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,ancho,alto,textura,precio);
-		if (Pieza.piezas.containsKey(titulo))
-		{
-			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
-		}
-		else
-		{
+		Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+				valorInicial, propietarios, ancho, alto, textura, precio);
+		if (Pieza.piezas.containsKey(titulo)) {
+			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+		} else {
 			Pieza.piezas.put(titulo, nueva);
 			actuales.add(titulo);
 		}
 	}
-	
-	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,int duracion,int precio) throws Exception
-	{
+
+	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			int duracion, int precio) throws Exception {
 		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 		propietarios.add(this);
-		Video nueva = new Video(titulo,anio,lugarCreacion,Pieza.FUERA,null,null,false,valorMinimo,valorInicial,propietarios,duracion,precio);
-		if (Pieza.piezas.containsKey(titulo))
-		{
-			throw new Exception ("El título "+titulo + " ya fue usado en otra pieza.");
-		}
-		else
-		{
+		Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo, valorInicial,
+				propietarios, duracion, precio);
+		if (Pieza.piezas.containsKey(titulo)) {
+			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+		} else {
 			Pieza.piezas.put(titulo, nueva);
 			actuales.add(titulo);
 		}
 	}
-	
-	
-	public void entregarPieza(String titulo, boolean exhibir, boolean subasta, LocalDate tiempo) throws PiezaNoExistenteException, Exception {
-		
+
+	public void entregarPieza(String titulo, boolean exhibir, boolean subasta, LocalDate tiempo)
+			throws PiezaNoExistenteException, Exception {
+
 		String lugar = buscarPieza(titulo);
-		
-		if (lugar.equals("actuales") || lugar.equals("compras"))
-		{
+
+		if (lugar.equals("actuales") || lugar.equals("compras")) {
 			Pieza ePieza = Pieza.piezas.get(titulo);
-			
+
 			ePieza.setTiempoConsignacion(tiempo);
-			
+
 			if (subasta) {
-				ePieza.setDisponibilidad(new Subasta(-1,null,ePieza.getTitulo(),null,null));
+				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, null));
 			} else {
-				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(),null,ePieza.getTitulo(),null));
+				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(), null, ePieza.getTitulo(), null));
 			}
 
 			if (exhibir) {
@@ -226,7 +200,7 @@ public class Cliente extends Usuario {
 			} else {
 				ePieza.setEstado(Pieza.ALMACENADA);
 			}
-			
+
 			admin.agregarPieza(titulo, exhibir);
 		}
 	}
@@ -234,9 +208,8 @@ public class Cliente extends Usuario {
 	public void comprar(String titulo, String metodoDePago) throws Exception {
 		admin.nuevaCompra(titulo, this, metodoDePago);
 	}
-	
-	public int darCodigo()
-	{
+
+	public int darCodigo() {
 		return VERIFICACION;
 	}
 
@@ -249,24 +222,24 @@ public class Cliente extends Usuario {
 		return -1;
 	}
 
-	public static JSONObject toJson(Cliente cliente) {
+	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Volver las actuales en un JSONObject y ponerlas en el JSONObject principal
-		ArrayList<String> actuales = cliente.getActuales();
+		ArrayList<String> actuales = this.getActuales();
 		JSONArray jsonActuales = new JSONArray(actuales);
 		jsonObject.put("actuales", jsonActuales);
 		// Volver las antiguas en un JSONObject y ponerlas en el JSONObject principal
-		ArrayList<String> antiguas = cliente.getAntiguas();
+		ArrayList<String> antiguas = this.getAntiguas();
 		JSONArray jsonAntiguas = new JSONArray(antiguas);
 		jsonObject.put("antiguas", jsonAntiguas);
 		// Volver las compras en un JSONObject y ponerlas en el JSONObject principal
-		ArrayList<String> compras = cliente.getCompras();
+		ArrayList<String> compras = this.getCompras();
 		JSONArray jsonCompras = new JSONArray(compras);
 		jsonObject.put("compras", jsonCompras);
 		// Agregar los demas atributos de la clase, incluyendo los de Usuario
-		jsonObject.put("valorMaximo", cliente.getValorMaximo());
-		Usuario.agregarAtributos(jsonObject, cliente);
+		jsonObject.put("valorMaximo", this.getValorMaximo());
+		Usuario.agregarAtributos(jsonObject, this);
 		return jsonObject;
 	}
 }

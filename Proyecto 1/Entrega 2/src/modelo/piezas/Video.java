@@ -28,7 +28,7 @@ public class Video extends Pieza {
 		this.duracion = duracion;
 	}
 
-	public JSONObject toJson() {
+	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Agregar los atributos de la clase, incluyendo los de Pieza

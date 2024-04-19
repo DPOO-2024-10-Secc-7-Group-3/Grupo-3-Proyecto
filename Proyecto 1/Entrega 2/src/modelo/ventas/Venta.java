@@ -1,6 +1,9 @@
 package modelo.ventas;
 
-import modelo.piezas.Pieza;
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public abstract class Venta {
@@ -9,12 +12,14 @@ public abstract class Venta {
 	private Cliente comprador;
 	private String pieza;
 	private Pago pago;
-	
+	public static ArrayList<Venta> ventas = new ArrayList<Venta>();
+
 	public Venta(int precioVenta, Cliente comprador, String pieza, Pago pago) {
 		this.precioVenta = precioVenta;
 		this.comprador = comprador;
 		this.pieza = pieza;
 		this.pago = pago;
+		Venta.ventas.add(this);
 	}
 
 	public int getPrecioVenta() {
@@ -48,4 +53,14 @@ public abstract class Venta {
 	public void setPago(Pago pago) {
 		this.pago = pago;
 	}
+
+	public static void agregarAtributos(JSONObject jsonObject, Venta venta) {
+		// Agregar todos los atributos al JSONObject principal
+		jsonObject.put("precioVenta", venta.getPrecioVenta());
+		jsonObject.put("pieza", venta.getPieza());
+		jsonObject.put("pago", venta.getPago().toJSON());
+		jsonObject.put("comprador", venta.getComprador().toJSON());
+	}
+	
+	public abstract JSONObject toJSON();
 }

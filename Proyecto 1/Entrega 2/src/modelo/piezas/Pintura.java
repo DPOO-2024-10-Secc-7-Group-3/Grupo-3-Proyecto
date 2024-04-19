@@ -48,7 +48,7 @@ public class Pintura extends Pieza {
 		this.textura = textura;
 	}
 
-	public JSONObject toJson() {
+	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Agregar los atributos de la clase, incluyendo los de Pieza

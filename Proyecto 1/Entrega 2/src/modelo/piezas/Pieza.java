@@ -26,10 +26,11 @@ public abstract class Pieza {
 	public static final String EXHIBIDA = "exhibida";
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
-	public static HashMap<String,Pieza> piezas = new HashMap<String, Pieza>();
+	public static HashMap<String, Pieza> piezas = new HashMap<String, Pieza>();
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
-			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,int precio) {
+			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
+			int precio) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -131,32 +132,6 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 	}
 
-	/*
-	public static JSONObject toJson(Pieza pieza) {
-		// Definir el JSONObject principal
-		JSONObject jsonObject = new JSONObject();
-		// Agregar todos los atributos al JSONObject principal
-		jsonObject.put("titulo", pieza.getTitulo());
-		jsonObject.put("anio", pieza.getAnio());
-		jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
-		jsonObject.put("estado", pieza.getEstado());
-		jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
-		jsonObject.put("disponibilidad", pieza.getDisponibilidad());
-		jsonObject.put("bloqueada", pieza.isBloqueada());
-		jsonObject.put("valorMinimo", pieza.getValorMinimo());
-		jsonObject.put("valorInicial", pieza.getValorInicial());
-		jsonObject.put("precio", pieza.getPrecio());
-		JSONArray jsonPropietarios = new JSONArray();
-		for (Cliente propietario : pieza.getPropietarios()) {
-			JSONObject jsonCliente = Cliente.toJson(propietario);
-			jsonPropietarios.put(jsonCliente);
-		}
-		jsonObject.put("propietarios", jsonPropietarios);
-		agregarAtributos(jsonObject);
-		return jsonObject;
-	}
-	*/
-	
 	public static void agregarAtributos(JSONObject jsonObject, Pieza pieza) {
 		// Agregar todos los atributos al JSONObject principal
 		jsonObject.put("titulo", pieza.getTitulo());
@@ -171,11 +146,11 @@ public abstract class Pieza {
 		jsonObject.put("precio", pieza.getPrecio());
 		JSONArray jsonPropietarios = new JSONArray();
 		for (Cliente propietario : pieza.getPropietarios()) {
-			JSONObject jsonCliente = Cliente.toJson(propietario);
+			JSONObject jsonCliente = propietario.toJSON();
 			jsonPropietarios.put(jsonCliente);
 		}
 		jsonObject.put("propietarios", jsonPropietarios);
 	}
-	
-	public abstract JSONObject toJson(); 
+
+	public abstract JSONObject toJSON();
 }

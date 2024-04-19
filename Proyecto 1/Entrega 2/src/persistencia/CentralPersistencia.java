@@ -1,41 +1,23 @@
 package persistencia;
 
-import modelo.Inventario;
 import modelo.piezas.Pieza;
+import modelo.usuarios.Administrador;
+import modelo.ventas.Venta;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CentralPersistencia {
 
-	public void guardarDatos(String nCarpeta, Inventario inventario) {
-		guardarInventario(nCarpeta, inventario);
-	}
-
-	private void guardarInventario(String nCarpeta, Inventario inventario) {
-		
-		// Definir el JSONObject principal
+	public void guardarDatos(String nArchivo) {
 		JSONObject jsonObject = new JSONObject();
-		// Volver las exhibidas en un JSONObject
-		HashMap<String, Pieza> exhibidas = inventario.getExhibidas();
-		JSONObject jsonObjectExhibidas = new JSONObject();
-		for (Map.Entry<String, Pieza> entry : exhibidas.entrySet()) {
-			jsonObjectExhibidas.put(entry.getKey(), entry.getValue().toJson());
-		}
-		// Volver las almacenadas en un JSONObject
-		HashMap<String, Pieza> almacenadas = inventario.getAlmacenadas();
-		JSONObject jsonObjectAlmacenadas = new JSONObject();
-		for (Map.Entry<String, Pieza> entry : almacenadas.entrySet()) {
-			jsonObjectAlmacenadas.put(entry.getKey(), entry.getValue().toJson());
-		}
-		// Aniadir ambas al JSONObject principal
-		jsonObject.put("exhibidas", jsonObjectExhibidas);
-		jsonObject.put("almacenadas", jsonObjectAlmacenadas);
-		// Definir la ruta y el nombre del archivo y guardarlos en la carpeta data/
-		String ruta = "data/" + nCarpeta + "/inventario.json";
+		guardarAdministradores(jsonObject);
+		guardarPiezas(jsonObject);
+		guardarVentas(jsonObject);
+		String ruta = "data/" + nArchivo + ".json";
 		try (FileWriter fileWriter = new FileWriter(ruta)) {
 			fileWriter.write(jsonObject.toString(4));
 		} catch (IOException e) {
@@ -43,7 +25,57 @@ public class CentralPersistencia {
 		}
 	}
 
-	public void cargarDatos() {
+	public void guardarAdministradores(JSONObject jsonObject) {
+		if (Administrador.administradores.size() == 0) {
+			System.out.println("No hay administradores que guardar");
+		} else {
+			JSONArray jsonAdministradores = new JSONArray();
+			for (Administrador administrador : Administrador.administradores) {
+				JSONObject administradorJSON = administrador.toJSON();
+				jsonAdministradores.put(administradorJSON);
+			}
+			jsonObject.put("administradores", jsonAdministradores);
+		}
+	}
 
+	public void guardarPiezas(JSONObject jsonObject) {
+		if (Pieza.piezas.size() == 0) {
+			System.out.println("No hay piezas que guardar");
+		} else {
+			JSONArray jsonObjectMap = new JSONArray();
+			for (Map.Entry<String, Pieza> entry : Pieza.piezas.entrySet()) {
+				jsonObjectMap.put(entry.getValue().toJSON());
+			}
+			jsonObject.put("piezas", jsonObjectMap);
+		}
+	}
+
+	public void guardarVentas(JSONObject jsonObject) {
+		if (Venta.ventas.size() == 0) {
+			System.out.println("No hay ventas que guardar");
+		} else {
+			JSONArray jsonVentas = new JSONArray();
+			for (Venta venta : Venta.ventas) {
+				JSONObject ventaJSON = venta.toJSON();
+				jsonVentas.put(ventaJSON);
+			}
+			jsonObject.put("ventas", jsonVentas);
+		}
+	}
+
+	public void cargarDatos(String nArchivo) {
+
+	}
+	
+	public void cargarAdministradores() {
+		
+	}
+	
+	public void cargarPiezas() {
+		
+	}
+	
+	public void cargarVentas() {
+		
 	}
 }

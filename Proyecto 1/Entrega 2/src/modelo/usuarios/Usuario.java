@@ -26,6 +26,7 @@ public abstract class Usuario {
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.tipo = tipo;
+		logins.put(login, this);
 	}
 
 	public String getLogin() {

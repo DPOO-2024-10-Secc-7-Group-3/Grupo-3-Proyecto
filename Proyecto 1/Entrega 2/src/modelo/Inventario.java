@@ -1,10 +1,11 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import exceptions.PiezaNoExistenteException;
-import exceptions.VentaNoFijaException;
 import modelo.piezas.Pieza;
 
 public class Inventario {
@@ -43,20 +44,14 @@ public class Inventario {
 
 	public boolean sacarPieza(String titulo) {
 		boolean eliminada = exhibidas.remove(titulo);
-		
-		if (eliminada)
-		{
+
+		if (eliminada) {
 			return eliminada;
-		}
-		else
-		{
+		} else {
 			eliminada = almacenadas.remove(titulo);
-			if (eliminada)
-			{
+			if (eliminada) {
 				return eliminada;
-			}
-			else
-			{
+			} else {
 				return false;
 			}
 		}
@@ -64,38 +59,47 @@ public class Inventario {
 
 	public String buscarPieza(String titulo) throws PiezaNoExistenteException, Exception {
 		boolean encontrado = false;
-		
-		for (int i = 0; i<exhibidas.size() && !encontrado; i++)
-		{
-			if (exhibidas.get(i).equals(titulo))
-			{
+
+		for (int i = 0; i < exhibidas.size() && !encontrado; i++) {
+			if (exhibidas.get(i).equals(titulo)) {
 				encontrado = true;
 			}
 		}
-		
-		if (encontrado)
-		{
+
+		if (encontrado) {
 			return Pieza.EXHIBIDA;
-		}
-		else
-		{
+		} else {
 			int a = almacenadas.size();
-			for (int i = 0; i<almacenadas.size() && !encontrado; i++)
-			{
-				if (almacenadas.get(i).equals(titulo))
-				{
+			for (int i = 0; i < a && !encontrado; i++) {
+				if (almacenadas.get(i).equals(titulo)) {
 					encontrado = true;
 				}
 			}
-			
-			if (encontrado)
-			{
+
+			if (encontrado) {
 				return Pieza.ALMACENADA;
-			}
-			else
-			{
-				throw new Exception ("La pieza "+titulo+" no está en el inventario.");
+			} else {
+				throw new Exception("La pieza " + titulo + " no está en el inventario.");
 			}
 		}
+	}
+
+	public static JSONObject toJSON(Inventario inventario) {
+		// Definir el JSONObject principal
+		JSONObject jsonObject = new JSONObject();
+		// Volver las exhibidas en un JSONObject
+		JSONArray jsonObjectExhibidas = new JSONArray();
+		for (String titulo : inventario.getExhibidas()) {
+			jsonObjectExhibidas.put(titulo);
+		}
+		// Volver las almacenadas en un JSONObject
+		JSONArray jsonObjectAlmacenadas = new JSONArray();
+		for (String titulo : inventario.getAlmacenadas()) {
+			jsonObjectExhibidas.put(titulo);
+		}
+		// Aniadir ambas al JSONObject principal
+		jsonObject.put("exhibidas", jsonObjectExhibidas);
+		jsonObject.put("almacenadas", jsonObjectAlmacenadas);
+		return jsonObject;
 	}
 }

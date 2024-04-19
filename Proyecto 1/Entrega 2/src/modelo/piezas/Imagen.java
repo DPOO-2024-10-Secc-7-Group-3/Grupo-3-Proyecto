@@ -58,7 +58,7 @@ public class Imagen extends Pieza {
 		this.tipo = tipo;
 	}
 
-	public JSONObject toJson() {
+	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Agregar los atributos de la clase, incluyendo los de Pieza

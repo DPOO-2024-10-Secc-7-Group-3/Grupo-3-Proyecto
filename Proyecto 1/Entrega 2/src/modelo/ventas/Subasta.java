@@ -1,8 +1,10 @@
 package modelo.ventas;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import modelo.piezas.Pieza;
+import org.json.JSONObject;
+
 import modelo.usuarios.Cliente;
 
 public class Subasta extends Venta {
@@ -20,5 +22,17 @@ public class Subasta extends Venta {
 
 	public void setOfertas(HashMap<String, Integer> ofertas) {
 		this.ofertas = ofertas;
+	}
+
+	public JSONObject toJSON() {
+		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonObjectMap = new JSONObject();
+		for (Map.Entry<String, Integer> entry : this.getOfertas().entrySet()) {
+            jsonObject.put(entry.getKey(), entry.getValue());
+        }
+		jsonObject.put("ofertas", jsonObjectMap);
+		// Agregar los atributos de la clase, incluyendo los de Venta
+		Venta.agregarAtributos(jsonObject, this);
+		return jsonObject;
 	}
 }

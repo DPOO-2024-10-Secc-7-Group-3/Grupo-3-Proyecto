@@ -69,7 +69,7 @@ public class Escultura extends Pieza {
 		this.electricidad = electricidad;
 	}
 
-	public JSONObject toJson() {
+	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
 		// Volver los materiales en un JSONObject y ponerlas en el JSONObject principal

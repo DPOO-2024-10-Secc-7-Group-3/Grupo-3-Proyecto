@@ -7,7 +7,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import exceptions.UserDuplicatedException;
+import modelo.usuarios.Administrador;
 import modelo.usuarios.Cliente;
+import modelo.ventas.Fija;
+import modelo.ventas.Subasta;
 import modelo.ventas.Venta;
 
 public abstract class Pieza {
@@ -27,10 +31,15 @@ public abstract class Pieza {
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
 	public static HashMap<String, Pieza> piezas = new HashMap<String, Pieza>();
+	public static final String ESCULTURA = "escultura";
+	public static final String IMAGEN = "imagen";
+	public static final String PINTURA = "pintura";
+	public static final String VIDEO = "video";
+	private String pieza;
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
 			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
-			int precio) {
+			int precio, String pieza) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -42,6 +51,15 @@ public abstract class Pieza {
 		this.valorInicial = valorInicial;
 		this.propietarios = propietarios;
 		this.precio = precio;
+		this.pieza = pieza;
+	}
+
+	public String getTipoPieza() {
+		return pieza;
+	}
+
+	public void setTipoPieza(String pieza) {
+		this.pieza = pieza;
 	}
 
 	public int getPrecio() {
@@ -132,6 +150,11 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 	}
 
+	public static Pieza getPieza(String nTitulo) {
+		Pieza pieza = Pieza.piezas.get(nTitulo);
+		return pieza;
+	}
+
 	public static void agregarAtributos(JSONObject jsonObject, Pieza pieza) {
 		// Agregar todos los atributos al JSONObject principal
 		jsonObject.put("titulo", pieza.getTitulo());
@@ -139,11 +162,14 @@ public abstract class Pieza {
 		jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
 		jsonObject.put("estado", pieza.getEstado());
 		jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
-		jsonObject.put("disponibilidad", pieza.getDisponibilidad());
+		if (pieza.getDisponibilidad() != null) {
+			jsonObject.put("disponibilidad", pieza.getDisponibilidad().toJSON());
+		}
 		jsonObject.put("bloqueada", pieza.isBloqueada());
 		jsonObject.put("valorMinimo", pieza.getValorMinimo());
 		jsonObject.put("valorInicial", pieza.getValorInicial());
 		jsonObject.put("precio", pieza.getPrecio());
+		jsonObject.put("pieza", pieza.getTipoPieza());
 		JSONArray jsonPropietarios = new JSONArray();
 		for (Cliente propietario : pieza.getPropietarios()) {
 			JSONObject jsonCliente = propietario.toJSON();
@@ -153,4 +179,34 @@ public abstract class Pieza {
 	}
 
 	public abstract JSONObject toJSON();
+
+	@SuppressWarnings("null")
+	public void addAtributesOnLoad(JSONObject jsonObject, Administrador admin)
+			throws UserDuplicatedException, Exception {
+		if (jsonObject.has("disponibilidad")) {
+			JSONObject disponibilidad = jsonObject.getJSONObject("disponibilidad");
+			if (disponibilidad.has("ofertas")) {
+				Subasta ventaPieza = Subasta.fromJSON(disponibilidad, admin);
+				this.setDisponibilidad(ventaPieza);
+			} else {
+				Fija ventaPieza = Fija.fromJSON(disponibilidad, admin);
+				this.setDisponibilidad(ventaPieza);
+			}
+		} else {
+			Venta ventaPieza = null;
+			this.setDisponibilidad(ventaPieza);
+		}
+		if (jsonObject.has("tiempoConsignacion")) {
+			String tiempo = jsonObject.getString("tiempoConsignacion");
+			LocalDate tiempoConsignacion = LocalDate.parse(tiempo);
+			this.setTiempoConsignacion(tiempoConsignacion);
+		} else {
+			LocalDate tiempoConsignacion = null;
+			this.setTiempoConsignacion(tiempoConsignacion);
+		}
+		String estado = jsonObject.getString("estado");
+		boolean bloqueada = jsonObject.getBoolean("bloqueada");
+		this.setEstado(estado);
+		this.setBloqueada(bloqueada);
+	}
 }

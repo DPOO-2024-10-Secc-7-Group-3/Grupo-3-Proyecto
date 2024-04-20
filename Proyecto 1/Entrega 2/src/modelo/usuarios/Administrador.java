@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import exceptions.PiezaNoExistenteException;
 import exceptions.UserDuplicatedException;
+import exceptions.UserNotFoundException;
 import modelo.Inventario;
 import modelo.piezas.Pieza;
 import modelo.ventas.Fija;
@@ -18,9 +19,9 @@ import modelo.ventas.Subasta;
 public class Administrador extends Usuario {
 
 	private Inventario inventario;
-	private ArrayList<Cliente> clientes;
-	private ArrayList<Cajero> cajeros;
-	private ArrayList<Operador> operadores;
+	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	private ArrayList<Cajero> cajeros = new ArrayList<Cajero>();
+	private ArrayList<Operador> operadores = new ArrayList<Operador>();
 	public static ArrayList<Administrador> administradores = new ArrayList<Administrador>();
 
 	public Administrador(String login, String password, String nombre, int telefono, String tipo, Inventario inventario,
@@ -33,18 +34,55 @@ public class Administrador extends Usuario {
 		Administrador.administradores.add(this);
 	}
 
-	public Administrador(String login, String password, String nombre, int telefono, String tipo, Inventario inventario,
-			ArrayList<Cliente> clientes, ArrayList<Cajero> cajeros, ArrayList<Operador> operadores, String id) {
-		super(login, password, nombre, telefono, tipo);
-		this.inventario = inventario;
-		this.clientes = clientes;
-		this.cajeros = cajeros;
-		this.operadores = operadores;
+	public Administrador(String login, String password, String nombre, int telefono, String tipo) {
+		super(login, nombre, password, telefono, tipo);
 		Administrador.administradores.add(this);
 	}
 
 	public ArrayList<Cliente> getClientes() {
 		return clientes;
+	}
+
+	public Cliente getCliente(String nLogin) throws UserNotFoundException {
+		Cliente clienteObjetivo = null;
+		for (Cliente cliente : this.clientes) {
+			if (cliente.getLogin().equals(nLogin)) {
+				clienteObjetivo = cliente;
+			}
+		}
+		if (clienteObjetivo != null) {
+			return clienteObjetivo;
+		} else {
+			throw new UserNotFoundException(nLogin);
+		}
+	}
+
+	public Cajero getCajero(String nLogin) throws UserNotFoundException {
+		Cajero cajeroObjetivo = null;
+		for (Cajero cajero : this.cajeros) {
+			if (cajero.getLogin().equals(nLogin)) {
+				cajeroObjetivo = cajero;
+			}
+		}
+		if (cajeroObjetivo != null) {
+			return cajeroObjetivo;
+		} else {
+			throw new UserNotFoundException(nLogin);
+		}
+	}
+
+	public Operador getOperador(String nLogin) throws UserNotFoundException {
+		Operador operadorObjetivo = null;
+		for (Operador operador : this.operadores) {
+			if (operador.getLogin().equals(nLogin)) {
+				operadorObjetivo = operador;
+			}
+		}
+		if (operadorObjetivo != null) {
+			return operadorObjetivo;
+		} else {
+			throw new UserNotFoundException(nLogin);
+		}
 	}
 
 	public void setClientes(ArrayList<Cliente> clientes) {
@@ -58,7 +96,7 @@ public class Administrador extends Usuario {
 	public void setCajeros(ArrayList<Cajero> cajeros) {
 		this.cajeros = cajeros;
 	}
-	
+
 	public void agregarCajero(Cajero cajero) {
 		this.cajeros.add(cajero);
 	}
@@ -104,7 +142,7 @@ public class Administrador extends Usuario {
 				throw new Exception("El rol no es permitido.");
 			}
 
-			//logins.put(nLogin, newCliente);
+			// logins.put(nLogin, newCliente);
 		}
 	}
 
@@ -133,6 +171,43 @@ public class Administrador extends Usuario {
 		}
 	}
 
+	public void cerrarSubasta(String titulo, String nCliente, Subasta subasta) throws Exception {
+		Cliente nDuenio = this.getCliente(nCliente);
+		Cajero cajero = null;
+		for (Cajero actual : this.cajeros) {
+			if (!actual.isOcupado()) {
+				cajero = actual;
+				break;
+			}
+		}
+		if (cajero == null) {
+			throw new Exception("No hay cajeros libres para hacer el pago ahora. Intente más tarde");
+		} else {
+
+			cajero.setOcupado(true);
+			Pago pago = subasta.getPago();
+			cajero.aniadirPago(pago);
+			cajero.setOcupado(false);
+
+			Pieza vPieza = Pieza.getPieza(titulo);
+			inventario.sacarPieza(titulo);
+			vPieza.setBloqueada(false);
+			vPieza.setEstado(Pieza.FUERA);
+			ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
+			nuevos.add(nDuenio);
+			vPieza.setPropietarios(nuevos);
+			vPieza.setTiempoConsignacion(null);
+			nDuenio.getCompras().add(titulo);
+			vPieza.setDisponibilidad(subasta);
+
+			ArrayList<Cliente> propietarios = vPieza.getPropietarios();
+			for (Cliente propietario : propietarios) {
+				propietario.getActuales().remove(titulo);
+				propietario.getAntiguas().add(titulo);
+			}
+		}
+	}
+
 	public void nuevaCompra(String titulo, Cliente cliente, String metodoDePago) throws Exception {
 		inventario.buscarPieza(titulo);
 
@@ -146,19 +221,14 @@ public class Administrador extends Usuario {
 		}
 
 		if (verificado) {
-			boolean ocupado = true;
-			int i = 0;
 			Cajero cajero = null;
-			while (ocupado && i < cajeros.size()) {
-				Cajero actual = cajeros.get(i);
+			for (Cajero actual : this.cajeros) {
 				if (!actual.isOcupado()) {
 					cajero = actual;
-					ocupado = false;
+					break;
 				}
-				i++;
 			}
-
-			if (ocupado) {
+			if (cajero == null) {
 				throw new Exception("No hay cajeros libres para hacer el pago ahora. Intente más tarde");
 			} else {
 				if (vPieza.getPrecio() > cliente.getValorMaximo()) {
@@ -240,5 +310,22 @@ public class Administrador extends Usuario {
 		jsonObject.put("operadores", jsonOperadores);
 		Usuario.agregarAtributos(jsonObject, this);
 		return jsonObject;
+	}
+
+	public static void fromJSON(JSONObject jsonObject) throws UserDuplicatedException, Exception {
+		String login = jsonObject.getString("login");
+		String password = jsonObject.getString("password");
+		String nombre = jsonObject.getString("nombre");
+		int telefono = jsonObject.getInt("telefono");
+		String tipo = jsonObject.getString("tipo");
+		Administrador admin = new Administrador(login, password, nombre, telefono, tipo);
+		Inventario inventario = Inventario.fromJSON(jsonObject);
+		admin.setInventario(inventario);
+		ArrayList<Cliente> clientes = Cliente.fromJSON(jsonObject, admin);
+		admin.setClientes(clientes);
+		ArrayList<Cajero> cajeros = Cajero.fromJSON(jsonObject, admin);
+		admin.setCajeros(cajeros);
+		ArrayList<Operador> operadores = Operador.fromJSON(jsonObject, admin);
+		admin.setOperadores(operadores);
 	}
 }

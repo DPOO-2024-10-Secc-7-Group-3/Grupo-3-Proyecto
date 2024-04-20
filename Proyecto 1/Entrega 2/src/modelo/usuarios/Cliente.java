@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exceptions.PiezaNoExistenteException;
+import exceptions.UserDuplicatedException;
 import modelo.piezas.Escultura;
 import modelo.piezas.Imagen;
 import modelo.piezas.Pieza;
@@ -122,60 +123,76 @@ public class Cliente extends Usuario {
 		}
 	}
 
-	public void crearEscultura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+	public void crearPieza(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
 			double ancho, double alto, double profundidad, ArrayList<String> materiales, boolean electricidad,
-			int precio) throws Exception {
-		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
-		propietarios.add(this);
-		Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-				valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio);
-		if (Pieza.piezas.containsKey(titulo)) {
-			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+			int precio, String pieza) throws Exception {
+		if (Pieza.ESCULTURA.equals(pieza)) {
+			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+			propietarios.add(this);
+			Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza);
+			if (Pieza.piezas.containsKey(titulo)) {
+				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+			} else {
+				Pieza.piezas.put(titulo, nueva);
+				actuales.add(titulo);
+			}
 		} else {
-			Pieza.piezas.put(titulo, nueva);
-			actuales.add(titulo);
+			System.out.println("Se esta intentando crea un/a " + pieza + " como una escultura.");
 		}
 	}
 
-	public void crearImagen(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
-			double ancho, double alto, int resolucion, String tipo, int precio) throws Exception {
-		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
-		propietarios.add(this);
-		Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-				valorInicial, propietarios, ancho, alto, resolucion, tipo, precio);
-		if (Pieza.piezas.containsKey(titulo)) {
-			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+	public void crearPieza(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			double ancho, double alto, int resolucion, String tipo, int precio, String pieza) throws Exception {
+		if (Pieza.IMAGEN.equals(pieza)) {
+			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+			propietarios.add(this);
+			Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza);
+			if (Pieza.piezas.containsKey(titulo)) {
+				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+			} else {
+				Pieza.piezas.put(titulo, nueva);
+				actuales.add(titulo);
+			}
 		} else {
-			Pieza.piezas.put(titulo, nueva);
-			actuales.add(titulo);
+			System.out.println("Se esta intentando crea un/a " + pieza + " como una imagen.");
 		}
 	}
 
-	public void crearPintura(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
-			double ancho, double alto, String textura, int precio) throws Exception {
-		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
-		propietarios.add(this);
-		Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-				valorInicial, propietarios, ancho, alto, textura, precio);
-		if (Pieza.piezas.containsKey(titulo)) {
-			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+	public void crearPieza(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			double ancho, double alto, String textura, int precio, String pieza) throws Exception {
+		if (Pieza.PINTURA.equals(pieza)) {
+			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+			propietarios.add(this);
+			Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+					valorInicial, propietarios, ancho, alto, textura, precio, pieza);
+			if (Pieza.piezas.containsKey(titulo)) {
+				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+			} else {
+				Pieza.piezas.put(titulo, nueva);
+				actuales.add(titulo);
+			}
 		} else {
-			Pieza.piezas.put(titulo, nueva);
-			actuales.add(titulo);
+			System.out.println("Se esta intentando crea un/a " + pieza + " como una pintura.");
 		}
 	}
 
-	public void crearVideo(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
-			int duracion, int precio) throws Exception {
-		ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
-		propietarios.add(this);
-		Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo, valorInicial,
-				propietarios, duracion, precio);
-		if (Pieza.piezas.containsKey(titulo)) {
-			throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+	public void crearPieza(String titulo, int anio, String lugarCreacion, int valorMinimo, int valorInicial,
+			int duracion, int precio, String pieza) throws Exception {
+		if (Pieza.VIDEO.equals(pieza)) {
+			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
+			propietarios.add(this);
+			Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
+					valorInicial, propietarios, duracion, precio, pieza);
+			if (Pieza.piezas.containsKey(titulo)) {
+				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
+			} else {
+				Pieza.piezas.put(titulo, nueva);
+				actuales.add(titulo);
+			}
 		} else {
-			Pieza.piezas.put(titulo, nueva);
-			actuales.add(titulo);
+			System.out.println("Se esta intentando crea un/a " + pieza + " como un video.");
 		}
 	}
 
@@ -241,5 +258,43 @@ public class Cliente extends Usuario {
 		jsonObject.put("valorMaximo", this.getValorMaximo());
 		Usuario.agregarAtributos(jsonObject, this);
 		return jsonObject;
+	}
+
+	public static ArrayList<Cliente> fromJSON(JSONObject jsonObject, Administrador administrador)
+			throws UserDuplicatedException, Exception {
+		JSONArray jsonClientes = jsonObject.getJSONArray("clientes");
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		for (Object obj : jsonClientes) {
+			JSONObject clienteJson = (JSONObject) obj;
+			Cliente cliente = Cliente.loadClientFromJSON(clienteJson, administrador);
+			clientes.add(cliente);
+		}
+		return clientes;
+	}
+
+	public static Cliente loadClientFromJSON(JSONObject clienteJson, Administrador administrador)
+			throws UserDuplicatedException, Exception {
+		Usuario.loadUserFromJSON(clienteJson, administrador);
+		JSONArray actualesJson = clienteJson.getJSONArray("actuales");
+		ArrayList<String> actuales = new ArrayList<String>();
+		for (Object titulo : actualesJson) {
+			actuales.add((String) titulo);
+		}
+		JSONArray antiguasJson = clienteJson.getJSONArray("antiguas");
+		ArrayList<String> antiguas = new ArrayList<String>();
+		for (Object titulo : antiguasJson) {
+			antiguas.add((String) titulo);
+		}
+		JSONArray comprasJson = clienteJson.getJSONArray("actuales");
+		ArrayList<String> compras = new ArrayList<String>();
+		for (Object titulo : comprasJson) {
+			compras.add((String) titulo);
+		}
+		String login = clienteJson.getString("login");
+		Cliente cliente = administrador.getCliente(login);
+		cliente.setActuales(actuales);
+		cliente.setAntiguas(antiguas);
+		cliente.setCompras(compras);
+		return cliente;
 	}
 }

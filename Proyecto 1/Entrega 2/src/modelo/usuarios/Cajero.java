@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import exceptions.UserDuplicatedException;
 import modelo.ventas.Pago;
 
 public class Cajero extends Usuario {
@@ -40,7 +41,11 @@ public class Cajero extends Usuario {
 		pagos.add(nuevo);
 		return nuevo;
 	}
-
+	
+	public void aniadirPago(Pago pago) {
+		pagos.add(pago);
+	}
+	
 	public JSONObject toJSON() {
 		// Definir el JSONObject principal
 		JSONObject jsonObject = new JSONObject();
@@ -55,5 +60,29 @@ public class Cajero extends Usuario {
 		jsonObject.put("ocupado", this.isOcupado());
 		Usuario.agregarAtributos(jsonObject, this);
 		return jsonObject;
+	}
+
+	public static ArrayList<Cajero> fromJSON(JSONObject jsonObject, Administrador administrador)
+			throws UserDuplicatedException, Exception {
+		JSONArray jsonCajeros = jsonObject.getJSONArray("cajeros");
+		ArrayList<Cajero> cajeros = new ArrayList<Cajero>();
+		for (Object obj : jsonCajeros) {
+			JSONObject cajeroJson = (JSONObject) obj;
+			Usuario.loadUserFromJSON(cajeroJson, administrador);
+			JSONArray pagosJson = cajeroJson.getJSONArray("pagos");
+			ArrayList<Pago> pagos = new ArrayList<Pago>();
+			for (Object pagoObj : pagosJson) {
+				JSONObject pagoJson = (JSONObject) pagoObj;
+				Pago pago = Pago.fromJSON(pagoJson);
+				pagos.add(pago);
+			}
+			boolean ocupado = cajeroJson.getBoolean("ocupado");
+			String login = cajeroJson.getString("login");
+			Cajero cajero = administrador.getCajero(login);
+			cajero.setOcupado(ocupado);
+			cajero.setPagos(pagos);
+			cajeros.add(cajero);
+		}
+		return cajeros;
 	}
 }

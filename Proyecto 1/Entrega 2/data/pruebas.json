@@ -76,7 +76,7 @@
         "telefono": 315,
         "inventario": {
             "almacenadas": [],
-            "exhibidas": []
+            "exhibidas": ["Infinity"]
         },
         "nombre": "Andres"
     }],
@@ -133,6 +133,7 @@
             "anio": 1932
         },
         {
+            "tiempoConsignacion": "2024-04-19",
             "propietarios": [{
                 "valorMaximo": 2000000,
                 "compras": [],
@@ -144,7 +145,8 @@
                 "telefono": 314,
                 "nombre": "Fabio"
             }],
-            "estado": "fuera",
+            "estado": "almacenada",
+            "disponibilidad": "modelo.ventas.Fija@614c5515",
             "precio": 1000000,
             "lugarCreacion": "EEUU",
             "valorInicial": 1000000,
@@ -200,5 +202,11 @@
             "valorMinimo": 1000000,
             "anio": 2000
         }
-    ]
+    ],
+    "ventas": [{
+        "pieza": "Infinity",
+        "comprador": "",
+        "precioVenta": 1000000,
+        "pago": ""
+    }]
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import exceptions.IncorrectPasswordException;
+import exceptions.UserDuplicatedException;
 import exceptions.UserNotFoundException;
 
 public abstract class Usuario {
@@ -89,5 +90,15 @@ public abstract class Usuario {
 		jsonObject.put("nombre", usuario.getNombre());
 		jsonObject.put("telefono", usuario.getTelefono());
 		jsonObject.put("tipo", usuario.getTipo());
+	}
+
+	public static void loadUserFromJSON(JSONObject jsonObject, Administrador administrador)
+			throws UserDuplicatedException, Exception {
+		String login = jsonObject.getString("login");
+		String password = jsonObject.getString("password");
+		String nombre = jsonObject.getString("nombre");
+		int telefono = jsonObject.getInt("telefono");
+		String tipo = jsonObject.getString("tipo");
+		administrador.crearUsuario(login, password, nombre, telefono, tipo);
 	}
 }

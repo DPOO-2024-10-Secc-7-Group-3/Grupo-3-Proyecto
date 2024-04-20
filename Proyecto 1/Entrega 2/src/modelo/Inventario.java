@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -57,6 +56,13 @@ public class Inventario {
 		}
 	}
 
+	public boolean containsPieza(String nTitulo) {
+		if (almacenadas.contains(nTitulo) && exhibidas.contains(nTitulo)) {
+			return true;
+		}
+		return false;
+	}
+
 	public String buscarPieza(String titulo) throws PiezaNoExistenteException, Exception {
 		boolean encontrado = false;
 
@@ -101,5 +107,21 @@ public class Inventario {
 		jsonObject.put("exhibidas", jsonObjectExhibidas);
 		jsonObject.put("almacenadas", jsonObjectAlmacenadas);
 		return jsonObject;
+	}
+
+	public static Inventario fromJSON(JSONObject jsonObject) {
+		JSONObject inventarioJson = jsonObject.getJSONObject("inventario");
+		JSONArray exhibidasJson = inventarioJson.getJSONArray("exhibidas");
+		ArrayList<String> exhibidas = new ArrayList<>();
+		for (Object titulo : exhibidasJson) {
+			exhibidas.add((String) titulo);
+		}
+		JSONArray almacenadasJson = inventarioJson.getJSONArray("almacenadas");
+		ArrayList<String> almacenadas = new ArrayList<>();
+		for (Object titulo : almacenadasJson) {
+			almacenadas.add((String) titulo);
+		}
+		Inventario inventario = new Inventario(exhibidas, almacenadas);
+		return inventario;
 	}
 }

@@ -2,6 +2,8 @@ package modelo.ventas;
 
 import org.json.JSONObject;
 
+import exceptions.UserDuplicatedException;
+import modelo.usuarios.Administrador;
 import modelo.usuarios.Cliente;
 
 public class Fija extends Venta {
@@ -16,5 +18,12 @@ public class Fija extends Venta {
 		// Agregar los atributos de la clase, incluyendo los de Venta
 		Venta.agregarAtributos(jsonObject, this);
 		return jsonObject;
+	}
+	
+	public static Fija fromJSON(JSONObject jsonObject, Administrador administrador)
+			throws UserDuplicatedException, Exception {
+		Fija fija = new Fija(1, null, null, null);
+		Venta.loadSaleFromJSON(jsonObject, administrador, fija);
+		return fija;
 	}
 }

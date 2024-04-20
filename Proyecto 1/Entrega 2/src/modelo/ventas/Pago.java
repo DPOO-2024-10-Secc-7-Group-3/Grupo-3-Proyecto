@@ -36,4 +36,11 @@ public class Pago {
 		jsonObject.put("monto", this.getMonto());
 		return jsonObject;
 	}
+
+	public static Pago fromJSON(JSONObject jsonObject) {
+		String tipo = jsonObject.getString("tipo");
+		int monto = jsonObject.getInt("monto");
+		Pago pago = new Pago(tipo, monto);
+		return pago;
+	}
 }

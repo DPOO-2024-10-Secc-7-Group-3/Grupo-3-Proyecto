@@ -12,59 +12,64 @@ import modelo.usuarios.Cliente;
 import modelo.usuarios.Usuario;
 import modelo.usuarios.Operador;
 import modelo.ventas.Pago;
+import modelo.ventas.Subasta;
 import modelo.ventas.Venta;
 import persistencia.CentralPersistencia;
 
 public class Main {
-	//@SuppressWarnings("static-access")
+	// @SuppressWarnings("static-access")
 	public static void main(String[] args) {
 		try {
+
 			Inventario inventario = new Inventario(new ArrayList<String>(), new ArrayList<String>());
 			Administrador admin1 = new Administrador("a.bolivarc", "123", "Andres", 315, Usuario.ADMIN, inventario,
 					new ArrayList<Cliente>(), new ArrayList<Cajero>(), new ArrayList<Operador>());
 
-			//admin1.crearUsuario("a.bolivarc", "123", "Andres", 315, Usuario.ADMIN);
+			// admin1.crearUsuario("a.bolivarc", "123", "Andres", 315, Usuario.ADMIN);
 
 			Cajero cajero1 = new Cajero("s.lievanom", "456", "Santiago", 312, Usuario.CAJERO, new ArrayList<Pago>(),
 					false);
 			cajero1.nuevoPago("efectivo", 15000);
-			//admin1.crearUsuario("s.lievanom", "456", "Santiago", 312, Usuario.CAJERO);
+			// admin1.crearUsuario("s.lievanom", "456", "Santiago", 312, Usuario.CAJERO);
 
 			admin1.agregarCajero(cajero1);
-			
+
 			admin1.crearUsuario("je.aguirreo1", "789", "Juan", 322, Usuario.CLIENTE);
 			admin1.crearUsuario("f.ortizp", "123", "Fabio", 314, Usuario.CLIENTE);
 			admin1.crearUsuario("jm.perezb1", "456", "Manuel", 310, Usuario.CLIENTE);
 			admin1.crearUsuario("lm.rojasa12", "789", "Mariana", 317, Usuario.CLIENTE);
 			admin1.crearUsuario("jg.bernalc1", "123", "Gabriel", 300, Usuario.CLIENTE);
+			admin1.crearUsuario("je.sandovals1", "123", "Jesus", 300, Usuario.OPERADOR);
 
 			Cliente cliente1 = (Cliente) Usuario.iniciarSesion("je.aguirreo1", "789");
 			Cliente cliente2 = (Cliente) Usuario.iniciarSesion("f.ortizp", "123");
 			Cliente cliente3 = (Cliente) Usuario.iniciarSesion("jm.perezb1", "456");
 			Cliente cliente4 = (Cliente) Usuario.iniciarSesion("lm.rojasa12", "789");
 			Cliente cliente5 = (Cliente) Usuario.iniciarSesion("jg.bernalc1", "123");
+			Operador operador1 = (Operador) Usuario.iniciarSesion("je.sandovals1", "123");
 
-			cliente1.crearPintura("La mona lisa", 2000, "Italia", 1000000, 700000, 77, 53, "Brillante", 500000);
-			cliente2.crearVideo("Infinity", 2007, "EEUU", 2000000, 1000000, 7, 1000000);
-			cliente3.crearImagen("Los obreros en la viga", 1932, "EEUU", 700000, 400000, 69, 48, 1080, "fotografía",
-					500000);
+			cliente1.crearPieza("La mona lisa", 2000, "Italia", 1000000, 700000, 77, 53, "Brillante", 500000,
+					"pintura");
+			cliente2.crearPieza("Infinity", 2007, "EEUU", 2000000, 1000000, 7, 1000000, "video");
+			cliente3.crearPieza("Los obreros en la viga", 1932, "EEUU", 700000, 400000, 69, 48, 1080, "fotografía",
+					500000, "imagen");
 			ArrayList<String> materiales = new ArrayList<String>();
 			materiales.add("marmol");
-			cliente4.crearEscultura("El David", 1501, "Italia", 3000000, 1500000, 517.0, 200, 100, materiales, false,
-					2000000);
-			cliente5.crearVideo("Tremor", 2010, "Alemania", 1500000, 1000000, 4, 1250000);
-			
+			cliente4.crearPieza("El David", 1501, "Italia", 3000000, 1500000, 517.0, 200, 100, materiales, false,
+					2000000, "escultura");
+			cliente5.crearPieza("Tremor", 2010, "Alemania", 1500000, 1000000, 4, 1250000, "video");
+
 			System.out.println("exhibidas");
-			for(String titulo : admin1.getInventario().getExhibidas()) {
+			for (String titulo : admin1.getInventario().getExhibidas()) {
 				System.out.println(titulo);
 			}
 			System.out.println("almacenadas");
-			for(String titulo : admin1.getInventario().getAlmacenadas()) {
+			for (String titulo : admin1.getInventario().getAlmacenadas()) {
 				System.out.println(titulo);
 			}
 
 			System.out.println(
-					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n");
+					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n");
 			System.out.print("Elija cuál caso desea probar" + ": ");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 			String input = reader.readLine();
@@ -179,8 +184,8 @@ public class Main {
 								nElectricidad = false;
 							}
 
-							((Cliente) user1).crearEscultura(titulo, anio, lugar, valorMinimo, valorInicial, ancho,
-									alto, profundidad, nMateriales, nElectricidad, precio);
+							((Cliente) user1).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
+									profundidad, nMateriales, nElectricidad, precio, "escultura");
 						} else if (tipo.equalsIgnoreCase("pintura")) {
 							System.out.print("Ingrese el alto de la pintura" + ": ");
 							BufferedReader reader8 = new BufferedReader(new InputStreamReader(System.in));
@@ -194,14 +199,14 @@ public class Main {
 							BufferedReader reader12 = new BufferedReader(new InputStreamReader(System.in));
 							String textura = (reader12.readLine());
 
-							((Cliente) user1).crearPintura(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
-									textura, precio);
+							((Cliente) user1).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
+									textura, precio, "pintura");
 						} else if (tipo.equalsIgnoreCase("video")) {
 							System.out.print("Ingrese la duración del video" + ": ");
 							BufferedReader reader8 = new BufferedReader(new InputStreamReader(System.in));
 							int duracion = Integer.parseInt(reader8.readLine());
-							((Cliente) user1).crearVideo(titulo, anio, lugar, valorMinimo, valorInicial, duracion,
-									precio);
+							((Cliente) user1).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, duracion,
+									precio, "video");
 						} else {
 							System.out.print("Ingrese el alto de la imagen" + ": ");
 							BufferedReader reader8 = new BufferedReader(new InputStreamReader(System.in));
@@ -219,8 +224,8 @@ public class Main {
 							BufferedReader reader11 = new BufferedReader(new InputStreamReader(System.in));
 							String nTipo = (reader11.readLine());
 
-							((Cliente) user1).crearImagen(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
-									resolucion, nTipo, precio);
+							((Cliente) user1).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
+									resolucion, nTipo, precio, "imagen");
 						}
 
 						for (String nTitulo : ((Cliente) user1).getActuales()) {
@@ -228,6 +233,7 @@ public class Main {
 						}
 					}
 				} else if (input.equals("4")) {
+
 					System.out.print("Ingrese el usuario" + ": ");
 					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
 					String usuario = read1.readLine();
@@ -364,14 +370,106 @@ public class Main {
 					for (Pieza pieza : Pieza.piezas.values()) {
 						System.out.println(pieza.getTitulo());
 					}
-					System.out.println("\nSe guardaron los pagos de las siguientes piezas:");
+					System.out.println("\nSe cargaron los movimientos de las siguientes piezas:");
 					for (Venta venta : Venta.ventas) {
-						System.out.println(venta.getPieza());
+						if (venta.getComprador() == null) {
+							System.out.println("Se entrego: " + venta.getPieza());
+						} else {
+							System.out.println(venta.getComprador().getNombre() + " compro: " + venta.getPieza());
+						}
 					}
 					System.out.println("Fin :)\n");
+				} else if (input.equals("8")) {
+					System.out.print("Ingrese el nombre del archivo" + ": ");
+					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+					String nArchivo = reader1.readLine();
+
+					CentralPersistencia cp = new CentralPersistencia();
+
+					cp.cargarDatos(nArchivo);
+
+					System.out.println("El archivo " + nArchivo + " ha sido cargado con exito");
+					System.out.println("\nSe cargaron los siguientes usuarios:");
+					for (String login : Usuario.logins.keySet()) {
+						System.out.println(login);
+					}
+					System.out.println("\nSe cargaron las siguientes piezas:");
+					for (Pieza pieza : Pieza.piezas.values()) {
+						System.out.println(pieza.getTitulo());
+					}
+					System.out.println("\nSe cargaron los movimientos de las siguientes piezas:");
+					for (Venta venta : Venta.ventas) {
+						if (venta.getComprador() == null) {
+							System.out.println("Se entrego: " + venta.getPieza());
+						} else {
+							System.out.println(venta.getComprador().getNombre() + " compro: " + venta.getPieza());
+						}
+					}
+					System.out.println("Fin :)\n");
+				} else if (input.equals("9")) {
+					System.out.print("Ingrese el nombre de la pieza a subastar" + ": ");
+					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+					String nTitulo = reader1.readLine();
+
+					operador1.iniciarSubasta(nTitulo, admin1);
+
+					System.out.println("La subasta por " + nTitulo + " ha iniciado con exito");
+					System.out.println("\nEstan activas las subastas por los siguientes objetos:");
+					for (Operador operador : admin1.getOperadores()) {
+						for (Subasta subasta : operador.getSubastas()) {
+							System.out.println(subasta.getPieza());
+						}
+					}
+				} else if (input.equals("10")) {
+					System.out.print("Ingrese el usuario" + ": ");
+					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
+					String usuario = read1.readLine();
+
+					System.out.print("Ingrese la contraseña" + ": ");
+					BufferedReader read2 = new BufferedReader(new InputStreamReader(System.in));
+					String password = read2.readLine();
+
+					Usuario user1 = Usuario.iniciarSesion(usuario, password);
+					System.out.println("El usuario " + user1.getNombre() + " ha iniciado sesión");
+
+					System.out.print("Ingrese el nombre de la pieza a ofertar" + ": ");
+					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+					String nTitulo = reader1.readLine();
+
+					System.out.print("Ingrese el monto a ofertar" + ": ");
+					BufferedReader reader2 = new BufferedReader(new InputStreamReader(System.in));
+					Integer oferta = Integer.parseInt(reader2.readLine());
+
+					System.out.print("Ingrese el método de pago" + ": ");
+					BufferedReader reader3 = new BufferedReader(new InputStreamReader(System.in));
+					String metodo = reader3.readLine();
+
+					if (!metodo.equalsIgnoreCase("tarjeta de crédito") && !metodo.equalsIgnoreCase("transferencia")
+							&& !metodo.equalsIgnoreCase("efectivo")) {
+						throw new Exception("El método de pago " + metodo + " no está permitido.");
+					}
+
+					operador1.ofertarPieza((Cliente) user1, oferta, nTitulo, metodo);
+
+					System.out.println("Se oferto con exito");
+					System.out.println("\nEstan activas las subastas por los siguientes objetos:");
+					for (Operador operador : admin1.getOperadores()) {
+						for (Subasta subasta : operador.getSubastas()) {
+							System.out.println(subasta.getPieza());
+						}
+					}
+				} else if (input.equals("11")) {
+
+					System.out.println("\nEstan activas las subastas por los siguientes objetos:");
+					for (Operador operador : admin1.getOperadores()) {
+						for (Subasta subasta : operador.getSubastas()) {
+							System.out.println(subasta.toString());
+							System.out.println("================================");
+						}
+					}
 				}
 				System.out.println(
-						"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n");
+						"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n9) Iniciar subasta\n10) Ofertar en subasta\n11) Ver subastas activas\n");
 				System.out.print("Elija cuál caso desea probar" + ": ");
 				reader = new BufferedReader(new InputStreamReader(System.in));
 				input = reader.readLine();

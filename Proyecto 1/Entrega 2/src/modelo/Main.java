@@ -69,7 +69,7 @@ public class Main {
 			}
 
 			System.out.println(
-					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n");
+					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n9) Iniciar subasta\n10) Ofertar en subasta\n11) Ver subastas activas\n");
 			System.out.print("Elija cuál caso desea probar" + ": ");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 			String input = reader.readLine();

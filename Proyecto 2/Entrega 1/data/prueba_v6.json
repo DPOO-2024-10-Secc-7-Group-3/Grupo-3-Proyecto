@@ -1,0 +1,14 @@
+{"administradores": [{
+    "password": "123",
+    "tipo": "administrador",
+    "operadores": [],
+    "cajeros": [],
+    "clientes": [],
+    "login": "a.bolivarc",
+    "telefono": 315,
+    "inventario": {
+        "almacenadas": [],
+        "exhibidas": []
+    },
+    "nombre": "Andres"
+}]}

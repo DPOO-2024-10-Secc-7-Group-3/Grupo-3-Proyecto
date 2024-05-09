@@ -1,0 +1,216 @@
+{
+    "administradores": [{
+        "password": "123",
+        "tipo": "administrador",
+        "operadores": [{
+            "password": "123",
+            "tipo": "operador",
+            "subastas": [],
+            "login": "je.sandovals1",
+            "telefono": 300,
+            "nombre": "Jesus"
+        }],
+        "cajeros": [{
+            "password": "456",
+            "tipo": "cajero",
+            "ocupado": false,
+            "login": "s.lievanom",
+            "telefono": 312,
+            "pagos": [{
+                "tipo": "efectivo",
+                "monto": 15000
+            }],
+            "nombre": "Santiago"
+        }],
+        "clientes": [
+            {
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": ["La mona lisa"],
+                "antiguas": [],
+                "login": "je.aguirreo1",
+                "telefono": 322,
+                "nombre": "Juan"
+            },
+            {
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "123",
+                "tipo": "cliente",
+                "actuales": ["Infinity"],
+                "antiguas": [],
+                "login": "f.ortizp",
+                "telefono": 314,
+                "nombre": "Fabio"
+            },
+            {
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "456",
+                "tipo": "cliente",
+                "actuales": ["Los obreros en la viga"],
+                "antiguas": [],
+                "login": "jm.perezb1",
+                "telefono": 310,
+                "nombre": "Manuel"
+            },
+            {
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": ["El David"],
+                "antiguas": [],
+                "login": "lm.rojasa12",
+                "telefono": 317,
+                "nombre": "Mariana"
+            },
+            {
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "123",
+                "tipo": "cliente",
+                "actuales": ["Tremor"],
+                "antiguas": [],
+                "login": "jg.bernalc1",
+                "telefono": 300,
+                "nombre": "Gabriel"
+            }
+        ],
+        "login": "a.bolivarc",
+        "telefono": 315,
+        "inventario": {
+            "almacenadas": [],
+            "exhibidas": []
+        },
+        "nombre": "Andres"
+    }],
+    "piezas": [
+        {
+            "propietarios": [{
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": ["El David"],
+                "antiguas": [],
+                "login": "lm.rojasa12",
+                "telefono": 317,
+                "nombre": "Mariana"
+            }],
+            "estado": "fuera",
+            "lugarCreacion": "Italia",
+            "pieza": "escultura",
+            "titulo": "El David",
+            "alto": 200,
+            "precio": 2000000,
+            "ancho": 517,
+            "profundidad": 100,
+            "valorInicial": 1500000,
+            "electricidad": false,
+            "bloqueada": false,
+            "materiales": ["marmol"],
+            "valorMinimo": 3000000,
+            "anio": 1501
+        },
+        {
+            "propietarios": [{
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "456",
+                "tipo": "cliente",
+                "actuales": ["Los obreros en la viga"],
+                "antiguas": [],
+                "login": "jm.perezb1",
+                "telefono": 310,
+                "nombre": "Manuel"
+            }],
+            "tipo": "fotografía",
+            "estado": "fuera",
+            "lugarCreacion": "EEUU",
+            "resolucion": 1080,
+            "pieza": "imagen",
+            "titulo": "Los obreros en la viga",
+            "alto": 48,
+            "precio": 500000,
+            "ancho": 69,
+            "valorInicial": 400000,
+            "bloqueada": false,
+            "valorMinimo": 700000,
+            "anio": 1932
+        },
+        {
+            "propietarios": [{
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "123",
+                "tipo": "cliente",
+                "actuales": ["Infinity"],
+                "antiguas": [],
+                "login": "f.ortizp",
+                "telefono": 314,
+                "nombre": "Fabio"
+            }],
+            "estado": "fuera",
+            "precio": 1000000,
+            "lugarCreacion": "EEUU",
+            "valorInicial": 1000000,
+            "pieza": "video",
+            "duracion": 7,
+            "titulo": "Infinity",
+            "bloqueada": false,
+            "valorMinimo": 2000000,
+            "anio": 2007
+        },
+        {
+            "propietarios": [{
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "123",
+                "tipo": "cliente",
+                "actuales": ["Tremor"],
+                "antiguas": [],
+                "login": "jg.bernalc1",
+                "telefono": 300,
+                "nombre": "Gabriel"
+            }],
+            "estado": "fuera",
+            "precio": 1250000,
+            "lugarCreacion": "Alemania",
+            "valorInicial": 1000000,
+            "pieza": "video",
+            "duracion": 4,
+            "titulo": "Tremor",
+            "bloqueada": false,
+            "valorMinimo": 1500000,
+            "anio": 2010
+        },
+        {
+            "propietarios": [{
+                "valorMaximo": 2000000,
+                "compras": [],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": ["La mona lisa"],
+                "antiguas": [],
+                "login": "je.aguirreo1",
+                "telefono": 322,
+                "nombre": "Juan"
+            }],
+            "estado": "fuera",
+            "lugarCreacion": "Italia",
+            "pieza": "pintura",
+            "titulo": "La mona lisa",
+            "textura": "Brillante",
+            "alto": 53,
+            "precio": 500000,
+            "ancho": 77,
+            "valorInicial": 700000,
+            "bloqueada": false,
+            "valorMinimo": 1000000,
+            "anio": 2000
+        }
+    ]
+}

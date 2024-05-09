@@ -86,7 +86,7 @@ public class Operador extends Usuario {
 		}
 		pieza.setBloqueada(true);
 		int valorInicial = pieza.getValorInicial();
-		Subasta subasta = new Subasta(valorInicial, null, nTitulo, null, null);
+		Subasta subasta = new Subasta(valorInicial, null, nTitulo, null, new HashMap<String,Integer>());
 		this.subastas.add(subasta);
 	}
 

@@ -1,6 +1,7 @@
 package modelo.piezas;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +28,10 @@ public abstract class Pieza {
 	protected int valorInicial;
 	protected int precio;
 	protected ArrayList<Cliente> propietarios;
+	protected ArrayList<Cliente> historicos;
+	protected ArrayList<LocalDateTime> fechas;
+	protected ArrayList<Integer> montos;
+	protected Cliente original;
 	public static final String EXHIBIDA = "exhibida";
 	public static final String ALMACENADA = "almacenada";
 	public static final String FUERA = "fuera";
@@ -39,7 +44,7 @@ public abstract class Pieza {
 
 	public Pieza(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
 			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
-			int precio, String pieza) {
+			int precio, String pieza, Cliente original) {
 		this.titulo = titulo;
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
@@ -52,6 +57,44 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 		this.precio = precio;
 		this.pieza = pieza;
+		
+		this.historicos = new ArrayList<Cliente>();
+		this.fechas = new ArrayList<LocalDateTime>();
+		this.montos = new ArrayList<Integer>();
+		
+		this.original = original;
+	}
+
+	public Cliente getOriginal() {
+		return original;
+	}
+
+	public void setOriginal(Cliente original) {
+		this.original = original;
+	}
+
+	public ArrayList<Cliente> getHistoricos() {
+		return historicos;
+	}
+
+	public void setHistoricos(ArrayList<Cliente> historicos) {
+		this.historicos = historicos;
+	}
+
+	public ArrayList<LocalDateTime> getFechas() {
+		return fechas;
+	}
+
+	public void setFechas(ArrayList<LocalDateTime> fechas) {
+		this.fechas = fechas;
+	}
+
+	public ArrayList<Integer> getMontos() {
+		return montos;
+	}
+
+	public void setMontos(ArrayList<Integer> montos) {
+		this.montos = montos;
 	}
 
 	public String getTipoPieza() {

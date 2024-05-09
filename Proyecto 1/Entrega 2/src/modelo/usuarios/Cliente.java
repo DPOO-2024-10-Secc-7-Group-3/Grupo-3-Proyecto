@@ -1,6 +1,7 @@
 package modelo.usuarios;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public class Cliente extends Usuario {
 	private ArrayList<String> actuales;
 	private ArrayList<String> antiguas;
 	private ArrayList<String> compras;
+	private ArrayList<LocalDateTime> fechas;
 	private int valorMaximo;
 	private Administrador admin;
 	public static final int VERIFICACION = 123;
@@ -32,6 +34,16 @@ public class Cliente extends Usuario {
 		this.compras = compras;
 		this.admin = admin;
 		this.valorMaximo = valorMaximo;
+		
+		this.fechas = new ArrayList<LocalDateTime>();
+	}
+
+	public ArrayList<LocalDateTime> getFechas() {
+		return fechas;
+	}
+
+	public void setFechas(ArrayList<LocalDateTime> fechas) {
+		this.fechas = fechas;
 	}
 
 	public ArrayList<String> getActuales() {
@@ -130,7 +142,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza);
+					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza,this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -148,7 +160,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza);
+					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza,this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -166,7 +178,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, textura, precio, pieza);
+					valorInicial, propietarios, ancho, alto, textura, precio, pieza,this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -184,7 +196,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, duracion, precio, pieza);
+					valorInicial, propietarios, duracion, precio, pieza,this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {

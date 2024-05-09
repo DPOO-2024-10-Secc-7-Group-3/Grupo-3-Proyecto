@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
@@ -69,7 +70,7 @@ public class Main {
 			}
 
 			System.out.println(
-					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n9) Iniciar subasta\n10) Ofertar en subasta\n11) Ver subastas activas\n");
+					"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n9) Iniciar subasta\n10) Ofertar en subasta\n11) Ver subastas activas\n12) Mostrar historia pieza\n13) Mostras historia artista\n14) Mostrar historia cliente\n");
 			System.out.print("Elija cuál caso desea probar" + ": ");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 			String input = reader.readLine();
@@ -467,6 +468,64 @@ public class Main {
 							System.out.println("================================");
 						}
 					}
+				}
+				else if (input.equals("12"))
+				{
+					System.out.print("Ingrese la pieza que desea consultar" + ": ");
+					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
+					String titulo = read1.readLine();
+					
+					HashMap<String,String> info = cliente1.infoPieza(titulo);
+					
+					for (String key:info.keySet())
+					{
+						System.out.print(key+": "+info.get(key)+"\n");
+					}
+				}
+				else if (input.equals("13"))
+				{
+					System.out.println("Artista: ");
+					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
+					String art = read1.readLine();
+					
+					HashMap<String,ArrayList<String>> info = cliente1.infoArtista(art);
+					
+					for (String key:info.keySet())
+					{
+						System.out.println("creacion: "+Pieza.piezas.get(key).getAnio()+"\n");
+						System.out.println("ventas: \n");
+						for (String infoParcial:info.get(key))
+						{
+							System.out.println(infoParcial);
+						}
+					}
+				}
+				else if (input.equals("14"))
+				{
+					System.out.println("Cliente: ");
+					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
+					String cliente = read1.readLine();
+					
+					HashMap<String,ArrayList<String>> info = admin1.infoCliente(cliente);
+					
+					for (String key:info.keySet())
+					{
+						System.out.println(key+":\n");
+						for (String infoParcial:info.get(key))
+						{
+							System.out.println(infoParcial+"\n");
+						}
+					}
+					
+					System.out.println("Valor: ");
+					int monto = 0;
+					ArrayList<String> actuales = info.get("actuales");
+					for (String titulo:actuales)
+					{
+						Pieza nPieza = Pieza.piezas.get(titulo);
+						monto += nPieza.getPrecio();
+					}
+					System.out.println(""+monto);
 				}
 				System.out.println(
 						"Casos.\n0) Salir\n1) Iniciar sesión\n2) Crear usuario\n3) Crear pieza\n4) Entregar pieza\n5) Devolver pieza\n6) Vender pieza\n7) Guardar datos\n8) Cargar datos\n9) Iniciar subasta\n10) Ofertar en subasta\n11) Ver subastas activas\n");

@@ -1,5 +1,7 @@
 package modelo.usuarios;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -7,6 +9,7 @@ import org.json.JSONObject;
 import exceptions.IncorrectPasswordException;
 import exceptions.UserDuplicatedException;
 import exceptions.UserNotFoundException;
+import modelo.piezas.Pieza;
 
 public abstract class Usuario {
 
@@ -100,5 +103,101 @@ public abstract class Usuario {
 		int telefono = jsonObject.getInt("telefono");
 		String tipo = jsonObject.getString("tipo");
 		administrador.crearUsuario(login, password, nombre, telefono, tipo);
+	}
+	
+	public HashMap<String,String> infoPieza(String titulo)
+	{
+		Pieza bPieza = Pieza.piezas.get(titulo);
+		HashMap<String,String> r = new HashMap<String,String>();
+		
+		r.put("titulo",bPieza.getTitulo());
+		r.put("anio", ""+bPieza.getAnio());
+		r.put("lugar de creacion", bPieza.getLugarCreacion());
+		
+		String propietarios = "";
+		
+		ArrayList<Cliente> nPropietarios = bPieza.getPropietarios();
+		for (Cliente propietario:nPropietarios)
+		{
+			propietarios += (" "+propietario.getNombre());
+		}
+		r.put("actuales", propietarios);
+		
+		String historicos = "";
+		
+		ArrayList<Cliente> nHistoricos = bPieza.getHistoricos();
+		for (Cliente historico:nHistoricos)
+		{
+			historicos += (" "+historico.getNombre());
+		}
+		r.put("historicos", historicos);
+		
+		String ventas = "";
+		
+		ArrayList<LocalDateTime> fechas = bPieza.getFechas();
+		ArrayList<Integer> montos = bPieza.getMontos();
+		
+		for (int i = 0; i<fechas.size();i++)
+		{
+			String sub = "";
+			sub += (""+fechas.get(i).getYear()+"-"+fechas.get(i).getMonthValue()+"-"+fechas.get(i).getDayOfMonth()+":");
+			sub += montos.get(i);
+			ventas += (sub+"\n");
+		}
+		
+		r.put("ventas", ventas);
+		
+		return r;
+	}
+	
+	public HashMap<String,ArrayList<String>> infoArtista(String usuario)
+	{
+		Cliente cliente = (Cliente)logins.get(usuario); 
+		
+		ArrayList<String> actuales = cliente.getActuales();
+		ArrayList<String> antiguas = cliente.getAntiguas();
+		
+		HashMap<String,ArrayList<String>> r = new HashMap<String,ArrayList<String>>();
+		
+		for (String titulo:antiguas) 
+		{
+			Pieza nPieza = Pieza.piezas.get(titulo);
+			
+			if (nPieza.getOriginal().equals(cliente))
+			{
+				
+				ArrayList<LocalDateTime> nFechas = nPieza.getFechas();
+				ArrayList<Integer> nMontos = nPieza.getMontos();
+				ArrayList<String> info = new ArrayList<String>();
+				
+				for (int i = 0; i<nFechas.size();i++)
+				{
+					info.add(""+nFechas.get(i).getYear()+"-"+nFechas.get(i).getMonthValue()+"-"+nFechas.get(i).getDayOfMonth()+":"+nMontos.get(i));
+				}
+				
+				r.put(titulo, info);
+			}
+		}
+		
+		for (String titulo:actuales) 
+		{
+			Pieza nPieza = Pieza.piezas.get(titulo);
+			
+			if (nPieza.getOriginal().equals(cliente))
+			{
+				ArrayList<LocalDateTime> nFechas = nPieza.getFechas();
+				ArrayList<Integer> nMontos = nPieza.getMontos();
+				ArrayList<String> info = new ArrayList<String>();
+				
+				for (int i = 0; i<nFechas.size();i++)
+				{
+					info.add(""+nFechas.get(i)+":"+nMontos.get(i));
+				}
+				
+				r.put(titulo, info);
+			}
+		}
+		
+		return r;
 	}
 }

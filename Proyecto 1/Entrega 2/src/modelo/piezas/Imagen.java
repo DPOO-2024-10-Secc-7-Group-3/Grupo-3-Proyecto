@@ -17,9 +17,9 @@ public class Imagen extends Pieza {
 
 	public Imagen(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
 			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
-			double ancho, double alto, int resolucion, String tipo, int precio, String pieza) {
+			double ancho, double alto, int resolucion, String tipo, int precio, String pieza, Cliente original) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
-				valorInicial, propietarios, precio, pieza);
+				valorInicial, propietarios, precio, pieza, original);
 		this.ancho = ancho;
 		this.alto = alto;
 		this.resolucion = resolucion;

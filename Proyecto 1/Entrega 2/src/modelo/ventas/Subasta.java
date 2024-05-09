@@ -26,6 +26,7 @@ public class Subasta extends Venta {
 		this.ofertas = ofertas;
 		this.fechaInicio = LocalDateTime.now();
 		this.fechaUltimaOferta = LocalDateTime.now();
+		this.ultimaOferta = new HashMap<String, Integer>();
 	}
 
 	public HashMap<String, Integer> getUltimaOferta() {

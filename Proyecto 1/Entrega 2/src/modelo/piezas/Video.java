@@ -14,9 +14,9 @@ public class Video extends Pieza {
 
 	public Video(String titulo, int anio, String lugarCreacion, String estado, LocalDate tiempoConsignacion,
 			Venta disponibilidad, boolean bloqueada, int valorMinimo, int valorInicial, ArrayList<Cliente> propietarios,
-			int duracion, int precio, String pieza) {
+			int duracion, int precio, String pieza, Cliente original) {
 		super(titulo, anio, lugarCreacion, estado, tiempoConsignacion, disponibilidad, bloqueada, valorMinimo,
-				valorInicial, propietarios, precio, pieza);
+				valorInicial, propietarios, precio, pieza, original);
 		this.duracion = duracion;
 	}
 

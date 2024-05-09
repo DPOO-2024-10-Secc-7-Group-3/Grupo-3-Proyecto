@@ -1,7 +1,9 @@
 package modelo.usuarios;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -193,9 +195,7 @@ public class Administrador extends Usuario {
 			inventario.sacarPieza(titulo);
 			vPieza.setBloqueada(false);
 			vPieza.setEstado(Pieza.FUERA);
-			ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
-			nuevos.add(nDuenio);
-			vPieza.setPropietarios(nuevos);
+			
 			vPieza.setTiempoConsignacion(null);
 			nDuenio.getCompras().add(titulo);
 			vPieza.setDisponibilidad(subasta);
@@ -205,6 +205,28 @@ public class Administrador extends Usuario {
 				propietario.getActuales().remove(titulo);
 				propietario.getAntiguas().add(titulo);
 			}
+			
+			ArrayList<Cliente> historicos = vPieza.getHistoricos();
+			for (Cliente propietario:vPieza.getPropietarios())
+			{
+				if (!historicos.contains(propietario))
+				{
+					historicos.add(propietario);
+				}
+			}
+			
+			ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
+			nuevos.add(nDuenio);
+			vPieza.setPropietarios(nuevos);
+			
+			vPieza.setHistoricos(historicos);
+			ArrayList<LocalDateTime> fechas = vPieza.getFechas();
+			fechas.add(LocalDateTime.now());
+			vPieza.setFechas(fechas);
+			
+			ArrayList<Integer> montos = vPieza.getMontos();
+			montos.add(vPieza.getDisponibilidad().getPrecioVenta());
+			vPieza.setMontos(montos);
 		}
 	}
 
@@ -234,26 +256,55 @@ public class Administrador extends Usuario {
 				if (vPieza.getPrecio() > cliente.getValorMaximo()) {
 					throw new Exception("El cliente " + cliente.getLogin() + " debe ampliar su límite de compras.");
 				} else {
-					cajero.setOcupado(true);
-					Pago pago = cajero.nuevoPago(metodoDePago, Pieza.piezas.get(titulo).getPrecio());
-					cajero.setOcupado(false);
+					if (vPieza.getDisponibilidad() instanceof Fija)
+					{
+						cajero.setOcupado(true);
+						Pago pago = cajero.nuevoPago(metodoDePago, Pieza.piezas.get(titulo).getPrecio());
+						cajero.setOcupado(false);
 
-					inventario.sacarPieza(titulo);
-					vPieza.setBloqueada(false);
-					vPieza.setEstado(Pieza.FUERA);
-					ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
-					nuevos.add(cliente);
-					vPieza.setPropietarios(nuevos);
-					vPieza.setTiempoConsignacion(null);
-					cliente.getCompras().add(titulo);
+						inventario.sacarPieza(titulo);
+						vPieza.setBloqueada(false);
+						vPieza.setEstado(Pieza.FUERA);
+						
+						vPieza.setTiempoConsignacion(null);
+						cliente.getCompras().add(titulo);
+						ArrayList<Cliente> historicos = vPieza.getHistoricos();
+						for (Cliente propietario:vPieza.getPropietarios())
+						{
+							if (!historicos.contains(propietario))
+							{
+								historicos.add(propietario);
+							}
+						}
+						
+						ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
+						nuevos.add(cliente);
+						vPieza.setPropietarios(nuevos);
+						
+						vPieza.setHistoricos(historicos);
 
-					Fija nueva = new Fija(vPieza.getPrecio(), cliente, vPieza.getTitulo(), pago);
-					vPieza.setDisponibilidad(nueva);
+						Fija nueva = new Fija(vPieza.getPrecio(), cliente, vPieza.getTitulo(), pago);
+						vPieza.setDisponibilidad(nueva);
+						
+						ArrayList<LocalDateTime> fechas = vPieza.getFechas();
+						fechas.add(LocalDateTime.now());
+						vPieza.setFechas(fechas);
+						
+						ArrayList<Integer> montos = vPieza.getMontos();
+						montos.add(vPieza.getPrecio());
+						vPieza.setMontos(montos);
 
-					ArrayList<Cliente> propietarios = vPieza.getPropietarios();
-					for (Cliente propietario : propietarios) {
-						propietario.getActuales().remove(titulo);
-						propietario.getAntiguas().add(titulo);
+						ArrayList<Cliente> propietarios = vPieza.getPropietarios();
+						for (Cliente propietario : propietarios) {
+							propietario.getActuales().remove(titulo);
+							propietario.getAntiguas().add(titulo);
+						}
+						
+						cliente.getFechas().add(LocalDateTime.now());
+					}
+					else
+					{
+						throw new Exception("La pieza "+titulo+" no está disponible para venta fija.");
 					}
 				}
 			}
@@ -276,6 +327,53 @@ public class Administrador extends Usuario {
 			buffer.append(chars[random.nextInt(charsLength)]);
 		}
 		return buffer.toString();
+	}
+	
+	public HashMap<String, ArrayList<String>> infoCliente(String usuario)
+	{
+		Cliente cliente = (Cliente) Usuario.logins.get(usuario);
+		
+		HashMap<String,ArrayList<String>> r = new HashMap<String,ArrayList<String>>();
+		
+		ArrayList<String> compras = cliente.getCompras();
+		ArrayList<LocalDateTime> fechas = cliente.getFechas();
+		
+		ArrayList<String> nCompras = new ArrayList<String>();
+		
+		String nCompra = "";
+		
+		for (int i = 0; i<compras.size();i++)
+		{
+			nCompra = (""+compras.get(i)+":"+fechas.get(i).getYear()+"-"+fechas.get(i).getMonthValue()+"-"+fechas.get(i).getDayOfMonth());
+			nCompras.add(nCompra);
+		}
+		
+		r.put("compras", nCompras);
+		
+		r.put("actuales", cliente.getActuales());
+		
+		return r;
+	}
+	
+	public int calcularValor(String usuario)
+	{
+		Cliente cliente = (Cliente) Usuario.logins.get(usuario);
+		int r = 0;
+		
+		for (String compra:cliente.getCompras())
+		{
+			r += Pieza.piezas.get(compra).getDisponibilidad().getPrecioVenta();
+		}
+		
+		for (String actual:cliente.getActuales())
+		{
+			if (!cliente.getCompras().contains(actual))
+			{
+				r += Pieza.piezas.get(actual).getPrecio();
+			}
+		}
+		
+		return r;
 	}
 
 	public JSONObject toJSON() {

@@ -99,7 +99,7 @@ public abstract class Usuario {
 
 		ArrayList<Cliente> nPropietarios = bPieza.getPropietarios();
 		for (Cliente propietario : nPropietarios) {
-			propietarios += (" " + propietario.getNombre());
+			propietarios += (propietario.getNombre() + " ");
 		}
 		r.put("actuales", propietarios);
 
@@ -150,7 +150,6 @@ public abstract class Usuario {
 					info.add("" + nFechas.get(i).getYear() + "-" + nFechas.get(i).getMonthValue() + "-"
 							+ nFechas.get(i).getDayOfMonth() + ":" + nMontos.get(i));
 				}
-
 				r.put(titulo, info);
 			}
 		}
@@ -173,7 +172,7 @@ public abstract class Usuario {
 
 		return r;
 	}
-	
+
 	public static void agregarAtributos(JSONObject jsonObject, Usuario usuario) {
 		jsonObject.put("login", usuario.getLogin());
 		jsonObject.put("password", usuario.getPassword());
@@ -181,7 +180,7 @@ public abstract class Usuario {
 		jsonObject.put("telefono", usuario.getTelefono());
 		jsonObject.put("tipo", usuario.getTipo());
 	}
-	
+
 	public static void loadUserFromJSON(JSONObject jsonObject, Administrador administrador)
 			throws UserDuplicatedException, Exception {
 		String login = jsonObject.getString("login");

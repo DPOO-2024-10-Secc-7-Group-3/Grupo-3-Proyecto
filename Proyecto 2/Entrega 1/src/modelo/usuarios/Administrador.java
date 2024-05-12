@@ -1,12 +1,12 @@
 package modelo.usuarios;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import exceptions.InsuficienteTiempoConsignacionException;
 import exceptions.PiezaNoExistenteException;
 import exceptions.TipoUsuarioInvalido;
 import exceptions.UserDuplicatedException;
@@ -159,16 +159,17 @@ public class Administrador extends Usuario {
 		inventario.agregarPieza(titulo, exhibir);
 	}
 
-	public void devolverPieza(String titulo) throws PiezaNoExistenteException, Exception {
+	public void devolverPieza(String titulo) throws InsuficienteTiempoConsignacionException, PiezaNoExistenteException {
 		boolean contains = inventario.containsPieza(titulo);
 		if (contains) {
-			if (LocalDate.now().isAfter(Pieza.piezas.get(titulo).getTiempoConsignacion())) {
+			Pieza nPieza = Pieza.piezas.get(titulo);
+			if (nPieza.calcularTiempoConsignadoDias() >= nPieza.getTiempoMaximoConsignacion()) {
 				inventario.sacarPieza(titulo);
-				Pieza.piezas.get(titulo).setEstado(Pieza.FUERA);
-				Pieza.piezas.get(titulo).setDisponibilidad(null);
-				Pieza.piezas.get(titulo).setTiempoConsignacion(null);
+				nPieza.setEstado(Pieza.FUERA);
+				nPieza.setDisponibilidad(null);
+				nPieza.setTiempoConsignacion(null);
 			} else {
-				throw new Exception("La pieza " + titulo + " aún no ha terminado su tiempo de consignación.");
+				throw new InsuficienteTiempoConsignacionException(titulo);
 			}
 		} else {
 			throw new PiezaNoExistenteException(titulo);
@@ -178,6 +179,9 @@ public class Administrador extends Usuario {
 	public void cerrarSubasta(String titulo, String nCliente, Subasta subasta) throws Exception {
 		Cliente nDuenio = this.getCliente(nCliente);
 		Cajero cajero = null;
+		if(Pieza.piezas.get(titulo) == null) {
+			throw new PiezaNoExistenteException(titulo);
+		}
 		for (Cajero actual : this.cajeros) {
 			if (!actual.isOcupado()) {
 				cajero = actual;
@@ -306,7 +310,6 @@ public class Administrador extends Usuario {
 		} else {
 			throw new Exception("Cliente " + cliente.getLogin() + " no verificado.");
 		}
-
 	}
 
 	public boolean verificar(Cliente cliente) {

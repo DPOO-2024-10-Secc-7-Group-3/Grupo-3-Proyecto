@@ -27,6 +27,15 @@ public abstract class Venta {
 	public int getPrecioVenta() {
 		return precioVenta;
 	}
+	
+	public static Venta getVenta(String nPieza) {
+		for(Venta venta: Venta.ventas) {
+			if(venta.getPieza().equals(nPieza)) {
+				return venta;
+			}
+		}
+		return null;
+	}
 
 	public void setPrecioVenta(int precioVenta) {
 		this.precioVenta = precioVenta;

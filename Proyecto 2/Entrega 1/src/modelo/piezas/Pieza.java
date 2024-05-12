@@ -2,6 +2,7 @@ package modelo.piezas;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +28,7 @@ public abstract class Pieza {
 	protected int valorMinimo;
 	protected int valorInicial;
 	protected int precio;
+	protected long tiempoMaximoConsignacion;
 	protected ArrayList<Cliente> propietarios;
 	protected ArrayList<Cliente> historicos;
 	protected ArrayList<LocalDateTime> fechas;
@@ -49,7 +51,12 @@ public abstract class Pieza {
 		this.anio = anio;
 		this.lugarCreacion = lugarCreacion;
 		this.estado = estado;
-		this.tiempoConsignacion = tiempoConsignacion;
+		if (tiempoConsignacion == null) {
+			this.tiempoConsignacion = LocalDate.now();
+		} else {
+			this.tiempoConsignacion = tiempoConsignacion;
+		}
+		this.tiempoMaximoConsignacion = 10;
 		this.disponibilidad = disponibilidad;
 		this.bloqueada = bloqueada;
 		this.valorMinimo = valorMinimo;
@@ -57,11 +64,11 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 		this.precio = precio;
 		this.pieza = pieza;
-		
+
 		this.historicos = new ArrayList<Cliente>();
 		this.fechas = new ArrayList<LocalDateTime>();
 		this.montos = new ArrayList<Integer>();
-		
+
 		this.original = original;
 	}
 
@@ -193,6 +200,21 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 	}
 
+	public long calcularTiempoConsignadoDias() {
+		LocalDate fecha1 = tiempoConsignacion;
+		LocalDate fecha2 = LocalDate.now();
+		long diferenciaEnDias = ChronoUnit.DAYS.between(fecha1, fecha2);
+		return diferenciaEnDias;
+	}
+
+	public long getTiempoMaximoConsignacion() {
+		return tiempoMaximoConsignacion;
+	}
+
+	public void setTiempoMaximoConsignacion(long tiempoMaximoConsignacion) {
+		this.tiempoMaximoConsignacion = tiempoMaximoConsignacion;
+	}
+
 	public static Pieza getPieza(String nTitulo) {
 		Pieza pieza = Pieza.piezas.get(nTitulo);
 		return pieza;
@@ -223,7 +245,6 @@ public abstract class Pieza {
 
 	public abstract JSONObject toJSON();
 
-	@SuppressWarnings("null")
 	public void addAtributesOnLoad(JSONObject jsonObject, Administrador admin)
 			throws UserDuplicatedException, Exception {
 		if (jsonObject.has("disponibilidad")) {

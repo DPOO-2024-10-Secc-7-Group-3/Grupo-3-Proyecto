@@ -184,6 +184,7 @@ public class Cliente extends Usuario {
 			} else {
 				Pieza.piezas.put(titulo, nueva);
 				actuales.add(titulo);
+				admin.agregarPieza(titulo, false);
 			}
 		} else {
 			System.out.println("Se esta intentando crea un/a " + pieza + " como una pintura.");

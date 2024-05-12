@@ -57,13 +57,13 @@ public class Inventario {
 	}
 
 	public boolean containsPieza(String nTitulo) {
-		if (almacenadas.contains(nTitulo) && exhibidas.contains(nTitulo)) {
+		if (almacenadas.contains(nTitulo) | exhibidas.contains(nTitulo)) {
 			return true;
 		}
 		return false;
 	}
 
-	public String buscarPieza(String titulo) throws PiezaNoExistenteException, Exception {
+	public String buscarPieza(String titulo) throws PiezaNoExistenteException {
 		boolean encontrado = false;
 
 		for (int i = 0; i < exhibidas.size() && !encontrado; i++) {
@@ -85,7 +85,7 @@ public class Inventario {
 			if (encontrado) {
 				return Pieza.ALMACENADA;
 			} else {
-				throw new Exception("La pieza " + titulo + " no está en el inventario.");
+				throw new PiezaNoExistenteException(titulo);
 			}
 		}
 	}

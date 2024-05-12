@@ -4,12 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exceptions.PiezaNoExistenteException;
+import exceptions.TipoUsuarioInvalido;
 import exceptions.UserDuplicatedException;
 import exceptions.UserNotFoundException;
 import modelo.Inventario;
@@ -120,7 +119,7 @@ public class Administrador extends Usuario {
 	}
 
 	public void crearUsuario(String nLogin, String nPassword, String nNombre, int nTelefono, String nTipo)
-			throws UserDuplicatedException, Exception {
+			throws UserDuplicatedException, TipoUsuarioInvalido {
 
 		if (estaDuplicado(nLogin)) {
 			throw new UserDuplicatedException(nLogin);
@@ -128,7 +127,7 @@ public class Administrador extends Usuario {
 			Usuario newCliente;
 			if (nTipo.equals(Usuario.CLIENTE)) {
 				newCliente = new Cliente(nLogin, nPassword, nNombre, nTelefono, nTipo, new ArrayList<String>(),
-						new ArrayList<String>(), new ArrayList<String>(), this, 2000000);
+						new ArrayList<String>(), new ArrayList<String>(), this, 20000);
 				clientes.add((Cliente) newCliente);
 			} else if (nTipo.equals(Usuario.OPERADOR)) {
 				newCliente = new Operador(nLogin, nPassword, nNombre, nTelefono, nTipo, new ArrayList<Subasta>());
@@ -141,7 +140,7 @@ public class Administrador extends Usuario {
 						new Inventario(new ArrayList<String>(), new ArrayList<String>()), new ArrayList<Cliente>(),
 						new ArrayList<Cajero>(), new ArrayList<Operador>());
 			} else {
-				throw new Exception("El rol no es permitido.");
+				throw new TipoUsuarioInvalido(nTipo);
 			}
 
 			// logins.put(nLogin, newCliente);
@@ -161,15 +160,18 @@ public class Administrador extends Usuario {
 	}
 
 	public void devolverPieza(String titulo) throws PiezaNoExistenteException, Exception {
-		inventario.buscarPieza(titulo);
-
-		if (LocalDate.now().isAfter(Pieza.piezas.get(titulo).getTiempoConsignacion())) {
-			inventario.sacarPieza(titulo);
-			Pieza.piezas.get(titulo).setEstado(Pieza.FUERA);
-			Pieza.piezas.get(titulo).setDisponibilidad(null);
-			Pieza.piezas.get(titulo).setTiempoConsignacion(null);
+		boolean contains = inventario.containsPieza(titulo);
+		if (contains) {
+			if (LocalDate.now().isAfter(Pieza.piezas.get(titulo).getTiempoConsignacion())) {
+				inventario.sacarPieza(titulo);
+				Pieza.piezas.get(titulo).setEstado(Pieza.FUERA);
+				Pieza.piezas.get(titulo).setDisponibilidad(null);
+				Pieza.piezas.get(titulo).setTiempoConsignacion(null);
+			} else {
+				throw new Exception("La pieza " + titulo + " aún no ha terminado su tiempo de consignación.");
+			}
 		} else {
-			throw new Exception("La pieza " + titulo + " aún no ha terminado su tiempo de consignación.");
+			throw new PiezaNoExistenteException(titulo);
 		}
 	}
 
@@ -195,7 +197,7 @@ public class Administrador extends Usuario {
 			inventario.sacarPieza(titulo);
 			vPieza.setBloqueada(false);
 			vPieza.setEstado(Pieza.FUERA);
-			
+
 			vPieza.setTiempoConsignacion(null);
 			nDuenio.getCompras().add(titulo);
 			vPieza.setDisponibilidad(subasta);
@@ -205,25 +207,23 @@ public class Administrador extends Usuario {
 				propietario.getActuales().remove(titulo);
 				propietario.getAntiguas().add(titulo);
 			}
-			
+
 			ArrayList<Cliente> historicos = vPieza.getHistoricos();
-			for (Cliente propietario:vPieza.getPropietarios())
-			{
-				if (!historicos.contains(propietario))
-				{
+			for (Cliente propietario : vPieza.getPropietarios()) {
+				if (!historicos.contains(propietario)) {
 					historicos.add(propietario);
 				}
 			}
-			
+
 			ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
 			nuevos.add(nDuenio);
 			vPieza.setPropietarios(nuevos);
-			
+
 			vPieza.setHistoricos(historicos);
 			ArrayList<LocalDateTime> fechas = vPieza.getFechas();
 			fechas.add(LocalDateTime.now());
 			vPieza.setFechas(fechas);
-			
+
 			ArrayList<Integer> montos = vPieza.getMontos();
 			montos.add(vPieza.getDisponibilidad().getPrecioVenta());
 			vPieza.setMontos(montos);
@@ -256,8 +256,7 @@ public class Administrador extends Usuario {
 				if (vPieza.getPrecio() > cliente.getValorMaximo()) {
 					throw new Exception("El cliente " + cliente.getLogin() + " debe ampliar su límite de compras.");
 				} else {
-					if (vPieza.getDisponibilidad() instanceof Fija)
-					{
+					if (vPieza.getDisponibilidad() instanceof Fija) {
 						cajero.setOcupado(true);
 						Pago pago = cajero.nuevoPago(metodoDePago, Pieza.piezas.get(titulo).getPrecio());
 						cajero.setOcupado(false);
@@ -265,31 +264,29 @@ public class Administrador extends Usuario {
 						inventario.sacarPieza(titulo);
 						vPieza.setBloqueada(false);
 						vPieza.setEstado(Pieza.FUERA);
-						
+
 						vPieza.setTiempoConsignacion(null);
 						cliente.getCompras().add(titulo);
 						ArrayList<Cliente> historicos = vPieza.getHistoricos();
-						for (Cliente propietario:vPieza.getPropietarios())
-						{
-							if (!historicos.contains(propietario))
-							{
+						for (Cliente propietario : vPieza.getPropietarios()) {
+							if (!historicos.contains(propietario)) {
 								historicos.add(propietario);
 							}
 						}
-						
+
 						ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
 						nuevos.add(cliente);
 						vPieza.setPropietarios(nuevos);
-						
+
 						vPieza.setHistoricos(historicos);
 
 						Fija nueva = new Fija(vPieza.getPrecio(), cliente, vPieza.getTitulo(), pago);
 						vPieza.setDisponibilidad(nueva);
-						
+
 						ArrayList<LocalDateTime> fechas = vPieza.getFechas();
 						fechas.add(LocalDateTime.now());
 						vPieza.setFechas(fechas);
-						
+
 						ArrayList<Integer> montos = vPieza.getMontos();
 						montos.add(vPieza.getPrecio());
 						vPieza.setMontos(montos);
@@ -299,12 +296,10 @@ public class Administrador extends Usuario {
 							propietario.getActuales().remove(titulo);
 							propietario.getAntiguas().add(titulo);
 						}
-						
+
 						cliente.getFechas().add(LocalDateTime.now());
-					}
-					else
-					{
-						throw new Exception("La pieza "+titulo+" no está disponible para venta fija.");
+					} else {
+						throw new Exception("La pieza " + titulo + " no está disponible para venta fija.");
 					}
 				}
 			}
@@ -318,61 +313,44 @@ public class Administrador extends Usuario {
 		return cliente.darCodigo() == 123;
 	}
 
-	public String crearId() {
-		char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
-		int charsLength = chars.length;
-		Random random = new Random();
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < 10; i++) {
-			buffer.append(chars[random.nextInt(charsLength)]);
-		}
-		return buffer.toString();
-	}
-	
-	public HashMap<String, ArrayList<String>> infoCliente(String usuario)
-	{
+	public HashMap<String, ArrayList<String>> infoCliente(String usuario) {
 		Cliente cliente = (Cliente) Usuario.logins.get(usuario);
-		
-		HashMap<String,ArrayList<String>> r = new HashMap<String,ArrayList<String>>();
-		
+
+		HashMap<String, ArrayList<String>> r = new HashMap<String, ArrayList<String>>();
+
 		ArrayList<String> compras = cliente.getCompras();
 		ArrayList<LocalDateTime> fechas = cliente.getFechas();
-		
+
 		ArrayList<String> nCompras = new ArrayList<String>();
-		
+
 		String nCompra = "";
-		
-		for (int i = 0; i<compras.size();i++)
-		{
-			nCompra = (""+compras.get(i)+":"+fechas.get(i).getYear()+"-"+fechas.get(i).getMonthValue()+"-"+fechas.get(i).getDayOfMonth());
+
+		for (int i = 0; i < compras.size(); i++) {
+			nCompra = ("" + compras.get(i) + ":" + fechas.get(i).getYear() + "-" + fechas.get(i).getMonthValue() + "-"
+					+ fechas.get(i).getDayOfMonth());
 			nCompras.add(nCompra);
 		}
-		
+
 		r.put("compras", nCompras);
-		
+
 		r.put("actuales", cliente.getActuales());
-		
+
 		return r;
 	}
-	
-	public int calcularValor(String usuario)
-	{
+
+	public int calcularValor(String usuario) {
 		Cliente cliente = (Cliente) Usuario.logins.get(usuario);
 		int r = 0;
-		
-		for (String compra:cliente.getCompras())
-		{
+
+		for (String compra : cliente.getCompras()) {
 			r += Pieza.piezas.get(compra).getDisponibilidad().getPrecioVenta();
 		}
-		
-		for (String actual:cliente.getActuales())
-		{
-			if (!cliente.getCompras().contains(actual))
-			{
+
+		for (String actual : cliente.getActuales()) {
+			if (!cliente.getCompras().contains(actual)) {
 				r += Pieza.piezas.get(actual).getPrecio();
 			}
 		}
-		
 		return r;
 	}
 

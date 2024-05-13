@@ -107,4 +107,20 @@ public abstract class Venta {
 	public void removeVenta(Venta venta) {
 		ventas.remove(venta);
 	}
+	
+	public boolean equalsVenta(Venta venta) {
+		boolean pre = this.precioVenta == venta.getPrecioVenta();
+		boolean nom = this.comprador.getNombre().equals(venta.getComprador().getNombre());
+		boolean pie = this.pieza.equals(venta.getPieza());
+		return pre && nom && pie;
+	}
+	
+	public static boolean equalsArray(ArrayList<Venta> ventas1, ArrayList<Venta> ventas2) {
+		for(int i=0;i<ventas1.size();i+=1) {
+			if(!ventas1.get(i).equalsVenta(ventas2.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

@@ -2,9 +2,9 @@
     "password": "789",
     "tipo": "operador",
     "subastas": [{
-        "fechaUltimaOferta": "2024-05-13T01:23:47.549175300",
+        "fechaUltimaOferta": "2024-05-13T01:51:42.082225300",
         "ofertas": {"userPrueba": 10},
-        "fechaInicio": "2024-05-13T01:23:47.549175300",
+        "fechaInicio": "2024-05-13T01:51:42.082225300",
         "pieza": "piezaExhibida1",
         "comprador": {
             "valorMaximo": 20000,

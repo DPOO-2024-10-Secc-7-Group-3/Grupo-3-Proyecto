@@ -108,14 +108,22 @@ public class Subasta extends Venta {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 		JSONObject jsonObjectMap = new JSONObject();
-		for (Map.Entry<String, Integer> entry : this.getOfertas().entrySet()) {
-			jsonObjectMap.put(entry.getKey(), entry.getValue());
+		HashMap<String,Integer> nOfertas = this.getOfertas();
+		if (nOfertas != null)
+		{
+			for (Map.Entry<String, Integer> entry : this.getOfertas().entrySet()) {
+				jsonObjectMap.put(entry.getKey(), entry.getValue());
+			}
 		}
 		jsonObject.put("ofertas", jsonObjectMap);
 		jsonObject.put("fechaInicio", this.getFechaInicio());
 		jsonObject.put("fechaUltimaOferta", this.getFechaUltimaOferta());
-		String duracionComoString = String.valueOf(this.getTiempoMaximoOferta().getSeconds());
-		jsonObject.put("tiempoMaximoOferta", duracionComoString);
+		Duration duracion = this.getTiempoMaximoOferta();
+		if (duracion != null)
+		{
+			String duracionComoString = String.valueOf(this.getTiempoMaximoOferta().getSeconds());
+			jsonObject.put("tiempoMaximoOferta", duracionComoString);
+		}
 		// Agregar los atributos de la clase, incluyendo los de Venta
 		Venta.agregarAtributos(jsonObject, this);
 		return jsonObject;
@@ -124,7 +132,8 @@ public class Subasta extends Venta {
 	public static Subasta fromJSON(JSONObject jsonObject, Administrador administrador)
 			throws UserDuplicatedException, Exception {
 		HashMap<String, Integer> ofertas = new HashMap<String, Integer>();
-		JSONObject jsonObjectMap = jsonObject.getJSONObject("ofertas");
+		JSONObject jsonObjectMap = new JSONObject();
+		jsonObjectMap = jsonObject.getJSONObject("ofertas");
 		for (String clave : jsonObjectMap.keySet()) {
 			Integer valor = (Integer) jsonObject.getInt(clave);
 			ofertas.put(clave, valor);
@@ -141,6 +150,7 @@ public class Subasta extends Venta {
 		Duration tiempoMaximoOferta = Duration.ofSeconds(Long.parseLong(tiempoMaximo));
 		subasta.setTiempoMaximoOferta(tiempoMaximoOferta);
 		Venta.loadSaleFromJSON(jsonObject, administrador, subasta);
+		Venta.ventas.add(subasta);
 		return subasta;
 	}
 	

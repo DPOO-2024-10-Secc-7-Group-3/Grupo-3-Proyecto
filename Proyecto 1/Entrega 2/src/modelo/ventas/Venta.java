@@ -21,7 +21,6 @@ public abstract class Venta {
 		this.comprador = comprador;
 		this.pieza = pieza;
 		this.pago = pago;
-		Venta.ventas.add(this);
 	}
 
 	public int getPrecioVenta() {
@@ -62,13 +61,9 @@ public abstract class Venta {
 		jsonObject.put("pieza", venta.getPieza());
 		if (venta.getPago() != null) {
 			jsonObject.put("pago", venta.getPago().toJSON());
-		} else {
-			jsonObject.put("pago", "");
 		}
 		if (venta.getComprador() != null) {
 			jsonObject.put("comprador", venta.getComprador().toJSON());
-		} else {
-			jsonObject.put("comprador", "");
 		}
 	}
 

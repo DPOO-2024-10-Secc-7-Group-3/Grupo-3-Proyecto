@@ -54,7 +54,7 @@ public class CentralPersistencia {
 
 	public void guardarAdministradores(JSONObject jsonObject) {
 		if (Administrador.administradores.size() == 0) {
-			System.out.println("No hay administradores que guardar");
+			jsonObject.put("administradores", new JSONArray());
 		} else {
 			JSONArray jsonAdministradores = new JSONArray();
 			for (Administrador administrador : Administrador.administradores) {
@@ -79,7 +79,7 @@ public class CentralPersistencia {
 
 	public void guardarPiezas(JSONObject jsonObject) {
 		if (Pieza.piezas.size() == 0) {
-			System.out.println("No hay piezas que guardar");
+			jsonObject.put("pieza", new JSONArray());
 		} else {
 			JSONArray jsonObjectMap = new JSONArray();
 			for (Map.Entry<String, Pieza> entry : Pieza.piezas.entrySet()) {
@@ -159,7 +159,7 @@ public class CentralPersistencia {
 
 	public void guardarVentas(JSONObject jsonObject) {
 		if (Venta.ventas.size() == 0) {
-			System.out.println("No hay ventas que guardar");
+			jsonObject.put("ventas", new JSONArray());
 		} else {
 			JSONArray jsonVentas = new JSONArray();
 			for (Venta venta : Venta.ventas) {
@@ -172,42 +172,50 @@ public class CentralPersistencia {
 
 	public void cargarVentas(JSONObject jsonObject) throws UserDuplicatedException, Exception {
 		JSONArray ventas = jsonObject.getJSONArray("ventas");
-		for (int i = 0; i < ventas.length(); i++) {
-			JSONObject ventaObj = ventas.getJSONObject(i);
-			String pieza = ventaObj.getString("pieza");
-			if (ventaObj.has("ofertas")) {
-				Pieza piezaIns = Pieza.piezas.get(pieza);
-				Cliente cliente = piezaIns.getPropietarios().get(piezaIns.getPropietarios().size()-1);
-				for (Administrador admin : Administrador.administradores) {
-					if (admin.getClientes().contains(cliente)) {
-						Subasta.fromJSON(ventaObj, admin);
-					}else {
-					}
-				}
-			} else {
-				int precioVenta = ventaObj.getInt("precioVenta");
-				Pago pago = null;
-				Cliente cliente = null;
-				try {
-					if (ventaObj.getString("pago") != "") {
-						JSONObject pagoJson = ventaObj.getJSONObject("pago");
-						pago = Pago.fromJSON(pagoJson);
-					}
-				} catch (Exception e) {
-					pago = null;
-				}
-				try {
-					if (ventaObj.getString("comprador") != "") {
-						JSONObject compradorJson = ventaObj.getJSONObject("comprador");
-						String nLogin = compradorJson.getString("login");
-						for (Administrador admin : Administrador.administradores) {
-							cliente = admin.getCliente(nLogin);
+		if (ventas.length()==0)
+		{
+			System.out.println("No hay ventas para cargar.");
+		}
+		else
+		{
+			for (int i = 0; i < ventas.length(); i++) {
+				JSONObject ventaObj = ventas.getJSONObject(i);
+				String pieza = ventaObj.getString("pieza");
+				if (ventaObj.has("ofertas")) {
+					Pieza piezaIns = Pieza.piezas.get(pieza);
+					Cliente cliente = piezaIns.getPropietarios().get(piezaIns.getPropietarios().size()-1);
+					for (Administrador admin : Administrador.administradores) {
+						if (admin.getClientes().contains(cliente)) {
+							Subasta.fromJSON(ventaObj, admin);
+						}else {
 						}
 					}
-				} catch (Exception e) {
-					cliente = null;
+				} else {
+					int precioVenta = ventaObj.getInt("precioVenta");
+					Pago pago = null;
+					Cliente cliente = null;
+					try {
+						if (ventaObj.getJSONObject("pago") != (new JSONObject())) {
+							JSONObject pagoJson = ventaObj.getJSONObject("pago");
+							pago = Pago.fromJSON(pagoJson);
+						}
+					} catch (Exception e) {
+						pago = null;
+					}
+					try {
+						if (ventaObj.getJSONObject("comprador") != (new JSONObject())) {
+							JSONObject compradorJson = ventaObj.getJSONObject("comprador");
+							String nLogin = compradorJson.getString("login");
+							for (Administrador admin : Administrador.administradores) {
+								cliente = admin.getCliente(nLogin);
+							}
+						}
+					} catch (Exception e) {
+						cliente = null;
+					}
+					Venta venta = new Fija(precioVenta, cliente, pieza, pago);
+					Venta.ventas.add(venta);
 				}
-				new Fija(precioVenta, cliente, pieza, pago);
 			}
 		}
 	}

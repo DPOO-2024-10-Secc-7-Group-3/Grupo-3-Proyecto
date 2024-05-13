@@ -6,6 +6,7 @@
         "password": "789",
         "tipo": "cliente",
         "actuales": ["piezaPrueba"],
+        "fechas": [],
         "antiguas": [],
         "login": "userPruebaA",
         "telefono": 322,

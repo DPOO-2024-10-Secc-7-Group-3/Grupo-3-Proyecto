@@ -57,7 +57,7 @@ public class Inventario {
 	}
 
 	public boolean containsPieza(String nTitulo) {
-		if (almacenadas.contains(nTitulo) | exhibidas.contains(nTitulo)) {
+		if (almacenadas.contains(nTitulo) || exhibidas.contains(nTitulo)) {
 			return true;
 		}
 		return false;

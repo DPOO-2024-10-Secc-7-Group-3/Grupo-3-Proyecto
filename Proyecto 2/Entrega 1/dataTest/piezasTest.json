@@ -12,13 +12,16 @@
                 "pieza3",
                 "pieza4"
             ],
+            "fechas": [],
             "antiguas": [],
             "login": "userPrueba",
             "telefono": 322,
             "nombre": "Juan"
         }],
+        "historicos": [],
         "estado": "fuera",
         "lugarCreacion": "Italia",
+        "original": "userPrueba",
         "pieza": "pintura",
         "titulo": "pieza3",
         "textura": "Brillante",
@@ -27,7 +30,9 @@
         "ancho": 77,
         "valorInicial": 700000,
         "bloqueada": false,
+        "fechas": [],
         "valorMinimo": 1000000,
+        "montos": [],
         "anio": 2000
     },
     {
@@ -43,20 +48,25 @@
                 "pieza3",
                 "pieza4"
             ],
+            "fechas": [],
             "antiguas": [],
             "login": "userPrueba",
             "telefono": 322,
             "nombre": "Juan"
         }],
+        "historicos": [],
         "estado": "fuera",
-        "precio": 1000000,
         "lugarCreacion": "EEUU",
-        "valorInicial": 1000000,
+        "original": "userPrueba",
         "pieza": "video",
-        "duracion": 7,
         "titulo": "pieza4",
+        "precio": 1000000,
+        "valorInicial": 1000000,
+        "duracion": 7,
         "bloqueada": false,
+        "fechas": [],
         "valorMinimo": 2000000,
+        "montos": [],
         "anio": 2007
     },
     {
@@ -72,13 +82,16 @@
                 "pieza3",
                 "pieza4"
             ],
+            "fechas": [],
             "antiguas": [],
             "login": "userPrueba",
             "telefono": 322,
             "nombre": "Juan"
         }],
+        "historicos": [],
         "estado": "fuera",
         "lugarCreacion": "Italia",
+        "original": "userPrueba",
         "pieza": "escultura",
         "titulo": "pieza1",
         "alto": 200,
@@ -88,8 +101,10 @@
         "valorInicial": 1500000,
         "electricidad": false,
         "bloqueada": false,
+        "fechas": [],
         "materiales": ["marmol"],
         "valorMinimo": 3000000,
+        "montos": [],
         "anio": 1501
     },
     {
@@ -105,14 +120,17 @@
                 "pieza3",
                 "pieza4"
             ],
+            "fechas": [],
             "antiguas": [],
             "login": "userPrueba",
             "telefono": 322,
             "nombre": "Juan"
         }],
+        "historicos": [],
         "tipo": "fotografía",
         "estado": "fuera",
         "lugarCreacion": "EEUU",
+        "original": "userPrueba",
         "resolucion": 1080,
         "pieza": "imagen",
         "titulo": "pieza2",
@@ -121,7 +139,9 @@
         "ancho": 69,
         "valorInicial": 400000,
         "bloqueada": false,
+        "fechas": [],
         "valorMinimo": 700000,
+        "montos": [],
         "anio": 1932
     }
 ]}

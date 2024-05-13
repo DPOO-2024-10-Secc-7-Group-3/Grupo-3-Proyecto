@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import exceptions.UserDuplicatedException;
 import modelo.usuarios.Administrador;
 import modelo.usuarios.Cliente;
+import modelo.usuarios.Usuario;
 import modelo.ventas.Fija;
 import modelo.ventas.Subasta;
 import modelo.ventas.Venta;
@@ -222,25 +223,45 @@ public abstract class Pieza {
 
 	public static void agregarAtributos(JSONObject jsonObject, Pieza pieza) {
 		// Agregar todos los atributos al JSONObject principal
-		jsonObject.put("titulo", pieza.getTitulo());
-		jsonObject.put("anio", pieza.getAnio());
-		jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
-		jsonObject.put("estado", pieza.getEstado());
-		jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
-		if (pieza.getDisponibilidad() != null) {
-			jsonObject.put("disponibilidad", pieza.getDisponibilidad().toJSON());
-		}
-		jsonObject.put("bloqueada", pieza.isBloqueada());
-		jsonObject.put("valorMinimo", pieza.getValorMinimo());
-		jsonObject.put("valorInicial", pieza.getValorInicial());
-		jsonObject.put("precio", pieza.getPrecio());
-		jsonObject.put("pieza", pieza.getTipoPieza());
-		JSONArray jsonPropietarios = new JSONArray();
-		for (Cliente propietario : pieza.getPropietarios()) {
-			JSONObject jsonCliente = propietario.toJSON();
-			jsonPropietarios.put(jsonCliente);
-		}
-		jsonObject.put("propietarios", jsonPropietarios);
+				jsonObject.put("titulo", pieza.getTitulo());
+				jsonObject.put("anio", pieza.getAnio());
+				jsonObject.put("lugarCreacion", pieza.getLugarCreacion());
+				jsonObject.put("estado", pieza.getEstado());
+				jsonObject.put("tiempoConsignacion", pieza.getTiempoConsignacion());
+				if (pieza.getDisponibilidad() != null) {
+					jsonObject.put("disponibilidad", pieza.getDisponibilidad().toJSON());
+				}
+				jsonObject.put("bloqueada", pieza.isBloqueada());
+				jsonObject.put("valorMinimo", pieza.getValorMinimo());
+				jsonObject.put("valorInicial", pieza.getValorInicial());
+				jsonObject.put("precio", pieza.getPrecio());
+				jsonObject.put("pieza", pieza.getTipoPieza());
+				JSONArray jsonPropietarios = new JSONArray();
+				for (Cliente propietario : pieza.getPropietarios()) {
+					JSONObject jsonCliente = propietario.toJSON();
+					jsonPropietarios.put(jsonCliente);
+				}
+				jsonObject.put("propietarios", jsonPropietarios);
+				JSONArray jsonHistoricos = new JSONArray();
+				for (Cliente historico : pieza.getHistoricos()) {
+					String login = historico.getLogin();
+					jsonHistoricos.put(login);
+				}
+				jsonObject.put("historicos", jsonHistoricos);
+				JSONArray jsonFechas = new JSONArray();
+				for (LocalDateTime fecha:pieza.getFechas())
+				{
+					jsonFechas.put(fecha);
+				}
+				jsonObject.put("fechas", jsonFechas);
+				JSONArray jsonMontos = new JSONArray();
+				for (int monto : pieza.getMontos())
+				{
+					jsonMontos.put(monto);
+				}
+				jsonObject.put("montos", jsonMontos);
+				String jsonOriginal = pieza.getOriginal().getLogin();
+				jsonObject.put("original", jsonOriginal);
 	}
 
 	public abstract JSONObject toJSON();
@@ -272,5 +293,30 @@ public abstract class Pieza {
 		boolean bloqueada = jsonObject.getBoolean("bloqueada");
 		this.setEstado(estado);
 		this.setBloqueada(bloqueada);
+		Cliente original = (Cliente)Usuario.logins.get(jsonObject.get("original"));
+		this.setOriginal(original);
+		this.setHistoricos(new ArrayList<Cliente>());
+		JSONArray historicos = jsonObject.getJSONArray("historicos");
+		for (int  i = 0; i<historicos.length();i++)
+		{
+			String login = historicos.getString(i);
+			Cliente historico = (Cliente)Usuario.logins.get(login);
+			this.historicos.add(historico);
+		}
+		this.fechas = new ArrayList<LocalDateTime>();
+		JSONArray fechas = jsonObject.getJSONArray("fechas");
+		for (int i =0; i<fechas.length();i++)
+		{
+			String fecha = fechas.getString(i);
+			LocalDateTime nFecha = LocalDateTime.parse(fecha);
+			this.fechas.add(nFecha);
+		}
+		this.montos = new ArrayList<Integer>();
+		JSONArray montos = jsonObject.getJSONArray("montos");
+		for (int i = 0; i<montos.length();i++)
+		{
+			int monto = montos.getInt(i);
+			this.montos.add(monto);
+		}
 	}
 }

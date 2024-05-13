@@ -14,6 +14,7 @@ import exceptions.UserDuplicatedException;
 import modelo.piezas.Pieza;
 import modelo.ventas.Pago;
 import modelo.ventas.Subasta;
+import modelo.ventas.Venta;
 
 public class Operador extends Usuario {
 
@@ -142,6 +143,7 @@ public class Operador extends Usuario {
 				}
 				Pago pago = new Pago(subasta.getUltimoMetodo(), precio);
 				subasta.setPago(pago);
+				Venta.ventas.add(subasta);
 				admin.cerrarSubasta(pieza, comprador, subasta);
 			}
 		}

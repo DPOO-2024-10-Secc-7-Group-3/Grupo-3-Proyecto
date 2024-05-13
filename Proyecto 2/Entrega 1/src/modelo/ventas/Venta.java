@@ -67,18 +67,14 @@ public abstract class Venta {
 
 	public static void agregarAtributos(JSONObject jsonObject, Venta venta) {
 		// Agregar todos los atributos al JSONObject principal
-		jsonObject.put("precioVenta", venta.getPrecioVenta());
-		jsonObject.put("pieza", venta.getPieza());
-		if (venta.getPago() != null) {
-			jsonObject.put("pago", venta.getPago().toJSON());
-		} else {
-			jsonObject.put("pago", "");
-		}
-		if (venta.getComprador() != null) {
-			jsonObject.put("comprador", venta.getComprador().toJSON());
-		} else {
-			jsonObject.put("comprador", "");
-		}
+				jsonObject.put("precioVenta", venta.getPrecioVenta());
+				jsonObject.put("pieza", venta.getPieza());
+				if (venta.getPago() != null) {
+					jsonObject.put("pago", venta.getPago().toJSON());
+				}
+				if (venta.getComprador() != null) {
+					jsonObject.put("comprador", venta.getComprador().toJSON());
+				}
 	}
 
 	public abstract JSONObject toJSON();

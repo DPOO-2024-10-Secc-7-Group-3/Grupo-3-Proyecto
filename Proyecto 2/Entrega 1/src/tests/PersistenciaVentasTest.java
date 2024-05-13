@@ -61,7 +61,7 @@ class PersistenciaVentasTest {
 	@Test
 	@Order(1)
 	void testVentasToJSON() {
-		String jsonString = "{\"ventas\":[{\"pieza\":\"piezaPrueba\",\"comprador\":{\"valorMaximo\":20000,\"compras\":[],\"password\":\"789\",\"tipo\":\"cliente\",\"actuales\":[\"piezaPrueba\"],\"antiguas\":[],\"login\":\"userPruebaA\",\"telefono\":322,\"nombre\":\"Juan\"},\"precioVenta\":5,\"pago\":{\"tipo\":\"efectivo\",\"monto\":5}}]}";
+		String jsonString = "{\"ventas\":[{\"pieza\":\"piezaPrueba\",\"comprador\":{\"valorMaximo\":20000,\"compras\":[],\"password\":\"789\",\"tipo\":\"cliente\",\"actuales\":[\"piezaPrueba\"],\"fechas\":[],\"antiguas\":[],\"login\":\"userPruebaA\",\"telefono\":322,\"nombre\":\"Juan\"},\"precioVenta\":5,\"pago\":{\"tipo\":\"efectivo\",\"monto\":5}}]}";
 		JSONObject ventasJSON = new JSONObject();
 		cp.guardarVentas(ventasJSON);
 		if (!ventasJSON.toString().equals(jsonString)) {

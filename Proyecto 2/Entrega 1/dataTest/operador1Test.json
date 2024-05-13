@@ -1,0 +1,36 @@
+{"operadores": [{
+    "password": "789",
+    "tipo": "operador",
+    "subastas": [{
+        "fechaUltimaOferta": "2024-05-13T01:23:47.549175300",
+        "ofertas": {"userPrueba": 10},
+        "fechaInicio": "2024-05-13T01:23:47.549175300",
+        "pieza": "piezaExhibida1",
+        "comprador": {
+            "valorMaximo": 20000,
+            "compras": ["piezaCompras5"],
+            "password": "789",
+            "tipo": "cliente",
+            "actuales": [
+                "piezaAlmacenada3",
+                "piezaAlmacenada4"
+            ],
+            "antiguas": [
+                "piezaExhibida1",
+                "piezaExhibida2"
+            ],
+            "login": "userPrueba",
+            "telefono": 322,
+            "nombre": "Juan"
+        },
+        "precioVenta": 10,
+        "pago": {
+            "tipo": "efectivo",
+            "monto": 5
+        },
+        "tiempoMaximoOferta": "0"
+    }],
+    "login": "operadorPrueba",
+    "telefono": 322,
+    "nombre": "Juan"
+}]}

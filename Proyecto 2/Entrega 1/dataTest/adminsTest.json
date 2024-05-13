@@ -1,0 +1,308 @@
+{"administradores": [
+    {
+        "password": "123",
+        "tipo": "administrador",
+        "operadores": [
+            {
+                "password": "789",
+                "tipo": "operador",
+                "subastas": [{
+                    "fechaUltimaOferta": "2024-05-13T01:21:06.654624100",
+                    "ofertas": {"userPrueba": 10},
+                    "fechaInicio": "2024-05-13T01:21:06.654624100",
+                    "pieza": "piezaExhibida1",
+                    "comprador": {
+                        "valorMaximo": 20000,
+                        "compras": ["piezaCompras5"],
+                        "password": "789",
+                        "tipo": "cliente",
+                        "actuales": [
+                            "piezaAlmacenada3",
+                            "piezaAlmacenada4"
+                        ],
+                        "antiguas": [
+                            "piezaExhibida1",
+                            "piezaExhibida2"
+                        ],
+                        "login": "userPrueba",
+                        "telefono": 322,
+                        "nombre": "Juan"
+                    },
+                    "precioVenta": 10,
+                    "pago": {
+                        "tipo": "efectivo",
+                        "monto": 5
+                    },
+                    "tiempoMaximoOferta": "0"
+                }],
+                "login": "operadorPrueba",
+                "telefono": 322,
+                "nombre": "Juan"
+            },
+            {
+                "password": "789",
+                "tipo": "operador",
+                "subastas": [{
+                    "fechaUltimaOferta": "2024-05-13T01:21:06.654624100",
+                    "ofertas": {"userPrueba": 10},
+                    "fechaInicio": "2024-05-13T01:21:06.654624100",
+                    "pieza": "piezaExhibida1",
+                    "comprador": {
+                        "valorMaximo": 20000,
+                        "compras": ["piezaCompras5"],
+                        "password": "789",
+                        "tipo": "cliente",
+                        "actuales": [
+                            "piezaAlmacenada3",
+                            "piezaAlmacenada4"
+                        ],
+                        "antiguas": [
+                            "piezaExhibida1",
+                            "piezaExhibida2"
+                        ],
+                        "login": "userPrueba",
+                        "telefono": 322,
+                        "nombre": "Juan"
+                    },
+                    "precioVenta": 10,
+                    "pago": {
+                        "tipo": "efectivo",
+                        "monto": 5
+                    },
+                    "tiempoMaximoOferta": "0"
+                }],
+                "login": "loginPruebaOperador",
+                "telefono": 322,
+                "nombre": "Juan"
+            }
+        ],
+        "cajeros": [
+            {
+                "password": "789",
+                "tipo": "cajero",
+                "ocupado": false,
+                "login": "cajeroPrueba",
+                "telefono": 322,
+                "pagos": [{
+                    "tipo": "efectivo",
+                    "monto": 5
+                }],
+                "nombre": "Juan"
+            },
+            {
+                "password": "789",
+                "tipo": "cajero",
+                "ocupado": false,
+                "login": "loginPruebaCajero",
+                "telefono": 322,
+                "pagos": [{
+                    "tipo": "efectivo",
+                    "monto": 5
+                }],
+                "nombre": "Juan"
+            }
+        ],
+        "clientes": [
+            {
+                "valorMaximo": 20000,
+                "compras": ["piezaCompras5"],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": [
+                    "piezaAlmacenada3",
+                    "piezaAlmacenada4"
+                ],
+                "antiguas": [
+                    "piezaExhibida1",
+                    "piezaExhibida2"
+                ],
+                "login": "userPrueba",
+                "telefono": 322,
+                "nombre": "Juan"
+            },
+            {
+                "valorMaximo": 20000,
+                "compras": ["piezaCompras5"],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": [
+                    "piezaAlmacenada3",
+                    "piezaAlmacenada4"
+                ],
+                "antiguas": [
+                    "piezaExhibida1",
+                    "piezaExhibida2"
+                ],
+                "login": "loginPruebaCliente",
+                "telefono": 322,
+                "nombre": "Juan"
+            }
+        ],
+        "login": "a.bolivarc",
+        "telefono": 315,
+        "inventario": {
+            "almacenadas": [
+                "piezaAlmacenada3",
+                "piezaAlmacenada4"
+            ],
+            "exhibidas": [
+                "piezaExhibida1",
+                "piezaExhibida2"
+            ]
+        },
+        "nombre": "Andres"
+    },
+    {
+        "password": "Andres",
+        "tipo": "administrador",
+        "operadores": [
+            {
+                "password": "789",
+                "tipo": "operador",
+                "subastas": [{
+                    "fechaUltimaOferta": "2024-05-13T01:21:06.654624100",
+                    "ofertas": {"userPrueba": 10},
+                    "fechaInicio": "2024-05-13T01:21:06.654624100",
+                    "pieza": "piezaExhibida1",
+                    "comprador": {
+                        "valorMaximo": 20000,
+                        "compras": ["piezaCompras5"],
+                        "password": "789",
+                        "tipo": "cliente",
+                        "actuales": [
+                            "piezaAlmacenada3",
+                            "piezaAlmacenada4"
+                        ],
+                        "antiguas": [
+                            "piezaExhibida1",
+                            "piezaExhibida2"
+                        ],
+                        "login": "userPrueba",
+                        "telefono": 322,
+                        "nombre": "Juan"
+                    },
+                    "precioVenta": 10,
+                    "pago": {
+                        "tipo": "efectivo",
+                        "monto": 5
+                    },
+                    "tiempoMaximoOferta": "0"
+                }],
+                "login": "operadorPrueba",
+                "telefono": 322,
+                "nombre": "Juan"
+            },
+            {
+                "password": "789",
+                "tipo": "operador",
+                "subastas": [{
+                    "fechaUltimaOferta": "2024-05-13T01:21:06.654624100",
+                    "ofertas": {"userPrueba": 10},
+                    "fechaInicio": "2024-05-13T01:21:06.654624100",
+                    "pieza": "piezaExhibida1",
+                    "comprador": {
+                        "valorMaximo": 20000,
+                        "compras": ["piezaCompras5"],
+                        "password": "789",
+                        "tipo": "cliente",
+                        "actuales": [
+                            "piezaAlmacenada3",
+                            "piezaAlmacenada4"
+                        ],
+                        "antiguas": [
+                            "piezaExhibida1",
+                            "piezaExhibida2"
+                        ],
+                        "login": "userPrueba",
+                        "telefono": 322,
+                        "nombre": "Juan"
+                    },
+                    "precioVenta": 10,
+                    "pago": {
+                        "tipo": "efectivo",
+                        "monto": 5
+                    },
+                    "tiempoMaximoOferta": "0"
+                }],
+                "login": "loginPruebaOperador",
+                "telefono": 322,
+                "nombre": "Juan"
+            }
+        ],
+        "cajeros": [
+            {
+                "password": "789",
+                "tipo": "cajero",
+                "ocupado": false,
+                "login": "cajeroPrueba",
+                "telefono": 322,
+                "pagos": [{
+                    "tipo": "efectivo",
+                    "monto": 5
+                }],
+                "nombre": "Juan"
+            },
+            {
+                "password": "789",
+                "tipo": "cajero",
+                "ocupado": false,
+                "login": "loginPruebaCajero",
+                "telefono": 322,
+                "pagos": [{
+                    "tipo": "efectivo",
+                    "monto": 5
+                }],
+                "nombre": "Juan"
+            }
+        ],
+        "clientes": [
+            {
+                "valorMaximo": 20000,
+                "compras": ["piezaCompras5"],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": [
+                    "piezaAlmacenada3",
+                    "piezaAlmacenada4"
+                ],
+                "antiguas": [
+                    "piezaExhibida1",
+                    "piezaExhibida2"
+                ],
+                "login": "userPrueba",
+                "telefono": 322,
+                "nombre": "Juan"
+            },
+            {
+                "valorMaximo": 20000,
+                "compras": ["piezaCompras5"],
+                "password": "789",
+                "tipo": "cliente",
+                "actuales": [
+                    "piezaAlmacenada3",
+                    "piezaAlmacenada4"
+                ],
+                "antiguas": [
+                    "piezaExhibida1",
+                    "piezaExhibida2"
+                ],
+                "login": "loginPruebaCliente",
+                "telefono": 322,
+                "nombre": "Juan"
+            }
+        ],
+        "login": "a.bolivarc",
+        "telefono": 315,
+        "inventario": {
+            "almacenadas": [
+                "piezaAlmacenada3",
+                "piezaAlmacenada4"
+            ],
+            "exhibidas": [
+                "piezaExhibida1",
+                "piezaExhibida2"
+            ]
+        },
+        "nombre": "123"
+    }
+]}

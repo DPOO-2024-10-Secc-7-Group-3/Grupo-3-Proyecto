@@ -190,4 +190,12 @@ public abstract class Usuario {
 		String tipo = jsonObject.getString("tipo");
 		administrador.crearUsuario(login, password, nombre, telefono, tipo);
 	}
+	
+	public boolean equalsUser(Usuario user) {
+		boolean pass = this.password.equals(user.getPassword());
+		boolean name = this.nombre.equals(user.getNombre());
+		boolean tel = this.telefono == user.getTelefono();
+		boolean tipo = this.tipo.equals(user.getTipo());
+		return pass && name && tel && tipo;
+	}
 }

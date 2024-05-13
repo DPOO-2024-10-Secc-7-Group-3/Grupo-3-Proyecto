@@ -34,7 +34,7 @@ public class Cliente extends Usuario {
 		this.compras = compras;
 		this.admin = admin;
 		this.valorMaximo = valorMaximo;
-		
+
 		this.fechas = new ArrayList<LocalDateTime>();
 	}
 
@@ -142,7 +142,8 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza,
+					this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -160,7 +161,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -178,7 +179,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, textura, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, textura, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -197,7 +198,7 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, duracion, precio, pieza,this);
+					valorInicial, propietarios, duracion, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
@@ -232,6 +233,8 @@ public class Cliente extends Usuario {
 			}
 
 			admin.agregarPieza(titulo, exhibir);
+		} else {
+			throw new Exception("La pieza de titulo " + titulo + " ya no le pertenece al usuario " + this.login);
 		}
 	}
 
@@ -241,15 +244,6 @@ public class Cliente extends Usuario {
 
 	public int darCodigo() {
 		return VERIFICACION;
-	}
-
-	public int getPiezaIndex(String titulo, ArrayList<String> lista) {
-		for (int index = 0; index < lista.size(); index++) {
-			if (lista.get(index) == titulo) {
-				return index;
-			}
-		}
-		return -1;
 	}
 
 	public JSONObject toJSON() {
@@ -298,7 +292,7 @@ public class Cliente extends Usuario {
 		for (Object titulo : antiguasJson) {
 			antiguas.add((String) titulo);
 		}
-		JSONArray comprasJson = clienteJson.getJSONArray("actuales");
+		JSONArray comprasJson = clienteJson.getJSONArray("compras");
 		ArrayList<String> compras = new ArrayList<String>();
 		for (Object titulo : comprasJson) {
 			compras.add((String) titulo);
@@ -309,5 +303,14 @@ public class Cliente extends Usuario {
 		cliente.setAntiguas(antiguas);
 		cliente.setCompras(compras);
 		return cliente;
+	}
+	
+	public boolean equalsJSON(Cliente client) {
+		boolean user = ((Usuario) client).equalsUser((Usuario) this);
+		boolean act = this.actuales.equals(client.getActuales());
+		boolean ant = this.antiguas.equals(client.getAntiguas());
+		boolean com = this.compras.equals(client.getCompras());
+		boolean val = this.valorMaximo == client.getValorMaximo();
+		return user && act && ant && com && val;
 	}
 }

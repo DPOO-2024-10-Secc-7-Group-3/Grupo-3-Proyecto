@@ -101,7 +101,7 @@ public class Inventario {
 		// Volver las almacenadas en un JSONObject
 		JSONArray jsonObjectAlmacenadas = new JSONArray();
 		for (String titulo : inventario.getAlmacenadas()) {
-			jsonObjectExhibidas.put(titulo);
+			jsonObjectAlmacenadas.put(titulo);
 		}
 		// Aniadir ambas al JSONObject principal
 		jsonObject.put("exhibidas", jsonObjectExhibidas);
@@ -123,5 +123,13 @@ public class Inventario {
 		}
 		Inventario inventario = new Inventario(exhibidas, almacenadas);
 		return inventario;
+	}
+	
+	public boolean equals(Inventario inventarioComparar) {
+		if((inventarioComparar.getAlmacenadas().equals(this.almacenadas)) && (inventarioComparar.getExhibidas().equals(this.exhibidas))) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

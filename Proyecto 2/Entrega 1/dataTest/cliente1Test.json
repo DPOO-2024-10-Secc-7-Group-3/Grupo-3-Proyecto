@@ -1,0 +1,17 @@
+{"clientes": [{
+    "valorMaximo": 20000,
+    "compras": ["piezaCompras5"],
+    "password": "789",
+    "tipo": "cliente",
+    "actuales": [
+        "piezaAlmacenada3",
+        "piezaAlmacenada4"
+    ],
+    "antiguas": [
+        "piezaExhibida1",
+        "piezaExhibida2"
+    ],
+    "login": "userPrueba",
+    "telefono": 322,
+    "nombre": "Juan"
+}]}

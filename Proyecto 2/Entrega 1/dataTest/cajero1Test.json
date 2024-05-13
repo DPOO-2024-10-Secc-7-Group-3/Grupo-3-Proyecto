@@ -1,0 +1,12 @@
+{"cajeros": [{
+    "password": "789",
+    "tipo": "cajero",
+    "ocupado": false,
+    "login": "cajeroPrueba",
+    "telefono": 322,
+    "pagos": [{
+        "tipo": "efectivo",
+        "monto": 5
+    }],
+    "nombre": "Juan"
+}]}

@@ -63,20 +63,30 @@ public class Operador extends Usuario {
 		ArrayList<Operador> operadores = new ArrayList<Operador>();
 		for (Object obj : jsonOperadores) {
 			JSONObject operadorJson = (JSONObject) obj;
-			Usuario.loadUserFromJSON(operadorJson, administrador);
-			JSONArray subastasJson = operadorJson.getJSONArray("subastas");
-			ArrayList<Subasta> subastas = new ArrayList<Subasta>();
-			for (Object subastaObj : subastasJson) {
-				JSONObject subastaJson = (JSONObject) subastaObj;
-				Subasta subastaAdd = Subasta.fromJSON(subastaJson, administrador);
-				subastas.add(subastaAdd);
-			}
-			String nLogin = operadorJson.getString("login");
-			Operador operador = administrador.getOperador(nLogin);
-			operador.setSubastas(subastas);
+			Operador operador = loadOperadorFromJSON(operadorJson, administrador);
 			operadores.add(operador);
 		}
 		return operadores;
+	}
+	
+	public static Operador loadOperadorFromJSON(JSONObject operadorJson, Administrador administrador) throws Exception {
+		Usuario.loadUserFromJSON(operadorJson, administrador);
+		JSONArray subastasJson = operadorJson.getJSONArray("subastas");
+		ArrayList<Subasta> subastas = new ArrayList<Subasta>();
+		for (Object subastaObj : subastasJson) {
+			JSONObject subastaJson = (JSONObject) subastaObj;
+			Subasta subastaAdd = Subasta.fromJSON(subastaJson, administrador);
+			subastas.add(subastaAdd);
+		}
+		String nLogin = operadorJson.getString("login");
+		Operador operador = administrador.getOperador(nLogin);
+		operador.setSubastas(subastas);
+		return operador;
+	}
+	
+	public boolean equalsJSON(Operador operador) {
+		boolean user = ((Usuario) operador).equalsUser((Usuario) this);
+		return user;
 	}
 
 	public void iniciarSubasta(String nTitulo, Administrador administrador) throws PiezaNoExistenteException {
@@ -86,14 +96,15 @@ public class Operador extends Usuario {
 		}
 		pieza.setBloqueada(true);
 		int valorInicial = pieza.getValorInicial();
-		Subasta subasta = new Subasta(valorInicial, null, nTitulo, null, new HashMap<String,Integer>());
+		Subasta subasta = new Subasta(valorInicial, null, nTitulo, null, new HashMap<String, Integer>());
+		pieza.setDisponibilidad(subasta);
 		this.subastas.add(subasta);
 	}
 
 	public void ofertarPieza(Cliente cliente, Integer oferta, String pieza, String metodo)
 			throws OfertaInvalidaException {
 		Subasta subasta = getSubasta(pieza);
-		if ((subasta == null) && ((Integer) cliente.getValorMaximo() < oferta)) {
+		if ((subasta == null) | ((Integer) cliente.getValorMaximo() < oferta)) {
 			throw new OfertaInvalidaException();
 		}
 		int precio = subasta.getUltimoMonto();
@@ -120,6 +131,7 @@ public class Operador extends Usuario {
 			if (subasta.getOfertas().size() == 0) {
 				subasta.removeVenta(subasta);
 				subastas.remove(subasta);
+				Subasta.subastas.remove(pieza);
 			} else {
 				HashMap<String, Integer> ultimaMap = subasta.getUltimaOferta();
 				String comprador = "";

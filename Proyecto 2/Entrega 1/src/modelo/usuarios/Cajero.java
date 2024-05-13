@@ -68,21 +68,33 @@ public class Cajero extends Usuario {
 		ArrayList<Cajero> cajeros = new ArrayList<Cajero>();
 		for (Object obj : jsonCajeros) {
 			JSONObject cajeroJson = (JSONObject) obj;
-			Usuario.loadUserFromJSON(cajeroJson, administrador);
-			JSONArray pagosJson = cajeroJson.getJSONArray("pagos");
-			ArrayList<Pago> pagos = new ArrayList<Pago>();
-			for (Object pagoObj : pagosJson) {
-				JSONObject pagoJson = (JSONObject) pagoObj;
-				Pago pago = Pago.fromJSON(pagoJson);
-				pagos.add(pago);
-			}
-			boolean ocupado = cajeroJson.getBoolean("ocupado");
-			String login = cajeroJson.getString("login");
-			Cajero cajero = administrador.getCajero(login);
-			cajero.setOcupado(ocupado);
-			cajero.setPagos(pagos);
+			Cajero cajero = Cajero.loadCajeroFromJSON(cajeroJson, administrador);
 			cajeros.add(cajero);
 		}
 		return cajeros;
+	}
+	
+	public static Cajero loadCajeroFromJSON(JSONObject cajeroJson, Administrador administrador) throws Exception {
+		Usuario.loadUserFromJSON(cajeroJson, administrador);
+		JSONArray pagosJson = cajeroJson.getJSONArray("pagos");
+		ArrayList<Pago> pagos = new ArrayList<Pago>();
+		for (Object pagoObj : pagosJson) {
+			JSONObject pagoJson = (JSONObject) pagoObj;
+			Pago pago = Pago.fromJSON(pagoJson);
+			pagos.add(pago);
+		}
+		boolean ocupado = cajeroJson.getBoolean("ocupado");
+		String login = cajeroJson.getString("login");
+		Cajero cajero = administrador.getCajero(login);
+		cajero.setOcupado(ocupado);
+		cajero.setPagos(pagos);
+		return cajero;
+	}
+	
+	public boolean equalsJSON(Cajero cajero) {
+		boolean user = ((Usuario) cajero).equalsUser((Usuario) this);
+		boolean boo = this.ocupado == (cajero.isOcupado());
+		boolean pag = Pago.equalsArray(this.pagos, cajero.getPagos());
+		return user && boo && pag;
 	}
 }

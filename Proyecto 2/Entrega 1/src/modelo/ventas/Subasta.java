@@ -16,10 +16,11 @@ public class Subasta extends Venta {
 	private HashMap<String, Integer> ofertas = new HashMap<String, Integer>();
 	private LocalDateTime fechaInicio;
 	private LocalDateTime fechaUltimaOferta;
-	private Duration tiempoMaximoOferta;
+	private Duration tiempoMaximoOferta = Duration.ofNanos(1);
 	private String ultimoMetodo;
 	private int ultimoMonto;
 	private HashMap<String, Integer> ultimaOferta = new HashMap<String, Integer>();
+	public static HashMap<String, Subasta> subastas = new HashMap<String, Subasta>();
 
 	public Subasta(int precioVenta, Cliente comprador, String pieza, Pago pago, HashMap<String, Integer> ofertas) {
 		super(precioVenta, comprador, pieza, pago);
@@ -27,6 +28,7 @@ public class Subasta extends Venta {
 		this.fechaInicio = LocalDateTime.now();
 		this.fechaUltimaOferta = LocalDateTime.now();
 		this.ultimaOferta = new HashMap<String, Integer>();
+		subastas.put(pieza, this);
 	}
 
 	public HashMap<String, Integer> getUltimaOferta() {
@@ -37,7 +39,9 @@ public class Subasta extends Venta {
 		this.ultimaOferta = ultimaOferta;
 	}
 	
-	
+	public static Subasta getSubasta(String pieza) {
+		return subastas.get(pieza);
+	}
 
 	public int getUltimoMonto() {
 		return ultimoMonto;
@@ -74,7 +78,7 @@ public class Subasta extends Venta {
 	public boolean revisarVigencia() {
 		LocalDateTime ahora = LocalDateTime.now();
 		Duration tiempoTrancurrido = Duration.between(fechaUltimaOferta, ahora);
-		if (tiempoTrancurrido.compareTo(tiempoMaximoOferta) < 0) {
+		if (tiempoTrancurrido.compareTo(tiempoMaximoOferta) > 0) {
 			return true;
 		} else {
 			return false;
@@ -126,7 +130,7 @@ public class Subasta extends Venta {
 		HashMap<String, Integer> ofertas = new HashMap<String, Integer>();
 		JSONObject jsonObjectMap = jsonObject.getJSONObject("ofertas");
 		for (String clave : jsonObjectMap.keySet()) {
-			Integer valor = (Integer) jsonObject.getInt(clave);
+			Integer valor = (Integer) jsonObjectMap.getInt(clave);
 			ofertas.put(clave, valor);
 		}
 		Subasta subasta = new Subasta(0, null, null, null, ofertas);

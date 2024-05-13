@@ -354,7 +354,7 @@ public class Main {
 					}
 
 				} else if (input.equals("7")) {
-					System.out.print("Ingrese el nombre del archivo" + ": ");
+					System.out.print("Ingrese el nombre del archivo (escribalo sin .json)" + ": ");
 					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
 					String nArchivo = reader1.readLine();
 

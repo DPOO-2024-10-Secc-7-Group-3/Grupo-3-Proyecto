@@ -1,5 +1,7 @@
 package modelo.ventas;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 public class Pago {
@@ -42,5 +44,22 @@ public class Pago {
 		int monto = jsonObject.getInt("monto");
 		Pago pago = new Pago(tipo, monto);
 		return pago;
+	}
+	
+	public static boolean equalsArray(ArrayList<Pago> pagos1, ArrayList<Pago> pagos2) {
+		for(int i=0;i<pagos1.size();i+=1) {
+			if(!pagos1.get(i).equalsPago(pagos2.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean equalsPago(Pago pago) {
+		if((this.tipo.equals(pago.getTipo())) && (this.monto == pago.getMonto())) {
+			return true;
+		}else {			
+			return false;
+		}
 	}
 }

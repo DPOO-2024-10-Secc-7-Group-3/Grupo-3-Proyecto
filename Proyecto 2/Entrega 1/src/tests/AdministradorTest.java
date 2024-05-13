@@ -17,6 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import exceptions.InsuficienteTiempoConsignacionException;
 import exceptions.PiezaNoExistenteException;
+import exceptions.UserNotFoundException;
 import modelo.Inventario;
 import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
@@ -36,9 +37,9 @@ class AdministradorTest {
 	@BeforeAll
 	static void setUp() throws Exception {
 		// Crear usuarios para probar
-		Inventario inventario = new Inventario(new ArrayList<String>(), new ArrayList<String>()); //
+		Inventario inventario = new Inventario(new ArrayList<String>(), new ArrayList<String>()); 
 		admin1 = new Administrador("a.bolivarc", "123", "Andres", 315, Usuario.ADMIN, inventario,
-				new ArrayList<Cliente>(), new ArrayList<Cajero>(), new ArrayList<Operador>()); //
+				new ArrayList<Cliente>(), new ArrayList<Cajero>(), new ArrayList<Operador>()); 
 		admin1.crearUsuario("userPrueba", "789", "Juan", 322, Usuario.CLIENTE);
 		admin1.crearUsuario("userPruebaSubasta", "789", "Jorge", 322, Usuario.CLIENTE);
 		Cliente cliente1 = admin1.getCliente("userPrueba");
@@ -82,7 +83,7 @@ class AdministradorTest {
 	@MethodSource("credentialsCrearUsuarioPorRolProvider")
 	void testCrearUsuarioPorRol(String login, String rol) {
 		/*
-		 * Este test prueba la funcion crearUsuario de la clase Administrador variando
+		 * Este test prueba el metodo crearUsuario de la clase Administrador variando
 		 * los tipos de usuarios. Debe de funcionar normalmente para los 4 tipos de
 		 * usuario definidos (Cliente, Admin, Cajero, Operador). Debe de fallar al
 		 * intentar crear cualquier otro tipo usuario
@@ -103,7 +104,7 @@ class AdministradorTest {
 	@ValueSource(strings = { "je.sandovals1", "l.cespedes", "je.sandovals1" })
 	void testCrearUsuarioNombreRepetido(String login) {
 		/*
-		 * Este test prueba la funcion crearUsuario de la clase Administrador variando
+		 * Este test prueba el metodo crearUsuario de la clase Administrador variando
 		 * el login. Debe de fallar al intentar crear un usuario con login repetido.
 		 */
 		try {
@@ -151,7 +152,7 @@ class AdministradorTest {
 	@Test
 	void testAgregarPieza() {
 		/*
-		 * Este test prueba la funcion agregarPieza de la clase Administrador. Debe de
+		 * Este test prueba el metodo agregarPieza de la clase Administrador. Debe de
 		 * actualizar el inventario y agregarle la nueva pieza.
 		 */
 		admin1.agregarPieza("piezaPrueba", false);
@@ -164,9 +165,9 @@ class AdministradorTest {
 	@ParameterizedTest
 	@ValueSource(strings = { "piezaPrueba", "piezaInexistente", "piezaPruebaCara", "piezaPruebaMetodoDiferente",
 			"piezaCajeroOcupado" })
-	void testNuevaCompra(String candidate) throws Exception {
+	void testNuevaCompra(String candidate) throws UserNotFoundException {
 		/*
-		 * Este test prueba la funcion nuevaCompra de la clase Administrador. Debe de
+		 * Este test prueba el metodo nuevaCompra de la clase Administrador. Debe de
 		 * fallar cuando la pieza no existe, es demasiado cara para el cliente, no esta
 		 * disponible para venta fija o no hay cajeros disponibles. De lo contrario, no
 		 * debe fallar
@@ -195,23 +196,21 @@ class AdministradorTest {
 	@Test
 	void testCalcularValor() throws Exception {
 		/*
-		 * Este test prueba la funcion calcularValor de la clase Administrador. Debe de
+		 * Este test prueba el metodo calcularValor de la clase Administrador. Debe de
 		 * devolver el dinero que el cliente ha gastado.
 		 */
 		admin1.crearUsuario("userPruebaCalcularValor", "789", "Juan", 322, Usuario.CLIENTE);
 		Cliente cliente2 = admin1.getCliente("userPruebaCalcularValor");
 		admin1.nuevaCompra("piezaPrueba", cliente2, "efectivo");
 		int valor = admin1.calcularValor("userPruebaCalcularValor");
-		if (valor != 5) {
-			fail("Debe de sumar 5");
-		}
+		assertEquals("Debe de sumar 5", 5, valor);
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = { "piezaPruebaDevolver", "piezaInexistente", "piezaPruebaCara" })
-	void testDevolverPieza(String candidate) throws InsuficienteTiempoConsignacionException, PiezaNoExistenteException {
+	void testDevolverPieza(String candidate) {
 		/*
-		 * Este test prueba la funcion devolverPieza de la clase Administrador. Debe de
+		 * Este test prueba el metodo devolverPieza de la clase Administrador. Debe de
 		 * fallar si la pieza aun no cumple su tiempo de consigancion o si la pieza no
 		 * existe. De lo contrario, no debe fallar.
 		 */
@@ -233,9 +232,9 @@ class AdministradorTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = { "piezaSubasta", "piezaInexistente" })
-	void testCerrarSubasta(String candidate) throws Exception {
+	void testCerrarSubasta(String candidate) {
 		/*
-		 * Este test prueba la funcion cerrarSubasta de la clase Administrador. Debe
+		 * Este test prueba el metodo cerrarSubasta de la clase Administrador. Debe
 		 * fallar si la pieza no existe. De lo contrario, no debe fallar.
 		 */
 		try {
@@ -254,8 +253,8 @@ class AdministradorTest {
 	@Test
 	void testInfoCliente() {
 		/*
-		 * Este test prueba la funcion infoCliente de la clase Administrador. La salida
-		 * de la funcion debe de ser igual al diccionario prueba.
+		 * Este test prueba el metodo infoCliente de la clase Administrador. La salida
+		 * de el metodo debe de ser igual al diccionario prueba.
 		 */
 		ArrayList<String> compras = new ArrayList<String>();
 		ArrayList<String> actuales = new ArrayList<>(List.of("piezaPruebaDevolver", "piezaPrueba", "piezaPruebaCara",
@@ -271,14 +270,14 @@ class AdministradorTest {
 	@AfterAll
 	static void teardown() {
 		admin1.setInventario(null);
-		admin1.setCajeros(null);
-		admin1.setClientes(null);
-		admin1.setOperadores(null);
+		admin1.getCajeros().clear();
+		admin1.getClientes().clear();
+		admin1.getOperadores().clear();
 		admin1 = null;
 		Administrador.administradores.clear();
 		Pieza.piezas.clear();
-		Venta.ventas = new ArrayList<Venta>();
+		Venta.ventas.clear();
 		Usuario.logins.clear();
+		Subasta.subastas.clear();
 	}
-
 }

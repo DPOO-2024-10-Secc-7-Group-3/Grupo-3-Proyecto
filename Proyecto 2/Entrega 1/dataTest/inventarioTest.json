@@ -1,0 +1,10 @@
+{"inventario": {
+    "almacenadas": [
+        "piezaAlmacenada3",
+        "piezaAlmacenada4"
+    ],
+    "exhibidas": [
+        "piezaExhibida1",
+        "piezaExhibida2"
+    ]
+}}

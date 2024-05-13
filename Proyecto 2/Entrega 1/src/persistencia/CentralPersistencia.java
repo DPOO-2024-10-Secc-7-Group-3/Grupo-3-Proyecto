@@ -211,4 +211,23 @@ public class CentralPersistencia {
 			}
 		}
 	}
+	
+	public static void removeDateKeys(JSONObject jsonObject) {
+		JSONArray subastas = (JSONArray) jsonObject.get("subastas");
+		for(Object obj : subastas) {
+			JSONObject subasta = (JSONObject) obj;
+			subasta.remove("fechaUltimaOferta");
+			subasta.remove("fechaInicio");
+		}
+        
+    }
+	
+	public static void removeDateKeysAdmin(JSONObject jsonObject) {
+		JSONArray operadores = (JSONArray) jsonObject.get("operadores");
+		for(Object obj : operadores) {
+			JSONObject operador = (JSONObject) obj;
+			removeDateKeys(operador);
+		}
+        
+    }
 }

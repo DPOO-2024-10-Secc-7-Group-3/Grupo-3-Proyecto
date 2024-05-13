@@ -231,6 +231,8 @@ public class Administrador extends Usuario {
 			ArrayList<Integer> montos = vPieza.getMontos();
 			montos.add(vPieza.getDisponibilidad().getPrecioVenta());
 			vPieza.setMontos(montos);
+			
+			Subasta.subastas.remove(titulo);
 		}
 	}
 
@@ -278,6 +280,12 @@ public class Administrador extends Usuario {
 							}
 						}
 
+						ArrayList<Cliente> propietarios = vPieza.getPropietarios();
+						for (Cliente propietario : propietarios) {
+							propietario.getActuales().remove(titulo);
+							propietario.getAntiguas().add(titulo);
+						}
+
 						ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
 						nuevos.add(cliente);
 						vPieza.setPropietarios(nuevos);
@@ -294,12 +302,6 @@ public class Administrador extends Usuario {
 						ArrayList<Integer> montos = vPieza.getMontos();
 						montos.add(vPieza.getPrecio());
 						vPieza.setMontos(montos);
-
-						ArrayList<Cliente> propietarios = vPieza.getPropietarios();
-						for (Cliente propietario : propietarios) {
-							propietario.getActuales().remove(titulo);
-							propietario.getAntiguas().add(titulo);
-						}
 
 						cliente.getFechas().add(LocalDateTime.now());
 					} else {
@@ -391,7 +393,7 @@ public class Administrador extends Usuario {
 		return jsonObject;
 	}
 
-	public static void fromJSON(JSONObject jsonObject) throws UserDuplicatedException, Exception {
+	public static Administrador fromJSON(JSONObject jsonObject) throws UserDuplicatedException, Exception {
 		String login = jsonObject.getString("login");
 		String password = jsonObject.getString("password");
 		String nombre = jsonObject.getString("nombre");
@@ -406,5 +408,39 @@ public class Administrador extends Usuario {
 		admin.setCajeros(cajeros);
 		ArrayList<Operador> operadores = Operador.fromJSON(jsonObject, admin);
 		admin.setOperadores(operadores);
+		return admin;
+	}
+	
+	public boolean equalsJSON(Administrador admin) {
+		boolean user = ((Usuario) admin).equalsUser((Usuario) this);
+		boolean inv = admin.getInventario().equals(this.inventario);
+		boolean cli = true;
+		for(int i=0;i<this.clientes.size();i+=1) {
+			if(!admin.getClientes().get(i).equalsJSON(this.clientes.get(i))) {
+				cli = false;
+			}
+		}
+		boolean caj = true;
+		for(int i=0;i<this.cajeros.size();i+=1) {
+			if(!admin.getCajeros().get(i).equalsJSON(this.cajeros.get(i))) {
+				caj = false;
+			}
+		}
+		boolean ope = true;
+		for(int i=0;i<this.operadores.size();i+=1) {
+			if(!admin.getOperadores().get(i).equalsJSON(this.operadores.get(i))) {
+				ope = false;
+			}
+		}
+		return user && inv && cli && caj && ope;
+	}
+	
+	public static boolean equalsArray(ArrayList<Pago> pagos1, ArrayList<Pago> pagos2) {
+		for(int i=0;i<pagos1.size();i+=1) {
+			if(!pagos1.get(i).equalsPago(pagos2.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

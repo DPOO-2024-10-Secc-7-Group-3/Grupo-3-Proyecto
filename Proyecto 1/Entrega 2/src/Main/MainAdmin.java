@@ -109,35 +109,6 @@ public class MainAdmin extends Main
 				}
 				else if (input.equals("4"))
 				{
-					System.out.print("Ingrese el nombre de la pieza a subastar" + ": ");
-					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
-					String nTitulo = reader1.readLine();
-					
-					Subasta buffer = null;
-					Operador operador1 = null;
-					
-					for (Operador operador: ((Administrador)user).getOperadores())
-					{
-						buffer = operador.getSubasta(nTitulo);
-						
-						if (!(buffer==null))
-						{
-							operador1 = operador;
-						}
-					}
-					
-					operador1.iniciarSubasta(nTitulo, (Administrador)user);
-
-					System.out.println("La subasta por " + nTitulo + " ha iniciado con exito");
-					System.out.println("\nEstan activas las subastas por los siguientes objetos:");
-					for (Operador operador : ((Administrador)user).getOperadores()) {
-						for (Subasta subasta : operador.getSubastas()) {
-							System.out.println(subasta.getPieza());
-						}
-					}
-				}
-				else if (input.equals("5"))
-				{
 					System.out.print("Ingrese el nombre de la pieza para cerrar la subasta" + ": ");
 					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
 					String nTitulo = reader1.readLine();
@@ -158,7 +129,7 @@ public class MainAdmin extends Main
 					operador1.checkSubastaDuracion(nTitulo, (Administrador)user);
 					System.out.println("Se cerró la subasta de "+nTitulo+" con éxito.");
 				}
-				else if (input.equals("6"))
+				else if (input.equals("5"))
 				{
 					System.out.println("\nEstan activas las ventas de los siguientes objetos:");
 					for (String login:Usuario.logins.keySet())
@@ -189,7 +160,7 @@ public class MainAdmin extends Main
 						}
 					}
 				}
-				else if (input.equals("7"))
+				else if (input.equals("6"))
 				{
 					System.out.print("Ingrese la pieza que desea consultar" + ": ");
 					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
@@ -202,7 +173,7 @@ public class MainAdmin extends Main
 						System.out.print(key+": "+info.get(key)+"\n");
 					}
 				}
-				else if (input.equals("8"))
+				else if (input.equals("7"))
 				{
 					System.out.println("Artista: ");
 					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
@@ -221,7 +192,7 @@ public class MainAdmin extends Main
 						}
 					}
 				}
-				else if (input.equals("9"))
+				else if (input.equals("8"))
 				{
 					System.out.println("Cliente: ");
 					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
@@ -248,7 +219,7 @@ public class MainAdmin extends Main
 					}
 					System.out.println(""+monto);
 				}
-				else if (input.equals("10"))
+				else if (input.equals("9"))
 				{
 					System.out.println("Usuarios:\n");
 					for (String login:Usuario.logins.keySet())
@@ -256,18 +227,7 @@ public class MainAdmin extends Main
 						System.out.println(login);
 					}
 				}
-				else if (input.equals("11"))
-				{
-					for(String titulo:((Administrador)user).getInventario().getAlmacenadas())
-					{
-						System.out.println(titulo);
-					}
-					for(String titulo:((Administrador)user).getInventario().getExhibidas())
-					{
-						System.out.println(titulo);
-					}
-				}
-				else if (input.equals("11"))
+				else if (input.equals("10"))
 				{
 					System.out.println("Nueva contraseña: ");
 					BufferedReader read1 = new BufferedReader(new InputStreamReader(System.in));
@@ -298,13 +258,12 @@ public class MainAdmin extends Main
 				+ "1) Crear usuario.\n"
 				+ "2) Devolver pieza.\n"
 				+ "3) Ver subastas activas.\n"
-				+ "4) Iniciar subasta.\n"
-				+ "5) Cerrar subasta.\n"
-				+ "6) Ver piezas a la venta.\n"
-				+ "7) Ver historial de pieza.\n"
-				+ "8) Ver historial de artista.\n"
-				+ "9) Ver historial de cliente.\n"
-				+ "10) Ver usuarios.\n"
-				+ "11) Cambiar contraseña.\n");
+				+ "4) Cerrar subasta.\n"
+				+ "5) Ver piezas a la venta.\n"
+				+ "6) Ver historial de pieza.\n"
+				+ "7) Ver historial de artista.\n"
+				+ "8) Ver historial de cliente.\n"
+				+ "9) Ver usuarios.\n"
+				+ "10) Cambiar contraseña.\n");
 	}
 }

@@ -3,6 +3,8 @@ package modelo.usuarios;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -231,7 +233,7 @@ public class Cliente extends Usuario {
 			ePieza.setTiempoConsignacion(tiempo);
 
 			if (subasta) {
-				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, null));
+				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, new HashMap<String,Integer>()));
 			} else {
 				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(), null, ePieza.getTitulo(), null));
 			}

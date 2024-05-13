@@ -233,6 +233,7 @@ public class MainCliente extends Main
 						if (!(buffer == null))
 						{
 							operador1 = (Operador) actual;
+							break;
 						}
 					}
 					

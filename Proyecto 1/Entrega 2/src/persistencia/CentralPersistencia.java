@@ -186,7 +186,8 @@ public class CentralPersistencia {
 					Cliente cliente = piezaIns.getPropietarios().get(piezaIns.getPropietarios().size()-1);
 					for (Administrador admin : Administrador.administradores) {
 						if (admin.getClientes().contains(cliente)) {
-							Subasta.fromJSON(ventaObj, admin);
+							Subasta nSubasta = Subasta.fromJSON(ventaObj, admin);
+							Venta.ventas.add(nSubasta);
 						}else {
 						}
 					}

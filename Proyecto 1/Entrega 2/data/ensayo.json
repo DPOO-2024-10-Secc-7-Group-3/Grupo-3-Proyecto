@@ -5,7 +5,18 @@
         "operadores": [{
             "password": "123",
             "tipo": "operador",
-            "subastas": [],
+            "subastas": [{
+                "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+                "ofertas": {"f.ortizp": 2500000},
+                "fechaInicio": "2024-05-12T23:42:31.873864800",
+                "pieza": "La mona lisa",
+                "precioVenta": -1,
+                "pago": {
+                    "tipo": "efectivo",
+                    "monto": 2500000
+                },
+                "tiempoMaximoOferta": "10"
+            }],
             "login": "je.sandovals1",
             "telefono": 300,
             "nombre": "Jesus"
@@ -16,10 +27,20 @@
             "ocupado": false,
             "login": "s.lievanom",
             "telefono": 312,
-            "pagos": [{
-                "tipo": "efectivo",
-                "monto": 15000
-            }],
+            "pagos": [
+                {
+                    "tipo": "efectivo",
+                    "monto": 15000
+                },
+                {
+                    "tipo": "efectivo",
+                    "monto": 2000000
+                },
+                {
+                    "tipo": "efectivo",
+                    "monto": 2500000
+                }
+            ],
             "nombre": "Santiago"
         }],
         "clientes": [
@@ -28,20 +49,26 @@
                 "compras": [],
                 "password": "789",
                 "tipo": "cliente",
-                "actuales": ["La mona lisa"],
+                "actuales": [],
                 "fechas": [],
-                "antiguas": [],
+                "antiguas": ["La mona lisa"],
                 "login": "je.aguirreo1",
                 "telefono": 322,
                 "nombre": "Juan"
             },
             {
                 "valorMaximo": 2000000,
-                "compras": [],
+                "compras": [
+                    "El David",
+                    "La mona lisa"
+                ],
                 "password": "123",
                 "tipo": "cliente",
                 "actuales": ["Infinity"],
-                "fechas": [],
+                "fechas": [
+                    "2024-05-12T23:40:38.806594200",
+                    "2024-05-12T23:43:32.330878100"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -64,9 +91,9 @@
                 "compras": [],
                 "password": "789",
                 "tipo": "cliente",
-                "actuales": ["El David"],
+                "actuales": [],
                 "fechas": [],
-                "antiguas": [],
+                "antiguas": ["El David"],
                 "login": "lm.rojasa12",
                 "telefono": 317,
                 "nombre": "Mariana"
@@ -88,7 +115,7 @@
         "telefono": 315,
         "inventario": {
             "almacenadas": [],
-            "exhibidas": ["La mona lisa"]
+            "exhibidas": []
         },
         "nombre": "Andres"
     }],
@@ -96,33 +123,65 @@
         {
             "propietarios": [{
                 "valorMaximo": 2000000,
-                "compras": [],
-                "password": "789",
+                "compras": [
+                    "El David",
+                    "La mona lisa"
+                ],
+                "password": "123",
                 "tipo": "cliente",
-                "actuales": ["El David"],
-                "fechas": [],
+                "actuales": ["Infinity"],
+                "fechas": [
+                    "2024-05-12T23:40:38.806594200",
+                    "2024-05-12T23:43:32.330878100"
+                ],
                 "antiguas": [],
-                "login": "lm.rojasa12",
-                "telefono": 317,
-                "nombre": "Mariana"
+                "login": "f.ortizp",
+                "telefono": 314,
+                "nombre": "Fabio"
             }],
-            "historicos": [],
+            "historicos": ["lm.rojasa12"],
             "estado": "fuera",
             "lugarCreacion": "Italia",
             "original": "lm.rojasa12",
             "pieza": "escultura",
             "titulo": "El David",
             "alto": 200,
+            "disponibilidad": {
+                "pieza": "El David",
+                "comprador": {
+                    "valorMaximo": 2000000,
+                    "compras": [
+                        "El David",
+                        "La mona lisa"
+                    ],
+                    "password": "123",
+                    "tipo": "cliente",
+                    "actuales": ["Infinity"],
+                    "fechas": [
+                        "2024-05-12T23:40:38.806594200",
+                        "2024-05-12T23:43:32.330878100"
+                    ],
+                    "antiguas": [],
+                    "login": "f.ortizp",
+                    "telefono": 314,
+                    "nombre": "Fabio"
+                },
+                "precioVenta": 2000000,
+                "pago": {
+                    "tipo": "efectivo",
+                    "monto": 2000000
+                }
+            },
             "precio": 2000000,
             "ancho": 517,
             "profundidad": 100,
             "valorInicial": 1500000,
             "electricidad": false,
             "bloqueada": false,
-            "fechas": [],
+            "fechas": ["2024-05-12T23:40:38.806594200"],
             "materiales": ["marmol"],
             "valorMinimo": 3000000,
-            "montos": [],
+            "montos": [2000000],
             "anio": 1501
         },
         {
@@ -159,11 +218,17 @@
         {
             "propietarios": [{
                 "valorMaximo": 2000000,
-                "compras": [],
+                "compras": [
+                    "El David",
+                    "La mona lisa"
+                ],
                 "password": "123",
                 "tipo": "cliente",
                 "actuales": ["Infinity"],
-                "fechas": [],
+                "fechas": [
+                    "2024-05-12T23:40:38.806594200",
+                    "2024-05-12T23:43:32.330878100"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -213,21 +278,26 @@
             "anio": 2010
         },
         {
-            "tiempoConsignacion": "2024-05-11",
             "propietarios": [{
                 "valorMaximo": 2000000,
-                "compras": [],
-                "password": "789",
+                "compras": [
+                    "El David",
+                    "La mona lisa"
+                ],
+                "password": "123",
                 "tipo": "cliente",
-                "actuales": ["La mona lisa"],
-                "fechas": [],
+                "actuales": ["Infinity"],
+                "fechas": [
+                    "2024-05-12T23:40:38.806594200",
+                    "2024-05-12T23:43:32.330878100"
+                ],
                 "antiguas": [],
-                "login": "je.aguirreo1",
-                "telefono": 322,
-                "nombre": "Juan"
+                "login": "f.ortizp",
+                "telefono": 314,
+                "nombre": "Fabio"
             }],
-            "historicos": [],
-            "estado": "almacenada",
+            "historicos": ["je.aguirreo1"],
+            "estado": "fuera",
             "lugarCreacion": "Italia",
             "original": "je.aguirreo1",
             "pieza": "pintura",
@@ -235,21 +305,65 @@
             "textura": "Brillante",
             "alto": 53,
             "disponibilidad": {
-                "fechaUltimaOferta": "2024-05-12T20:04:05.960155",
-                "ofertas": {},
-                "fechaInicio": "2024-05-12T20:04:05.960155",
+                "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+                "ofertas": {"f.ortizp": 2500000},
+                "fechaInicio": "2024-05-12T23:42:31.873864800",
                 "pieza": "La mona lisa",
-                "precioVenta": -1
+                "precioVenta": -1,
+                "pago": {
+                    "tipo": "efectivo",
+                    "monto": 2500000
+                },
+                "tiempoMaximoOferta": "10"
             },
             "precio": 500000,
             "ancho": 77,
             "valorInicial": 700000,
             "bloqueada": false,
-            "fechas": [],
+            "fechas": ["2024-05-12T23:43:32.330878100"],
             "valorMinimo": 1000000,
-            "montos": [],
+            "montos": [-1],
             "anio": 2000
         }
     ],
-    "ventas": []
+    "ventas": [
+        {
+            "pieza": "El David",
+            "comprador": {
+                "valorMaximo": 2000000,
+                "compras": [
+                    "El David",
+                    "La mona lisa"
+                ],
+                "password": "123",
+                "tipo": "cliente",
+                "actuales": ["Infinity"],
+                "fechas": [
+                    "2024-05-12T23:40:38.806594200",
+                    "2024-05-12T23:43:32.330878100"
+                ],
+                "antiguas": [],
+                "login": "f.ortizp",
+                "telefono": 314,
+                "nombre": "Fabio"
+            },
+            "precioVenta": 2000000,
+            "pago": {
+                "tipo": "efectivo",
+                "monto": 2000000
+            }
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        }
+    ]
 }

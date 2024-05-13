@@ -27,6 +27,7 @@ public class Subasta extends Venta {
 		this.fechaInicio = LocalDateTime.now();
 		this.fechaUltimaOferta = LocalDateTime.now();
 		this.ultimaOferta = new HashMap<String, Integer>();
+		this.tiempoMaximoOferta = Duration.ofSeconds(10);
 	}
 
 	public HashMap<String, Integer> getUltimaOferta() {
@@ -74,7 +75,7 @@ public class Subasta extends Venta {
 	public boolean revisarVigencia() {
 		LocalDateTime ahora = LocalDateTime.now();
 		Duration tiempoTrancurrido = Duration.between(fechaUltimaOferta, ahora);
-		if (tiempoTrancurrido.compareTo(tiempoMaximoOferta) < 0) {
+		if (tiempoTrancurrido.compareTo(tiempoMaximoOferta) > 0) {
 			return true;
 		} else {
 			return false;
@@ -135,7 +136,7 @@ public class Subasta extends Venta {
 		JSONObject jsonObjectMap = new JSONObject();
 		jsonObjectMap = jsonObject.getJSONObject("ofertas");
 		for (String clave : jsonObjectMap.keySet()) {
-			Integer valor = (Integer) jsonObject.getInt(clave);
+			Integer valor = (Integer) jsonObjectMap.getInt(clave);
 			ofertas.put(clave, valor);
 		}
 		Subasta subasta = new Subasta(0, null, null, null, ofertas);
@@ -146,11 +147,14 @@ public class Subasta extends Venta {
 		String fechaUltima = jsonObject.getString("fechaUltimaOferta");
 		LocalDateTime fechaUltimaOferta = LocalDateTime.parse(fechaUltima);
 		subasta.setFechaUltimaOfertaLoad(fechaUltimaOferta);
-		String tiempoMaximo = jsonObject.getString("tiempoMaximoOferta");
-		Duration tiempoMaximoOferta = Duration.ofSeconds(Long.parseLong(tiempoMaximo));
+		Duration tiempoMaximoOferta = null;
+		if (jsonObject.has("tiempoMaximoOferta")) 
+		{
+			String tiempoMaximo = jsonObject.getString("tiempoMaximoOferta");
+			tiempoMaximoOferta = Duration.ofSeconds(Long.parseLong(tiempoMaximo));
+		}
 		subasta.setTiempoMaximoOferta(tiempoMaximoOferta);
 		Venta.loadSaleFromJSON(jsonObject, administrador, subasta);
-		Venta.ventas.add(subasta);
 		return subasta;
 	}
 	

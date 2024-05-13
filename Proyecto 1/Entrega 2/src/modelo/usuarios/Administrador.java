@@ -17,6 +17,7 @@ import modelo.piezas.Pieza;
 import modelo.ventas.Fija;
 import modelo.ventas.Pago;
 import modelo.ventas.Subasta;
+import modelo.ventas.Venta;
 
 public class Administrador extends Usuario {
 
@@ -37,7 +38,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Administrador(String login, String password, String nombre, int telefono, String tipo) {
-		super(login, nombre, password, telefono, tipo);
+		super(login, password, nombre, telefono, tipo);
 		Administrador.administradores.add(this);
 	}
 
@@ -227,6 +228,7 @@ public class Administrador extends Usuario {
 			ArrayList<Integer> montos = vPieza.getMontos();
 			montos.add(vPieza.getDisponibilidad().getPrecioVenta());
 			vPieza.setMontos(montos);
+			nDuenio.getFechas().add(LocalDateTime.now());
 		}
 	}
 
@@ -276,6 +278,11 @@ public class Administrador extends Usuario {
 								historicos.add(propietario);
 							}
 						}
+						ArrayList<Cliente> propietarios = vPieza.getPropietarios();
+						for (Cliente propietario : propietarios) {
+							propietario.getActuales().remove(titulo);
+							propietario.getAntiguas().add(titulo);
+						}
 						
 						ArrayList<Cliente> nuevos = new ArrayList<Cliente>();
 						nuevos.add(cliente);
@@ -284,6 +291,7 @@ public class Administrador extends Usuario {
 						vPieza.setHistoricos(historicos);
 
 						Fija nueva = new Fija(vPieza.getPrecio(), cliente, vPieza.getTitulo(), pago);
+						Venta.ventas.add(nueva);
 						vPieza.setDisponibilidad(nueva);
 						
 						ArrayList<LocalDateTime> fechas = vPieza.getFechas();
@@ -293,12 +301,6 @@ public class Administrador extends Usuario {
 						ArrayList<Integer> montos = vPieza.getMontos();
 						montos.add(vPieza.getPrecio());
 						vPieza.setMontos(montos);
-
-						ArrayList<Cliente> propietarios = vPieza.getPropietarios();
-						for (Cliente propietario : propietarios) {
-							propietario.getActuales().remove(titulo);
-							propietario.getAntiguas().add(titulo);
-						}
 						
 						cliente.getFechas().add(LocalDateTime.now());
 					}

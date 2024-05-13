@@ -105,7 +105,7 @@ public abstract class Usuario {
 		administrador.crearUsuario(login, password, nombre, telefono, tipo);
 	}
 	
-	public HashMap<String,String> infoPieza(String titulo)
+	public static HashMap<String,String> infoPieza(String titulo)
 	{
 		Pieza bPieza = Pieza.piezas.get(titulo);
 		HashMap<String,String> r = new HashMap<String,String>();
@@ -150,7 +150,7 @@ public abstract class Usuario {
 		return r;
 	}
 	
-	public HashMap<String,ArrayList<String>> infoArtista(String usuario)
+	public static HashMap<String,ArrayList<String>> infoArtista(String usuario)
 	{
 		Cliente cliente = (Cliente)logins.get(usuario); 
 		

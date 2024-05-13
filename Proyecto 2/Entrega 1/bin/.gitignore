@@ -1,4 +1,10 @@
-/tests/
-/modelo/
+/.classpath
+/.project
 /exceptions/
 /persistencia/
+/modelo/
+/newfile.cld
+/persistencia/
+/tests/
+/uml_proyecto_1.cld
+/Main/

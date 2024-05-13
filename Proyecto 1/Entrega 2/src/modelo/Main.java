@@ -19,7 +19,7 @@ import persistencia.CentralPersistencia;
 
 public class Main {
 	// @SuppressWarnings("static-access")
-	public static void main(String[] args) {
+	public static void min(String[] args) {
 		try {
 
 			Inventario inventario = new Inventario(new ArrayList<String>(), new ArrayList<String>());
@@ -246,7 +246,7 @@ public class Main {
 					Usuario user1 = Usuario.iniciarSesion(usuario, password);
 					System.out.println("El usuario " + user1.getNombre() + " ha iniciado sesión");
 
-					System.out.print("Ingrese el titulo" + ": ");
+					System.out.print("Ingrese el titulo de la pieza a entregar" + ": ");
 					BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
 					String titulo = reader1.readLine();
 

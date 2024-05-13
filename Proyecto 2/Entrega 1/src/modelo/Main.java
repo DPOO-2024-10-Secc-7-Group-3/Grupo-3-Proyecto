@@ -19,7 +19,7 @@ import persistencia.CentralPersistencia;
 
 public class Main {
 	// @SuppressWarnings("static-access")
-	public static void main(String[] args) {
+	public static void man(String[] args) {
 		try {
 
 			Inventario inventario = new Inventario(new ArrayList<String>(), new ArrayList<String>());

@@ -3,6 +3,8 @@ package modelo.usuarios;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -147,7 +149,10 @@ public class Cliente extends Usuario {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				actuales.add(titulo);
+				if (!(actuales.contains(titulo)))
+				{
+					actuales.add(titulo);
+				}
 			}
 		} else {
 			System.out.println("Se esta intentando crea un/a " + pieza + " como una escultura.");
@@ -165,7 +170,10 @@ public class Cliente extends Usuario {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				actuales.add(titulo);
+				if (!(actuales.contains(titulo)))
+				{
+					actuales.add(titulo);
+				}
 			}
 		} else {
 			System.out.println("Se esta intentando crea un/a " + pieza + " como una imagen.");
@@ -183,7 +191,10 @@ public class Cliente extends Usuario {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				actuales.add(titulo);
+				if (!(actuales.contains(titulo)))
+				{
+					actuales.add(titulo);
+				}
 			}
 		} else {
 			System.out.println("Se esta intentando crea un/a " + pieza + " como una pintura.");
@@ -201,7 +212,10 @@ public class Cliente extends Usuario {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				actuales.add(titulo);
+				if (!(actuales.contains(titulo)))
+				{
+					actuales.add(titulo);
+				}
 			}
 		} else {
 			System.out.println("Se esta intentando crea un/a " + pieza + " como un video.");
@@ -219,7 +233,7 @@ public class Cliente extends Usuario {
 			ePieza.setTiempoConsignacion(tiempo);
 
 			if (subasta) {
-				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, null));
+				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, new HashMap<String,Integer>()));
 			} else {
 				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(), null, ePieza.getTitulo(), null));
 			}
@@ -268,6 +282,9 @@ public class Cliente extends Usuario {
 		jsonObject.put("compras", jsonCompras);
 		// Agregar los demas atributos de la clase, incluyendo los de Usuario
 		jsonObject.put("valorMaximo", this.getValorMaximo());
+		ArrayList<LocalDateTime> fechas = this.getFechas();
+		JSONArray jsonFechas = new JSONArray(fechas);
+		jsonObject.put("fechas", jsonFechas);
 		Usuario.agregarAtributos(jsonObject, this);
 		return jsonObject;
 	}
@@ -297,16 +314,23 @@ public class Cliente extends Usuario {
 		for (Object titulo : antiguasJson) {
 			antiguas.add((String) titulo);
 		}
-		JSONArray comprasJson = clienteJson.getJSONArray("actuales");
+		JSONArray comprasJson = clienteJson.getJSONArray("compras");
 		ArrayList<String> compras = new ArrayList<String>();
 		for (Object titulo : comprasJson) {
 			compras.add((String) titulo);
+		}
+		JSONArray fechasJson = clienteJson.getJSONArray("fechas");
+		ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
+		for (Object fecha:fechasJson)
+		{
+			fechas.add(LocalDateTime.parse((String)fecha));
 		}
 		String login = clienteJson.getString("login");
 		Cliente cliente = administrador.getCliente(login);
 		cliente.setActuales(actuales);
 		cliente.setAntiguas(antiguas);
 		cliente.setCompras(compras);
+		cliente.setFechas(fechas);
 		return cliente;
 	}
 }

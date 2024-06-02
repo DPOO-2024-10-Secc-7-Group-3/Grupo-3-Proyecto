@@ -1,0 +1,4 @@
+modelo.pagos.Efectivo
+modelo.pagos.PayPal
+modelo.pagos.Payu
+modelo.pagos.Sire

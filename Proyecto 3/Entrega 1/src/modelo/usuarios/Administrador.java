@@ -263,6 +263,11 @@ public class Administrador extends Usuario {
 						cajero.setOcupado(true);
 						Pago pago = cajero.nuevoPago(metodoDePago, Pieza.piezas.get(titulo).getPrecio());
 						cajero.setOcupado(false);
+						
+						boolean approved = pago.pagar("numTarjeta", "nombre", "fechaVen", "ccv", "documento");
+						if (approved == false) {
+							throw new Exception("El pago fue rechazado por: " + metodoDePago);
+						}
 
 						inventario.sacarPieza(titulo);
 						vPieza.setBloqueada(false);

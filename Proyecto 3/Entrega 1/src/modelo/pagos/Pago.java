@@ -87,6 +87,9 @@ public abstract class Pago {
 				break;
 			}
 		}
+		if (tipo.equals("efectivo")) {
+			clasePago = "modelo.pagos.PayPal";
+		}
 		if (clasePago == null) {
 			throw new Exception("El método de pago " + tipo + " no está permitido.");
 		}

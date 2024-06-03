@@ -58,11 +58,11 @@ public abstract class Pieza {
 		this.propietarios = propietarios;
 		this.precio = precio;
 		this.pieza = pieza;
-		
+
 		this.historicos = new ArrayList<Cliente>();
 		this.fechas = new ArrayList<LocalDateTime>();
 		this.montos = new ArrayList<Integer>();
-		
+
 		this.original = original;
 	}
 
@@ -227,14 +227,12 @@ public abstract class Pieza {
 		}
 		jsonObject.put("historicos", jsonHistoricos);
 		JSONArray jsonFechas = new JSONArray();
-		for (LocalDateTime fecha:pieza.getFechas())
-		{
+		for (LocalDateTime fecha : pieza.getFechas()) {
 			jsonFechas.put(fecha);
 		}
 		jsonObject.put("fechas", jsonFechas);
 		JSONArray jsonMontos = new JSONArray();
-		for (int monto : pieza.getMontos())
-		{
+		for (int monto : pieza.getMontos()) {
 			jsonMontos.put(monto);
 		}
 		jsonObject.put("montos", jsonMontos);
@@ -272,30 +270,35 @@ public abstract class Pieza {
 		boolean bloqueada = jsonObject.getBoolean("bloqueada");
 		this.setEstado(estado);
 		this.setBloqueada(bloqueada);
-		Cliente original = (Cliente)Usuario.logins.get(jsonObject.get("original"));
-		this.setOriginal(original);
+		if (jsonObject.has("original")) {
+			Cliente original = (Cliente) Usuario.logins.get(jsonObject.get("original"));
+			this.setOriginal(original);
+		}
 		this.setHistoricos(new ArrayList<Cliente>());
-		JSONArray historicos = jsonObject.getJSONArray("historicos");
-		for (int  i = 0; i<historicos.length();i++)
-		{
-			String login = historicos.getString(i);
-			Cliente historico = (Cliente)Usuario.logins.get(login);
-			this.historicos.add(historico);
+		if (jsonObject.has("historicos")) {
+			JSONArray historicos = jsonObject.getJSONArray("historicos");
+			for (int i = 0; i < historicos.length(); i++) {
+				String login = historicos.getString(i);
+				Cliente historico = (Cliente) Usuario.logins.get(login);
+				this.historicos.add(historico);
+			}
 		}
 		this.fechas = new ArrayList<LocalDateTime>();
-		JSONArray fechas = jsonObject.getJSONArray("fechas");
-		for (int i =0; i<fechas.length();i++)
-		{
-			String fecha = fechas.getString(i);
-			LocalDateTime nFecha = LocalDateTime.parse(fecha);
-			this.fechas.add(nFecha);
+		if (jsonObject.has("fechas")) {
+			JSONArray fechas = jsonObject.getJSONArray("fechas");
+			for (int i = 0; i < fechas.length(); i++) {
+				String fecha = fechas.getString(i);
+				LocalDateTime nFecha = LocalDateTime.parse(fecha);
+				this.fechas.add(nFecha);
+			}
 		}
 		this.montos = new ArrayList<Integer>();
-		JSONArray montos = jsonObject.getJSONArray("montos");
-		for (int i = 0; i<montos.length();i++)
-		{
-			int monto = montos.getInt(i);
-			this.montos.add(monto);
+		if (jsonObject.has("montos")) {
+			JSONArray montos = jsonObject.getJSONArray("montos");
+			for (int i = 0; i < montos.length(); i++) {
+				int monto = montos.getInt(i);
+				this.montos.add(monto);
+			}
 		}
 	}
 }

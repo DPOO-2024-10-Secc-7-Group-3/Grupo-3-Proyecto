@@ -36,7 +36,7 @@ public class Cliente extends Usuario {
 		this.compras = compras;
 		this.admin = admin;
 		this.valorMaximo = valorMaximo;
-		
+
 		this.fechas = new ArrayList<LocalDateTime>();
 	}
 
@@ -144,13 +144,13 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Escultura nueva = new Escultura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, profundidad, materiales, electricidad, precio, pieza,
+					this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				if (!(actuales.contains(titulo)))
-				{
+				if (!(actuales.contains(titulo))) {
 					actuales.add(titulo);
 				}
 			}
@@ -165,13 +165,12 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Imagen nueva = new Imagen(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, resolucion, tipo, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				if (!(actuales.contains(titulo)))
-				{
+				if (!(actuales.contains(titulo))) {
 					actuales.add(titulo);
 				}
 			}
@@ -186,13 +185,12 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Pintura nueva = new Pintura(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, ancho, alto, textura, precio, pieza,this);
+					valorInicial, propietarios, ancho, alto, textura, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				if (!(actuales.contains(titulo)))
-				{
+				if (!(actuales.contains(titulo))) {
 					actuales.add(titulo);
 				}
 			}
@@ -207,13 +205,12 @@ public class Cliente extends Usuario {
 			ArrayList<Cliente> propietarios = new ArrayList<Cliente>();
 			propietarios.add(this);
 			Video nueva = new Video(titulo, anio, lugarCreacion, Pieza.FUERA, null, null, false, valorMinimo,
-					valorInicial, propietarios, duracion, precio, pieza,this);
+					valorInicial, propietarios, duracion, precio, pieza, this);
 			if (Pieza.piezas.containsKey(titulo)) {
 				throw new Exception("El título " + titulo + " ya fue usado en otra pieza.");
 			} else {
 				Pieza.piezas.put(titulo, nueva);
-				if (!(actuales.contains(titulo)))
-				{
+				if (!(actuales.contains(titulo))) {
 					actuales.add(titulo);
 				}
 			}
@@ -233,7 +230,8 @@ public class Cliente extends Usuario {
 			ePieza.setTiempoConsignacion(tiempo);
 
 			if (subasta) {
-				ePieza.setDisponibilidad(new Subasta(-1, null, ePieza.getTitulo(), null, new HashMap<String,Integer>()));
+				ePieza.setDisponibilidad(
+						new Subasta(-1, null, ePieza.getTitulo(), null, new HashMap<String, Integer>()));
 			} else {
 				ePieza.setDisponibilidad(new Fija(ePieza.getPrecio(), null, ePieza.getTitulo(), null));
 			}
@@ -319,11 +317,12 @@ public class Cliente extends Usuario {
 		for (Object titulo : comprasJson) {
 			compras.add((String) titulo);
 		}
-		JSONArray fechasJson = clienteJson.getJSONArray("fechas");
 		ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
-		for (Object fecha:fechasJson)
-		{
-			fechas.add(LocalDateTime.parse((String)fecha));
+		if (clienteJson.has("fechas")) {
+			JSONArray fechasJson = clienteJson.getJSONArray("fechas");
+			for (Object fecha : fechasJson) {
+				fechas.add(LocalDateTime.parse((String) fecha));
+			}
 		}
 		String login = clienteJson.getString("login");
 		Cliente cliente = administrador.getCliente(login);

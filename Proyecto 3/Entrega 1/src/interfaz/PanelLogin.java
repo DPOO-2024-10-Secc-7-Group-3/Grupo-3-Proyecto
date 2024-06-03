@@ -11,10 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import exceptions.IncorrectPasswordException;
+import exceptions.UserNotFoundException;
+import modelo.usuarios.Usuario;
+
 @SuppressWarnings("serial")
 public class PanelLogin extends JPanel implements ActionListener {
 
-	InterfazGaleria padre;
+	private InterfazGaleria padre;
 
 	private JTextField userField;
 	private JPasswordField passField;
@@ -33,9 +37,12 @@ public class PanelLogin extends JPanel implements ActionListener {
 		JLabel passLabel = new JLabel("Password:");
 		passField = new JPasswordField();
 		JButton loginButton = new JButton("Login");
+
+		userField.addActionListener(this);
+		passField.addActionListener(this);
 		loginButton.addActionListener(this);
 
-		addNLabel(4);
+		InterfazGaleria.addNLabel(4, this);
 
 		JPanel info = new JPanel();
 		info.setLayout(new GridLayout(3, 2, 0, 50));
@@ -48,7 +55,9 @@ public class PanelLogin extends JPanel implements ActionListener {
 
 		add(info);
 
-		addNLabel(4);
+		InterfazGaleria.addNLabel(4, this);
+
+		setVisible(true);
 	}
 
 	@Override
@@ -56,20 +65,24 @@ public class PanelLogin extends JPanel implements ActionListener {
 		// Aquí puedes agregar lógica para autenticar al usuario
 		String username = userField.getText();
 		String password = new String(passField.getPassword());
-		if (username.equals("admin") && password.equals("password")) {
-			padre.sesionIniciada();
+
+		try {
+			Usuario user1 = Usuario.iniciarSesion(username, password);
+			if (user1.getTipo().equals(Usuario.ADMIN)) {
+				padre.sesionIniciada(Usuario.ADMIN, user1);
+			} else if (user1.getTipo().equals(Usuario.CAJERO)) {
+				padre.sesionIniciada(Usuario.CAJERO, user1);
+			} else if (user1.getTipo().equals(Usuario.CLIENTE)) {
+				padre.sesionIniciada(Usuario.CLIENTE, user1);
+			} else if (user1.getTipo().equals(Usuario.OPERADOR)) {
+				padre.sesionIniciada(Usuario.OPERADOR, user1);
+			}
 			isUserLogged = true;
 			JOptionPane.showMessageDialog(this, "Login successful!");
-		} else {
+		} catch (UserNotFoundException | IncorrectPasswordException e1) {
 			padre.sesionCerrada(isUserLogged);
 			isUserLogged = false;
 			JOptionPane.showMessageDialog(this, "Invalid credentials. Try again.");
-		}
-	}
-
-	public void addNLabel(int n) {
-		for (int i = 0; i < n; i++) {
-			add(new JLabel());
 		}
 	}
 }

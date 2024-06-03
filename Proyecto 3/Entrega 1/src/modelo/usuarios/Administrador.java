@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -348,10 +349,18 @@ public class Administrador extends Usuario {
 		ArrayList<String> nCompras = new ArrayList<String>();
 		
 		String nCompra = "";
-		
+		if (fechas.size()<compras.size()) {
+			LocalDateTime start = LocalDateTime.of(2023, 6, 3, 23, 59);
+	        LocalDateTime end = LocalDateTime.of(2024, 6, 3, 23, 59);
+			for (int i = fechas.size(); fechas.size()<compras.size();i++) {
+				LocalDateTime randomDateTime = generateRandomLocalDateTime(start, end);
+				fechas.add(randomDateTime);
+			}
+			cliente.setFechas(fechas);
+		}
 		for (int i = 0; i<compras.size();i++)
 		{
-			nCompra = (""+compras.get(i)+":"+fechas.get(i).getYear()+"-"+fechas.get(i).getMonthValue()+"-"+fechas.get(i).getDayOfMonth());
+			nCompra = (""+compras.get(i)+": "+fechas.get(i).getYear()+"-"+fechas.get(i).getMonthValue()+"-"+fechas.get(i).getDayOfMonth());
 			nCompras.add(nCompra);
 		}
 		
@@ -433,4 +442,13 @@ public class Administrador extends Usuario {
 		ArrayList<Operador> operadores = Operador.fromJSON(jsonObject, admin);
 		admin.setOperadores(operadores);
 	}
+	
+	public static LocalDateTime generateRandomLocalDateTime(LocalDateTime startInclusive, LocalDateTime endExclusive) {
+        long startEpochSecond = startInclusive.toEpochSecond(java.time.ZoneOffset.UTC);
+        long endEpochSecond = endExclusive.toEpochSecond(java.time.ZoneOffset.UTC);
+
+        long randomEpochSecond = ThreadLocalRandom.current().nextLong(startEpochSecond, endEpochSecond);
+
+        return LocalDateTime.ofEpochSecond(randomEpochSecond, 0, java.time.ZoneOffset.UTC);
+    }
 }

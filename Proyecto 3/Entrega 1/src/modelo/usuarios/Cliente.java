@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -301,6 +302,7 @@ public class Cliente extends Usuario {
 
 	public static Cliente loadClientFromJSON(JSONObject clienteJson, Administrador administrador)
 			throws UserDuplicatedException, Exception {
+
 		Usuario.loadUserFromJSON(clienteJson, administrador);
 		JSONArray actualesJson = clienteJson.getJSONArray("actuales");
 		ArrayList<String> actuales = new ArrayList<String>();

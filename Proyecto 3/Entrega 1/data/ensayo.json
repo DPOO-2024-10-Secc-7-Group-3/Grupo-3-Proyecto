@@ -72,25 +72,12 @@
                 "actuales": [
                     "Infinity",
                     "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
                     "La mona lisa"
                 ],
-                "fechas": [],
+                "fechas": [
+                    "2023-12-27T05:51:55",
+                    "2024-03-20T05:51:33"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -101,15 +88,7 @@
                 "compras": [],
                 "password": "456",
                 "tipo": "cliente",
-                "actuales": [
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga"
-                ],
+                "actuales": ["Los obreros en la viga"],
                 "fechas": [],
                 "antiguas": [],
                 "login": "jm.perezb1",
@@ -133,15 +112,7 @@
                 "compras": [],
                 "password": "123",
                 "tipo": "cliente",
-                "actuales": [
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor"
-                ],
+                "actuales": ["Tremor"],
                 "fechas": [],
                 "antiguas": [],
                 "login": "jg.bernalc1",
@@ -153,14 +124,7 @@
         "telefono": 315,
         "inventario": {
             "almacenadas": [],
-            "exhibidas": [
-                "La mona lisa",
-                "La mona lisa",
-                "La mona lisa",
-                "La mona lisa",
-                "La mona lisa",
-                "La mona lisa"
-            ]
+            "exhibidas": ["La mona lisa"]
         },
         "nombre": "Andres"
     }],
@@ -177,25 +141,12 @@
                 "actuales": [
                     "Infinity",
                     "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
                     "La mona lisa"
                 ],
-                "fechas": [],
+                "fechas": [
+                    "2023-12-27T05:51:55",
+                    "2024-03-20T05:51:33"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -221,25 +172,12 @@
                     "actuales": [
                         "Infinity",
                         "El David",
-                        "Infinity",
-                        "La mona lisa",
-                        "El David",
-                        "Infinity",
-                        "La mona lisa",
-                        "El David",
-                        "Infinity",
-                        "La mona lisa",
-                        "El David",
-                        "Infinity",
-                        "La mona lisa",
-                        "El David",
-                        "Infinity",
-                        "La mona lisa",
-                        "El David",
-                        "Infinity",
                         "La mona lisa"
                     ],
-                    "fechas": [],
+                    "fechas": [
+                        "2023-12-27T05:51:55",
+                        "2024-03-20T05:51:33"
+                    ],
                     "antiguas": [],
                     "login": "f.ortizp",
                     "telefono": 314,
@@ -270,15 +208,7 @@
                 "compras": [],
                 "password": "456",
                 "tipo": "cliente",
-                "actuales": [
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga",
-                    "Los obreros en la viga"
-                ],
+                "actuales": ["Los obreros en la viga"],
                 "fechas": [],
                 "antiguas": [],
                 "login": "jm.perezb1",
@@ -315,25 +245,12 @@
                 "actuales": [
                     "Infinity",
                     "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
                     "La mona lisa"
                 ],
-                "fechas": [],
+                "fechas": [
+                    "2023-12-27T05:51:55",
+                    "2024-03-20T05:51:33"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -360,15 +277,7 @@
                 "compras": [],
                 "password": "123",
                 "tipo": "cliente",
-                "actuales": [
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor",
-                    "Tremor"
-                ],
+                "actuales": ["Tremor"],
                 "fechas": [],
                 "antiguas": [],
                 "login": "jg.bernalc1",
@@ -402,25 +311,12 @@
                 "actuales": [
                     "Infinity",
                     "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
                     "La mona lisa"
                 ],
-                "fechas": [],
+                "fechas": [
+                    "2023-12-27T05:51:55",
+                    "2024-03-20T05:51:33"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -486,25 +382,12 @@
                 "actuales": [
                     "Infinity",
                     "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
-                    "La mona lisa",
-                    "El David",
-                    "Infinity",
                     "La mona lisa"
                 ],
-                "fechas": [],
+                "fechas": [
+                    "2023-12-27T05:51:55",
+                    "2024-03-20T05:51:33"
+                ],
                 "antiguas": [],
                 "login": "f.ortizp",
                 "telefono": 314,
@@ -516,6 +399,380 @@
                 "approved": false,
                 "monto": 2000000
             }
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
         },
         {
             "fechaUltimaOferta": "2024-05-12T23:43:17.890618",

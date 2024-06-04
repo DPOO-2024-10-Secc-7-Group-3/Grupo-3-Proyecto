@@ -28,6 +28,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	// Paneles de administrador
 	private PanelUsuariosAdmin usersAdmin;
 	private PanelPiezasAdmin piezasAdmin;
+	private PanelSubastaAdmin subastaAdmin;
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
@@ -71,6 +72,8 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			pestañas.addTab("Usuarios", usersAdmin);
 			piezasAdmin = new PanelPiezasAdmin(this);
 			pestañas.addTab("Piezas", piezasAdmin);
+			subastaAdmin = new PanelSubastaAdmin(this);
+			pestañas.addTab("Subastas", subastaAdmin);
 		}
 		pestañas.addTab("Cuenta", cuenta);
 	}
@@ -203,5 +206,14 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			return str;
 		}
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	public void cerrarSubasta(String subasta) {
+		try {
+			controlador.cerrarSubasta(user, subasta);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Cerrar Subasta",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

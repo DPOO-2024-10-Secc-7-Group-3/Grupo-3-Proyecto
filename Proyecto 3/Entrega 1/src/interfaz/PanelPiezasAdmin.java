@@ -90,7 +90,6 @@ public class PanelPiezasAdmin extends JPanel implements ActionListener {
 		panelDevolverPieza.add(minipanel, BorderLayout.NORTH);
 		panelDevolverPieza.add(devolverButton, BorderLayout.CENTER);
 		panelDevolverPieza.add(new JLabel(), BorderLayout.EAST);
-		;
 		panelDevolverPieza.add(new JLabel(), BorderLayout.WEST);
 		panelDevolverPieza.add(scrollPane, BorderLayout.SOUTH);
 
@@ -179,6 +178,7 @@ public class PanelPiezasAdmin extends JPanel implements ActionListener {
 			String pieza = devolverField.getText();
 			String plot = padre.devolverPieza(pieza);
 			devolverArea.setText(plot);
+			actualizarListModel();
 		} else if (BOTON_HIST.equals(comando)) {
 			mostrarHistPieza();
 		}

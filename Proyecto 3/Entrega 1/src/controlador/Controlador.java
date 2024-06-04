@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import exceptions.OfertaInvalidaException;
 import exceptions.PiezaNoExistenteException;
 import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
@@ -106,5 +107,28 @@ public class Controlador {
 
 	public void comprar(Usuario user, String titulo, String metodo) throws Exception {
 		((Cliente) user).comprar(titulo, metodo);
+	}
+
+	public void ofertarPieza(Usuario user, int monto, String titulo, String metodo) throws OfertaInvalidaException {
+		Operador operador1 = null;
+		Subasta buffer = null;
+		
+		for (String login:Usuario.logins.keySet())
+		{
+			Usuario actual = Usuario.logins.get(login);
+			
+			if (actual instanceof Operador)
+			{
+				buffer = ((Operador)actual).getSubasta(titulo);
+			}
+			
+			if (!(buffer == null))
+			{
+				operador1 = (Operador) actual;
+				break;
+			}
+		}
+		
+		operador1.ofertarPieza((Cliente) user, monto, titulo, metodo);
 	}
 }

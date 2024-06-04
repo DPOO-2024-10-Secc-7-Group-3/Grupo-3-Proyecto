@@ -2,7 +2,6 @@ package interfaz;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -34,6 +33,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	// Paneles de cliente
 	private PanelHistorialesCliente histCliente;
 	private PanelPiezasCliente piezasCliente;
+	private PanelSubastasCliente subastaCliente;
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
@@ -84,6 +84,8 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			pestañas.addTab("Piezas", piezasCliente);
 			histCliente = new PanelHistorialesCliente(this);
 			pestañas.addTab("Historiales", histCliente);
+			subastaCliente = new PanelSubastasCliente(this);
+			pestañas.addTab("Subastas", subastaCliente);
 		}
 		pestañas.addTab("Cuenta", cuenta);
 	}
@@ -300,6 +302,17 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Comprar Pieza",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+
+	public boolean ofertarPieza(int monto, String titulo, String metodo) {
+		try {
+			controlador.ofertarPieza(user, monto, titulo, metodo);
+			return true;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Ofertar Pieza",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

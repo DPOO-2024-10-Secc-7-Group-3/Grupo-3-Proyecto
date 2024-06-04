@@ -9,6 +9,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -33,9 +34,9 @@ public class PanelSubastasCliente extends JPanel implements ActionListener {
 		// Crear un panel de inicio de sesión
 		setLayout(new BorderLayout(150, 100));
 
-		JButton cerrarButton = new JButton("Cerrar Subasta");
+		JButton ofertarButton = new JButton("Ofertar Subasta");
 
-		cerrarButton.addActionListener(this);
+		ofertarButton.addActionListener(this);
 
 		JPanel info = new JPanel();
 		info.setLayout(new BorderLayout(0, 50));
@@ -48,7 +49,7 @@ public class PanelSubastasCliente extends JPanel implements ActionListener {
 
 		info.add(new JLabel("Subastas Activas:"), BorderLayout.NORTH);
 		info.add(scrollPane, BorderLayout.CENTER);
-		info.add(cerrarButton, BorderLayout.SOUTH);
+		info.add(ofertarButton, BorderLayout.SOUTH);
 
 		info.setVisible(true);
 
@@ -60,7 +61,7 @@ public class PanelSubastasCliente extends JPanel implements ActionListener {
 
 		setVisible(true);
 	}
-	
+
 	public void actualizarListModel() {
 		listModel.clear();
 		for (Entry<String, Usuario> entry : padre.logins()) {
@@ -85,7 +86,19 @@ public class PanelSubastasCliente extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		String titulo = subastasList.getSelectedValue();
+		if (titulo != null) {
+			String metodo = JOptionPane.showInputDialog("Ingrese el metodo de pago");
+			int monto = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el monto a ofertar"));
+			boolean fallo = padre.ofertarPieza(monto, titulo, metodo);
+			actualizarListModel();
+			if (fallo) {
+				JOptionPane.showMessageDialog(this, "La pieza fue ofertada exitosamente", "Pieza Ofertada",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Debe de seleccionar una subasta primero",
+					"Error: Subasta Sin Seleccionar", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

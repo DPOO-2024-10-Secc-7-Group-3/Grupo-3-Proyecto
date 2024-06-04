@@ -23,8 +23,6 @@ public class PanelLogin extends JPanel implements ActionListener {
 	private JTextField userField;
 	private JPasswordField passField;
 
-	private boolean isUserLogged = false;
-
 	public PanelLogin(InterfazGaleria interfaz) {
 		super();
 		padre = interfaz;
@@ -77,11 +75,10 @@ public class PanelLogin extends JPanel implements ActionListener {
 			} else if (user1.getTipo().equals(Usuario.OPERADOR)) {
 				padre.sesionIniciada(Usuario.OPERADOR, user1);
 			}
-			isUserLogged = true;
 			JOptionPane.showMessageDialog(this, "Login successful!");
+			userField.setText("");
+			passField.setText("");
 		} catch (UserNotFoundException | IncorrectPasswordException e1) {
-			padre.sesionCerrada(isUserLogged);
-			isUserLogged = false;
 			JOptionPane.showMessageDialog(this, "Invalid credentials. Try again.");
 		}
 	}

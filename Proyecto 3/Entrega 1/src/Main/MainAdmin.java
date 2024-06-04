@@ -162,7 +162,7 @@ public class MainAdmin extends Main {
 					String cliente = read1.readLine();
 
 					HashMap<String, ArrayList<String>> info = ((Administrador) user).infoCliente(cliente);
-					
+
 					for (String key : info.keySet()) {
 						System.out.println(key + ":\n");
 						for (String infoParcial : info.get(key)) {

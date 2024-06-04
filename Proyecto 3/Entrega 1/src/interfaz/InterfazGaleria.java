@@ -24,6 +24,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 
 	// Paneles de administrador
 	private PanelUsuariosAdmin usersAdmin;
+	private PanelPiezasAdmin piezasAdmin;
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
@@ -32,7 +33,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	private Controlador controlador;
 
 	private Usuario user;
-
+	
 	public InterfazGaleria() {
 
 		controlador = new Controlador("ensayo");
@@ -43,7 +44,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
-		setResizable(false);
+		// setResizable(false);
 
 		login = new PanelLogin(this);
 
@@ -53,16 +54,13 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 
 		pestañas.addTab("Login", login);
 
-		usersAdmin = new PanelUsuariosAdmin(this); // Se borra esto
-		pestañas.addTab("Usuarios", usersAdmin);
-
 		add(pestañas);
 
 		setVisible(true);
 	}
 
 	public void sesionIniciada(String tipo, Usuario user1) {
-		// pestañas.removeTabAt(0);
+		pestañas.removeTabAt(0);
 		user = user1;
 		cuenta = new PanelCuenta(this, user);
 		if (Usuario.ADMIN.equals(tipo)) {
@@ -72,13 +70,11 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 		}
 	}
 
-	public void sesionCerrada(boolean logged) {
+	public void sesionCerrada() {
 		int nPestañas = pestañas.getTabCount();
-		for (int i = 0; i < nPestañas - 1; i++) {
-			if (logged) {
-				pestañas.removeTabAt(1);
-				// pestañas.addTab("Login", login);
-			}
+		pestañas.addTab("Login", login);
+		for (int i = 0; i < nPestañas; i++) {
+			pestañas.removeTabAt(0);
 		}
 	}
 
@@ -161,10 +157,14 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	public HashMap<String, ArrayList<String>> infoCliente(String cliente) {
 		return controlador.infoCliente(user, cliente);
 	}
-	
+
 	public static void addNLabel(int n, JPanel hijo) {
 		for (int i = 0; i < n; i++) {
 			hijo.add(new JLabel());
 		}
+	}
+
+	public void setPassword(String password) {
+		controlador.setPassoword(user, password);
 	}
 }

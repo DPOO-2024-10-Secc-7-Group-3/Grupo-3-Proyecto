@@ -117,8 +117,8 @@ public class PanelUsuariosAdmin extends JPanel implements ActionListener {
 		panelVerUsuario.setLayout(new BorderLayout());
 
 		listModel = new DefaultListModel<>();
-		for (Entry<String, Usuario> entry : Usuario.logins.entrySet()) {
-			listModel.addElement(entry.getKey() + " // " + capitalizeFirstLetter(entry.getValue().getTipo()));
+		for (Entry<String, Usuario> entry : padre.logins()) {
+			listModel.addElement(entry.getKey() + " // " + padre.capitalizeFirstLetter(entry.getValue().getTipo()));
 		}
 
 		usersList = new JList<String>(listModel);
@@ -188,7 +188,7 @@ public class PanelUsuariosAdmin extends JPanel implements ActionListener {
 		String name = nameField.getText();
 		int telefono = Integer.parseInt(telField.getText());
 		String rol = (String) rolField.getSelectedItem();
-		listModel.addElement(usuario + " // " + capitalizeFirstLetter(rol));
+		listModel.addElement(usuario + " // " + padre.capitalizeFirstLetter(rol));
 		padre.crearUsuario(usuario, password, name, telefono, rol);
 	}
 
@@ -212,7 +212,7 @@ public class PanelUsuariosAdmin extends JPanel implements ActionListener {
 				historial.setText(plot);
 			} else {
 				JOptionPane.showMessageDialog(padre,
-						"El Usuario debe ser de clase Cliente, no de clase " + capitalizeFirstLetter(tipo),
+						"El Usuario debe ser de clase Cliente, no de clase " + padre.capitalizeFirstLetter(tipo),
 						"Error: Usuario Invalido", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
@@ -230,7 +230,7 @@ public class PanelUsuariosAdmin extends JPanel implements ActionListener {
 				HashMap<String, ArrayList<String>> info = padre.infoCliente(cliente);
 				String plot = "";
 				for (String key : info.keySet()) {
-					plot += ("\n" + capitalizeFirstLetter(key) + ":\n");
+					plot += ("\n" + padre.capitalizeFirstLetter(key) + ":\n");
 					for (String infoParcial : info.get(key)) {
 						plot += (infoParcial + "\n");
 					}
@@ -248,19 +248,12 @@ public class PanelUsuariosAdmin extends JPanel implements ActionListener {
 				historial.setText(plot.substring(1));
 			} else {
 				JOptionPane.showMessageDialog(padre,
-						"El Usuario debe ser de clase Cliente, no de clase " + capitalizeFirstLetter(tipo),
+						"El Usuario debe ser de clase Cliente, no de clase " + padre.capitalizeFirstLetter(tipo),
 						"Error: Usuario Invalido", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
 			JOptionPane.showMessageDialog(padre, "El usuario " + cliente + " no existe", "Error: Usuario Inexistente",
 					JOptionPane.ERROR_MESSAGE);
 		}
-	}
-
-	public static String capitalizeFirstLetter(String str) {
-		if (str == null || str.isEmpty()) {
-			return str;
-		}
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 }

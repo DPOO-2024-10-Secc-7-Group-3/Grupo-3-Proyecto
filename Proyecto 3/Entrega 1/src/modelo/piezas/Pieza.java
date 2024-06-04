@@ -242,7 +242,6 @@ public abstract class Pieza {
 
 	public abstract JSONObject toJSON();
 
-	@SuppressWarnings("null")
 	public void addAtributesOnLoad(JSONObject jsonObject, Administrador admin)
 			throws UserDuplicatedException, Exception {
 		if (jsonObject.has("disponibilidad")) {

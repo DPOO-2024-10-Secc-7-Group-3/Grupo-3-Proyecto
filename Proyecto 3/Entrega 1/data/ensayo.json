@@ -123,7 +123,7 @@
         "login": "a.bolivarc",
         "telefono": 315,
         "inventario": {
-            "almacenadas": [],
+            "almacenadas": ["Infinity", "El David"],
             "exhibidas": ["La mona lisa"]
         },
         "nombre": "Andres"
@@ -330,20 +330,6 @@
             "titulo": "La mona lisa",
             "textura": "Brillante",
             "alto": 53,
-            "disponibilidad": {
-                "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
-                "ofertas": {"f.ortizp": 2500000},
-                "fechaInicio": "2024-05-12T23:42:31.873864800",
-                "pieza": "La mona lisa",
-                "comprador": "",
-                "precioVenta": -1,
-                "pago": {
-                    "tipo": "efectivo",
-                    "approved": false,
-                    "monto": 2500000
-                },
-                "tiempoMaximoOferta": "10"
-            },
             "precio": 500000,
             "ancho": 77,
             "valorInicial": 700000,
@@ -399,6 +385,40 @@
                 "approved": false,
                 "monto": 2000000
             }
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "fechaUltimaOferta": "2024-05-12T23:43:17.890618",
+            "ofertas": {"f.ortizp": 2500000},
+            "fechaInicio": "2024-05-12T23:42:31.873864800",
+            "pieza": "La mona lisa",
+            "comprador": "",
+            "precioVenta": -1,
+            "pago": {
+                "tipo": "efectivo",
+                "approved": false,
+                "monto": 2500000
+            },
+            "tiempoMaximoOferta": "10"
+        },
+        {
+            "pieza": "El David",
+            "comprador": "",
+            "precioVenta": 2000000,
+            "pago": ""
         },
         {
             "fechaUltimaOferta": "2024-05-12T23:43:17.890618",

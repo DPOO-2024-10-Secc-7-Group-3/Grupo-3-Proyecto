@@ -4,6 +4,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +15,7 @@ import javax.swing.JTabbedPane;
 
 import controlador.Controlador;
 import modelo.usuarios.Usuario;
+import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
 
 @SuppressWarnings("serial")
@@ -33,7 +36,7 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	private Controlador controlador;
 
 	private Usuario user;
-	
+
 	public InterfazGaleria() {
 
 		controlador = new Controlador("ensayo");
@@ -66,8 +69,10 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 		if (Usuario.ADMIN.equals(tipo)) {
 			usersAdmin = new PanelUsuariosAdmin(this);
 			pestañas.addTab("Usuarios", usersAdmin);
-			pestañas.addTab("Cuenta", cuenta);
+			piezasAdmin = new PanelPiezasAdmin(this);
+			pestañas.addTab("Piezas", piezasAdmin);
 		}
+		pestañas.addTab("Cuenta", cuenta);
 	}
 
 	public void sesionCerrada() {
@@ -166,5 +171,37 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 
 	public void setPassword(String password) {
 		controlador.setPassoword(user, password);
+	}
+
+	public String devolverPieza(String pieza) {
+		String plot = "";
+		try {
+			controlador.devolverPieza(user, pieza);
+
+			plot += ("Estado de la pieza " + pieza + ": " + Pieza.piezas.get(pieza).getEstado() + "\n");
+
+			plot += ("Inventario almacenadas: \n");
+			for (String titulo : controlador.getAlmacenadas(user)) {
+				plot += (titulo + "\n");
+			}
+			plot += ("Inventario exhibidas: \n");
+			for (String titulo : controlador.getExhibidas(user)) {
+				plot += (titulo + "\n");
+			}
+		} catch (Exception e) {
+			plot += e.getMessage();
+		}
+		return plot;
+	}
+
+	public Set<Entry<String, Usuario>> logins() {
+		return controlador.logins();
+	}
+
+	public String capitalizeFirstLetter(String str) {
+		if (str == null || str.isEmpty()) {
+			return str;
+		}
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 }

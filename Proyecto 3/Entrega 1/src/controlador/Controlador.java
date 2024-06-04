@@ -2,6 +2,8 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import modelo.usuarios.Administrador;
 import modelo.usuarios.Usuario;
@@ -30,5 +32,21 @@ public class Controlador {
 
 	public void setPassoword(Usuario user, String password) {
 		user.setPassword(password);
+	}
+
+	public void devolverPieza(Usuario user, String nTitulo) throws Exception{
+		((Administrador) user).devolverPieza(nTitulo);
+	}
+
+	public ArrayList<String> getAlmacenadas(Usuario user) {
+		return ((Administrador) user).getInventario().getAlmacenadas();
+	}
+
+	public ArrayList<String> getExhibidas(Usuario user) {
+		return ((Administrador) user).getInventario().getExhibidas();
+	}
+
+	public Set<Entry<String, Usuario>> logins() {
+		return Usuario.logins.entrySet();
 	}
 }

@@ -164,7 +164,12 @@ public class Administrador extends Usuario {
 
 	public void devolverPieza(String titulo) throws PiezaNoExistenteException, Exception {
 		inventario.buscarPieza(titulo);
-
+		if (Pieza.piezas.get(titulo).getTiempoConsignacion() == null) {
+	        LocalDate startDate = LocalDate.of(1000, 6, 3);
+	        LocalDate endDate = LocalDate.of(1024, 6, 3);
+	        LocalDate randomDate = generateRandomLocalDate(startDate, endDate);
+			Pieza.piezas.get(titulo).setTiempoConsignacion((LocalDate) randomDate);
+		}
 		if (LocalDate.now().isAfter(Pieza.piezas.get(titulo).getTiempoConsignacion())) {
 			inventario.sacarPieza(titulo);
 			Pieza.piezas.get(titulo).setEstado(Pieza.FUERA);
@@ -450,5 +455,12 @@ public class Administrador extends Usuario {
         long randomEpochSecond = ThreadLocalRandom.current().nextLong(startEpochSecond, endEpochSecond);
 
         return LocalDateTime.ofEpochSecond(randomEpochSecond, 0, java.time.ZoneOffset.UTC);
+    }
+	
+	public static LocalDate generateRandomLocalDate(LocalDate start, LocalDate end) {
+        long startEpochDay = start.toEpochDay();
+        long endEpochDay = end.toEpochDay();
+        long randomEpochDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay + 1); // +1 to include end date
+        return LocalDate.ofEpochDay(randomEpochDay);
     }
 }

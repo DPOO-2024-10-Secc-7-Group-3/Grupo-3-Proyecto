@@ -1,10 +1,12 @@
 package controlador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import exceptions.PiezaNoExistenteException;
 import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
 import modelo.usuarios.Cliente;
@@ -96,5 +98,13 @@ public class Controlador {
 			double ancho, double alto, int resolucion, String nTipo, int precio, String string) throws Exception {
 		((Cliente) user).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, resolucion, nTipo,
 				precio, "imagen");
+	}
+
+	public void entregarPieza(Usuario user, String titulo, boolean nExhibir, boolean nSubasta) throws PiezaNoExistenteException, Exception {
+		((Cliente) user).entregarPieza(titulo, nExhibir, nSubasta, LocalDate.now());
+	}
+
+	public void comprar(Usuario user, String titulo, String metodo) throws Exception {
+		((Cliente) user).comprar(titulo, metodo);
 	}
 }

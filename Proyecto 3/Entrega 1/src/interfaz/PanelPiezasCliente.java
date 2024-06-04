@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -39,17 +40,19 @@ public class PanelPiezasCliente extends JPanel implements ActionListener {
 	private JTextField valIniField;
 	private JTextField precioField;
 
-	private JTextField devolverField;
-	private JTextArea devolverArea;
-
-	private JTextField piezaDeseada;
-	private JTextArea historial;
+	private JTextField tituloEntregarField;
+	private JTextField exhibirEntregarField;
+	private JTextField subastarEntregarField;
 
 	private DefaultListModel<String> listModel;
 	private JList<String> piezasList;
 
+	private JTextField tituloComprarField;
+	private JComboBox<String> metodoField;
+
 	private static final String BOTON_CREAR = "B1";
-	private static final String BOTON_HIST = "B2";
+	private static final String BOTON_ENTREGAR = "B2";
+	private static final String BOTON_COMPRAR = "B3";
 
 	public PanelPiezasCliente(InterfazGaleria interfaz) {
 		super();
@@ -61,13 +64,15 @@ public class PanelPiezasCliente extends JPanel implements ActionListener {
 		JPanel panelIzq = new JPanel();
 		panelIzq.setLayout(new GridLayout(2, 1));
 
-		// JPanel devolverPieza = panelDevolverPieza();
 		JPanel crearPieza = panelCrearPieza();
+		JPanel entregarPieza = panelEntregarPieza();
 		JPanel verPiezas = panelVerPiezas();
+		JPanel comprarPieza = panelComprarPieza();
 
 		add(crearPieza);
-		add(new JPanel());
+		add(entregarPieza);
 		add(verPiezas);
+		add(comprarPieza);
 
 		setVisible(true);
 	}
@@ -78,7 +83,108 @@ public class PanelPiezasCliente extends JPanel implements ActionListener {
 
 		if (BOTON_CREAR.equals(comando)) {
 			crearPieza();
+		} else if (BOTON_ENTREGAR.equals(comando)) {
+			entregarPieza();
+		} else if (BOTON_COMPRAR.equals(comando)) {
+			comprarPieza();
 		}
+	}
+
+	public void comprarPieza() {
+		String titulo = tituloComprarField.getText();
+		String metodo = (String) metodoField.getSelectedItem();
+		boolean fallo = padre.comprar(titulo, metodo);
+		if (fallo) {
+			JOptionPane.showMessageDialog(this, "La pieza fue comprada exitosamente", "Pieza Comprada",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	public JPanel panelComprarPieza() {
+		JPanel panelComprarPieza = new JPanel();
+		panelComprarPieza.setLayout(new GridLayout(0, 2, 10, 50));
+
+		JLabel tituloLabel = new JLabel("Titulo:");
+		JLabel tipoLabel = new JLabel("Metodo:");
+
+		tituloComprarField = new JTextField();
+
+		metodoField = new JComboBox<String>();
+		metodoField.addItem("PayPal");
+		metodoField.addItem("Payu");
+		metodoField.addItem("Sire");
+
+		JButton comprarButton = new JButton("Comprar Pieza");
+		comprarButton.setActionCommand(BOTON_COMPRAR);
+		comprarButton.addActionListener(this);
+
+		panelComprarPieza.add(tituloLabel);
+		panelComprarPieza.add(tituloComprarField);
+		panelComprarPieza.add(tipoLabel);
+		panelComprarPieza.add(metodoField);
+		panelComprarPieza.add(new JLabel());
+		panelComprarPieza.add(comprarButton);
+
+		panelComprarPieza.setBorder(new TitledBorder("Entregar Pieza"));
+		panelComprarPieza.setVisible(true);
+
+		return panelComprarPieza;
+	}
+
+	public void entregarPieza() {
+		String titulo = tituloEntregarField.getText();
+		String subasta = subastarEntregarField.getText();
+		boolean nSubasta;
+		if (subasta.equalsIgnoreCase("s")) {
+			nSubasta = true;
+		} else {
+			nSubasta = false;
+		}
+		String exhibir = exhibirEntregarField.getText();
+		boolean nExhibir;
+		if (exhibir.equalsIgnoreCase("s")) {
+			nExhibir = true;
+		} else {
+			nExhibir = false;
+		}
+		boolean fallo = padre.entregarPieza(titulo, nExhibir, nSubasta);
+		if (fallo) {
+			JOptionPane.showMessageDialog(this, "La pieza fue entregada exitosamente", "Pieza Entregada",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	public JPanel panelEntregarPieza() {
+		JPanel panelEntregarPieza = new JPanel();
+		panelEntregarPieza.setLayout(new GridLayout(0, 2, 10, 35));
+
+		JLabel tituloEntregarLabel = new JLabel("Pieza a Entregar:");
+		JLabel exhibirEntregarLabel = new JLabel("Se va a exhibir? (S/N):");
+		JLabel subastarEntregarLabel = new JLabel("Se va a subastar? (S/N):");
+		JButton entregarButton = new JButton("Entregar Pieza");
+		entregarButton.setActionCommand(BOTON_ENTREGAR);
+		entregarButton.addActionListener(this);
+
+		tituloEntregarField = new JTextField();
+		exhibirEntregarField = new JTextField();
+		subastarEntregarField = new JTextField();
+
+		JPanel minipanel = new JPanel();
+		minipanel.setLayout(new GridLayout(0, 2, 15, 20));
+
+		panelEntregarPieza.add(tituloEntregarLabel);
+		panelEntregarPieza.add(tituloEntregarField);
+		panelEntregarPieza.add(exhibirEntregarLabel);
+		panelEntregarPieza.add(exhibirEntregarField);
+		panelEntregarPieza.add(subastarEntregarLabel);
+		panelEntregarPieza.add(subastarEntregarField);
+		panelEntregarPieza.add(new JLabel());
+		panelEntregarPieza.add(entregarButton);
+
+		panelEntregarPieza.setBorder(new TitledBorder("Entregar Pieza"));
+		panelEntregarPieza.setVisible(true);
+
+		return panelEntregarPieza;
 	}
 
 	public void crearPieza() {
@@ -89,6 +195,7 @@ public class PanelPiezasCliente extends JPanel implements ActionListener {
 		int valorMinimo = Integer.parseInt(valMinField.getText());
 		int valorInicial = Integer.parseInt(valIniField.getText());
 		int precio = Integer.parseInt(precioField.getText());
+		boolean fallo = false;
 		if (Pieza.ESCULTURA.equals(tipo)) {
 			double alto = Double.parseDouble(JOptionPane.showInputDialog("Cual es el alto de la pieza"));
 			double ancho = Double.parseDouble(JOptionPane.showInputDialog("Cual es el ancho de la pieza"));
@@ -98,33 +205,36 @@ public class PanelPiezasCliente extends JPanel implements ActionListener {
 			nMateriales.add(material);
 			boolean electricidad = JOptionPane.showConfirmDialog(padre,
 					"La pieza usa electricidad?") == JOptionPane.YES_OPTION;
-			padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, profundidad, nMateriales,
-					electricidad, precio, "escultura");
+			fallo = padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, profundidad,
+					nMateriales, electricidad, precio, "escultura");
 		} else if (Pieza.PINTURA.equals(tipo)) {
 			double alto = Double.parseDouble(JOptionPane.showInputDialog("Cual es el alto de la pieza"));
 			double ancho = Double.parseDouble(JOptionPane.showInputDialog("Cual es el ancho de la pieza"));
 			String textura = JOptionPane.showInputDialog("De que textura es la pieza");
-			padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, textura, precio, "pintura");
+			fallo = padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, textura, precio,
+					"pintura");
 		} else if (Pieza.VIDEO.equals(tipo)) {
 			int duracion = Integer
 					.parseInt(JOptionPane.showInputDialog("Cual es la duracion de la pieza (en segundos)"));
-			padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, duracion, precio, "video");
+			fallo = padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, duracion, precio, "video");
 		} else {
 			double alto = Double.parseDouble(JOptionPane.showInputDialog("Cual es el alto de la pieza"));
 			double ancho = Double.parseDouble(JOptionPane.showInputDialog("Cual es el ancho de la pieza"));
 			int resolucion = Integer
 					.parseInt(JOptionPane.showInputDialog("Cual es la resolucion de la pieza (solo el primer numero)"));
 			String nTipo = JOptionPane.showInputDialog("Cual es el tipo de imagen");
-			padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto,
-					resolucion, nTipo, precio, "imagen");
+			fallo = padre.crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, resolucion, nTipo,
+					precio, "imagen");
 		}
-		JOptionPane.showMessageDialog(this, "La pieza fue creada exitosamente", "Pieza Creada",
-				JOptionPane.INFORMATION_MESSAGE);
+		if (fallo) {
+			JOptionPane.showMessageDialog(this, "La pieza fue creada exitosamente", "Pieza Creada",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	public JPanel panelCrearPieza() {
 		JPanel panelCrearPieza = new JPanel();
-		panelCrearPieza.setLayout(new GridLayout(0, 2, 15, 20));
+		panelCrearPieza.setLayout(new GridLayout(0, 2, 15, 12));
 
 		JLabel tipoLabel = new JLabel("Tipo:");
 		JLabel tituloLabel = new JLabel("Titulo:");

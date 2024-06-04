@@ -30,6 +30,10 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 	private PanelPiezasAdmin piezasAdmin;
 	private PanelSubastaAdmin subastaAdmin;
 
+	// Paneles de cliente
+	private PanelHistorialesCliente histCliente;
+	private PanelPiezasCliente piezasCliente;
+
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
 	private JPanel panel3 = new JPanel();
@@ -74,6 +78,11 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			pestañas.addTab("Piezas", piezasAdmin);
 			subastaAdmin = new PanelSubastaAdmin(this);
 			pestañas.addTab("Subastas", subastaAdmin);
+		} else if (Usuario.CLIENTE.equals(tipo)) {
+			piezasCliente = new PanelPiezasCliente(this);
+			pestañas.addTab("Piezas", piezasCliente);
+			histCliente = new PanelHistorialesCliente(this);
+			pestañas.addTab("Historiales", histCliente);
 		}
 		pestañas.addTab("Cuenta", cuenta);
 	}
@@ -213,6 +222,55 @@ public class InterfazGaleria extends JFrame implements WindowListener {
 			controlador.cerrarSubasta(user, subasta);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Cerrar Subasta",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public Pieza getPieza(String pieza) {
+		return controlador.getPieza(pieza);
+	}
+
+	public void crearPieza(String titulo, int anio, String lugar, int valorMinimo, int valorInicial, double ancho,
+			double alto, double profundidad, ArrayList<String> nMateriales, boolean electricidad, int precio,
+			String string) {
+		try {
+			controlador.crearPieza(user, titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, profundidad,
+					nMateriales, electricidad, precio, "escultura");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Crear Pieza",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void crearPieza(String titulo, int anio, String lugar, int valorMinimo, int valorInicial, double ancho,
+			double alto, String textura, int precio, String string) {
+		try {
+			controlador.crearPieza(user, titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, textura, precio,
+					"pintura");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Crear Pieza",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	public void crearPieza(String titulo, int anio, String lugar, int valorMinimo, int valorInicial, int duracion,
+			int precio, String string) {
+		try {
+			controlador.crearPieza(user, titulo, anio, lugar, valorMinimo, valorInicial, duracion, precio, "video");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Crear Pieza",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void crearPieza(String titulo, int anio, String lugar, int valorMinimo, int valorInicial, double ancho,
+			double alto, int resolucion, String nTipo, int precio, String string) {
+		try {
+			controlador.crearPieza(user, titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, resolucion, nTipo,
+					precio, "imagen");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error: Fallo Al Crear Pieza",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import modelo.piezas.Pieza;
 import modelo.usuarios.Administrador;
+import modelo.usuarios.Cliente;
 import modelo.usuarios.Operador;
 import modelo.usuarios.Usuario;
 import modelo.ventas.Subasta;
@@ -36,7 +38,7 @@ public class Controlador {
 		user.setPassword(password);
 	}
 
-	public void devolverPieza(Usuario user, String nTitulo) throws Exception{
+	public void devolverPieza(Usuario user, String nTitulo) throws Exception {
 		((Administrador) user).devolverPieza(nTitulo);
 	}
 
@@ -66,5 +68,33 @@ public class Controlador {
 
 		operador1.checkSubastaDuracion(subasta, (Administrador) user);
 		System.out.println("Se cerró la subasta de " + subasta + " con éxito.");
+	}
+
+	public Pieza getPieza(String pieza) {
+		return Pieza.piezas.get(pieza);
+	}
+
+	public void crearPieza(Usuario user, String titulo, int anio, String lugar, int valorMinimo, int valorInicial,
+			double ancho, double alto, double profundidad, ArrayList<String> nMateriales, boolean electricidad,
+			int precio, String string) throws Exception {
+		((Cliente) user).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, profundidad,
+				nMateriales, electricidad, precio, "escultura");
+	}
+
+	public void crearPieza(Usuario user, String titulo, int anio, String lugar, int valorMinimo, int valorInicial,
+			double ancho, double alto, String textura, int precio, String string) throws Exception {
+		((Cliente) user).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, textura, precio,
+				"pintura");
+	}
+
+	public void crearPieza(Usuario user, String titulo, int anio, String lugar, int valorMinimo, int valorInicial,
+			int duracion, int precio, String string) throws Exception {
+		((Cliente) user).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, duracion, precio, "video");
+	}
+
+	public void crearPieza(Usuario user, String titulo, int anio, String lugar, int valorMinimo, int valorInicial,
+			double ancho, double alto, int resolucion, String nTipo, int precio, String string) throws Exception {
+		((Cliente) user).crearPieza(titulo, anio, lugar, valorMinimo, valorInicial, ancho, alto, resolucion, nTipo,
+				precio, "imagen");
 	}
 }

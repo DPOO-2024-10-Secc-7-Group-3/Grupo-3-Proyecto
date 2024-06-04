@@ -46,6 +46,7 @@ public class PanelSubastaAdmin extends JPanel implements ActionListener {
 		subastasList = new JList<String>(listModel);
 		JScrollPane scrollPane = new JScrollPane(subastasList);
 
+		info.add(new JLabel("Subastas Activas:"), BorderLayout.NORTH);
 		info.add(scrollPane, BorderLayout.CENTER);
 		info.add(cerrarButton, BorderLayout.SOUTH);
 
